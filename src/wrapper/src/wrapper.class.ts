@@ -15,9 +15,10 @@ import {
 // Class.
 import { Wrapped } from './wrapped.class';
 // Type.
-import { ClosingChar } from '../../type/closing-char.type';
-import { OpeningChar } from '../../type/opening-char.type';
+import { WrapClosingChar } from '../type/wrap-closing-char.type';
+import { WrapOpeningChar } from '../type/wrap-opening-char.type';
 import { Wrap } from '../type/wrap.type';
+import { typeOf } from '@angular-package/type';
 /**
  * The `Wrapper` object represents the immutable wrap consisting of two chars, the opening, and closing to wrap the text.
  */
@@ -35,13 +36,25 @@ export class Wrapper<Chars extends string> extends String {
   //#endregion static public properties.
 
   //#region static private properties.
-  static #allowedChars = /[^\[\]\(\)<>]/g;
+  /**
+   * The private static property of the `RegExp` type denotes allowed characters of the wrap. The default allowed characters for the wrap
+   * are [ ] ( ) < > { }. The pattern can be set by the static `setAllowedChars()` method and get by the static `getAllowedChars()`
+   * method. The pattern is used on creating a new instance of `Wrapper` to filter the wrap, so also by the static `define()`, `isWrap()`,
+   * `set()`, and `wrapText()` methods.
+   */
+  static #allowedChars = /[^\[\]\(\)<>{}]/g;
+
+  /**
+   * The private static property of the `Wrapper` is the default instance of static `Wrapper`. It can be set by the static `set()` method
+   * with the primitive value of `Wrap` type and get by the static `get()` method.
+   */
   static #wrapper: Wrapper<string> = new Wrapper('[]');
 
   /**
-   * The name for the `toStringTag` of `Symbol`.
+   * The name for the `toStringTag` of `Symbol` gives the possibility to detect the `Wrapper` object by using the `typeOf()` function of
+   * package type.
    */
-  static #toStringTag = 'wrapper';
+  static readonly #toStringTag = 'wrapper';
   //#endregion static private properties.
   //#endregion static properties.
 
@@ -49,26 +62,26 @@ export class Wrapper<Chars extends string> extends String {
   /**
    * Gets the closing allowed char of the wrap.
    */
-  public get closingChar(): ClosingChar<Chars[1]> {
-    return this.wrap.substr(-1, 1);
+  public get closingChar(): WrapClosingChar<Chars> {
+    return this.wrap.substr(-1, 1) as Chars;
   }
 
   /**
    * Gets the opening allowed char of the wrap.
    */
-  public get openingChar(): OpeningChar<Chars[0]> {
+  public get openingChar(): WrapOpeningChar<Chars> {
     return this.wrap.substr(0, 1);
   }
 
   /**
-   * Gets the wrap consists of two allowed chars by using the intuitive property name.
+   * Gets the wrap consists of two allowed characters by using the intuitive property name.
    */
   public get wrap(): Wrap<Chars> {
     return this.value;
   }
 
   /**
-   * Gets the wrap consists of two allowed chars.
+   * Gets the wrap consists of two allowed characters.
    */
   public get value(): Wrap<Chars> {
     return super.valueOf() as Wrap<Chars>;
@@ -88,10 +101,11 @@ export class Wrapper<Chars extends string> extends String {
   //#region static methods.
   //#region static public methods.
   /**
-   * Defines the new instance of `Wrapper` with the primitive value.
-   * @param wrap The value of the generic type `Wrap` to set.
+   * Defines a new instance of `Wrapper` with the primitive value. The provided `wrap` is filtered by the default allowed chars of the
+   * static `#allowedChars`.
+   * @param wrap The wrap of a generic type `Wrap` to define a new instance of `Wrapper`.
    * @param callback An optional callback function of the `ResultCallback` type to handle the result of the check whether the provided
-   * `wrap` is a string type of two chars after filtering by allowed chars.
+   * `wrap` is a string type of two allowed chars.
    * @returns The return value is a new `Wrapper` with the primitive value of the provided `wrap`.
    */
   public static define<Chars extends string>(
@@ -102,8 +116,9 @@ export class Wrapper<Chars extends string> extends String {
   }
 
   /**
-   * Gets the instance of the `Wrapper` that is set by the static `set()` method from the static `Wrapper`. The wrapper got by this method
-   * is used as the default value on creating the `Wrapper` with the `new` operator, if parameter `wrap` is not provided.
+   * Gets an instance of `Wrapper` that is set by static `set()` method. The method refers to a private static `#wrapper` property, which is
+   * the default value on creating a new instance of `Wrapper` with a `new` operator, if parameter `wrap` is not provided and in static
+   * `wrapText()` method to wrap the text.
    * @returns The return value is an instance of the `Wrapper`.
    */
   public static get<Chars extends string>(): Wrapper<Chars> {
@@ -112,8 +127,8 @@ export class Wrapper<Chars extends string> extends String {
 
   /**
    * Gets the allowed characters of the `RegExp` set by the static `setAllowedChars()` method. By default it's set to `/[^[]()<>]/g`. The
-   * allowed characters are used as the default value for filtering the wrap in the static `define()`, `set()`, `wrapText()` methods and on
-   * using the operator `new`.
+   * method refers to a private static property `#allowedChars` which is the default value for filtering the wrap in the static `define()`,
+   * `set()`, `wrapText()` methods, and on using the operator `new`.
    * @returns The return value is a `RegExp` pattern of allowed characters.
    */
   public static getAllowedChars(): RegExp {
@@ -153,11 +168,11 @@ export class Wrapper<Chars extends string> extends String {
   }
 
   /**
-   * The method sets a new instance of `Wrapper` into the static `Wrapper` string object and it is used as the default value in the static
-   * `define()` and `wrapText()` methods and on creating the `Wrapper` with the `new` operator, if parameter `wrap` is not provided.
-   * @param wrap The value of the two character string type to set a new instance of `Wrapper`.
+   * The method sets a new instance of `Wrapper` into the static `Wrapper` and it is used as the default value in the static `define()`
+   * and `wrapText()` methods and on creating the `Wrapper` with the `new` operator, if parameter `wrap` is not provided.
+   * @param wrap The wrap of the generic type `Wrap` to set a new instance of `Wrapper`.
    * @param callback An optional callback function of the `ResultCallback` type to handle the result of the check whether the provided
-   * `wrap` is a two-character string type.
+   * `wrap` is a two allowed characters `string` type.
    * @returns The return value is a static `Wrapper`.
    */
   public static set<Chars extends string>(
@@ -169,24 +184,26 @@ export class Wrapper<Chars extends string> extends String {
   }
 
   /**
-   * The method sets the default pattern of allowed characters that are used to filter the wrap. The allowed characters are used as the
-   * default value for filtering the wrap in the static `define()`, `set()`, `wrapText()` methods and on using the operator `new`.
-   * @param allowedChars The allowed characters of a generic type variable `AllowedChars` to set as the default filter of the wrap.
+   * The method sets the default pattern of allowed characters. The allowed characters refer to a private static `#allowedChars` property,
+   * which is the default value for filtering the wrap in the static `define()`, `set()`, `wrapText()` methods, and on using the `new`
+   * operator.
+   * @param allowedChars The allowed characters of the `RegExp` to set.
    * @param callback An optional callback function of the `ResultCallback` type to handle the result of the check whether the provided
    * `allowedChars` is `RegExp` type.
    * @returns The return value is a static `Wrapper`.
    */
-  public static setAllowedChars<AllowedChars extends RegExp>(
-    allowedChars: AllowedChars,
-    callback?: ResultCallback<AllowedChars>
+  public static setAllowedChars(
+    allowedChars: RegExp,
+    callback?: ResultCallback<RegExp>
   ): typeof Wrapper {
     guardRegExp(allowedChars, callback) && (this.#allowedChars = allowedChars);
     return this;
   }
 
   /**
-   * The `wrapText()` static method wraps the specified `text` with the wrap of two allowed characters. By default the text is wrapped by
-   * the instance of `Wrapper` set by the static `set()` method.
+   * The `wrapText()` static method wraps the specified `text` with the wrap of two allowed characters. To wrap the text method creates a
+   * new instance of `Wrapper`, which means if the wrap parameter isn't provided, given `text` is wrapped by the default `wrap` from an
+   * instance of `Wrapper` set by the static `set()` method.
    * @param text The text of a generic type variable `Text` to wrap it with the provided `wrap`.
    * @param wrap An optional wrap of the `Wrap` type to wrap a given `text`.
    * @param callback An optional callback function of the `ResultCallback` type to handle the result of the check whether the provided
@@ -204,34 +221,43 @@ export class Wrapper<Chars extends string> extends String {
 
   //#region static private methods.
   /**
-   *
-   * @param wrap
-   * @param allowedChars
-   * @param callback
-   * @returns
+   * The private static method `#defineWrap()` defines wrap with a given `wrap` parameter by checking it against two allowed chars from the
+   * `allowedChars` parameter. This method is used only by the `constructor()`.
+   * @param wrap An optional wrap of a generic type Wrap, to be defined.
+   * @param allowedChars Optional allowed characters of the `RegExp` type to filter given `wrap`. By default, it uses allowed characters of
+   * the static `Wrapper`.
+   * @param callback An optional callback function of the `ResultCallback` type to handle the check result, whether the provided `wrap` is a
+   * two allowed character `string` type.
+   * @returns The return value is a string of two allowed chars, or undefined.
    */
-  static #defineWrap<Chars extends string, AllowedChars extends RegExp>(
+  static #defineWrap<Chars extends string>(
     wrap?: Wrap<Chars>,
-    allowedChars?: AllowedChars,
+    allowedChars?: RegExp,
     callback?: ResultCallback<Wrap<Chars>>
   ): Wrap<Chars> {
-    return this.isWrap(wrap, allowedChars, callback)
+    return isUndefined(wrap)
+      ? (this.#wrapper.wrap as Wrap<Chars>)
+      : this.isWrap(wrap, allowedChars, callback)
       ? wrap
-      : (this.#wrapper.wrap as Wrap<Chars>);
+      : ('' as Wrap<Chars>);
   }
 
   /**
-   *
-   * @param wrap
-   * @param allowedChars
-   * @returns
+   * The private static `#filterWrap()` method replaces wrap with allowed chars. This method is used by the static `isWrap()` method.
+   * @param wrap The wrap of a generic type `Wrap` to be filtered with a given `allowedChars` parameter.
+   * @param allowedChars Optional allowed characters of the `RegExp` type to filter a given `wrap`. By default, it uses allowed characters
+   * of the static `Wrapper`.
+   * @returns The return value is the filtered wrap or if the provided `wrap` is not a `string` and provided `allowedChars` is not a regular
+   * expression, an empty string.
    */
-  static #filterWrap<Chars extends string, AllowedChars extends RegExp>(
+  static #filterWrap<Chars extends string>(
     wrap: Wrap<Chars>,
-    allowedChars: AllowedChars = this.#allowedChars as AllowedChars
+    allowedChars: RegExp = this.#allowedChars
   ): Wrap<Chars> {
     return (
-      isString(wrap) ? wrap.replace(allowedChars, '') : ''
+      guardString(wrap) && guardRegExp(allowedChars)
+        ? wrap.replace(allowedChars, '')
+        : ''
     ) as Wrap<Chars>;
   }
   //#endregion static private methods.
@@ -255,70 +281,56 @@ export class Wrapper<Chars extends string> extends String {
   //#endregion constructor.
 
   //#region instance public methods.
-
   /**
-   * Gets the closing char of the wrap.
+   * Gets the closing char of the wrap by returning the `closingChar` property of the specified object.
    * @returns The return value is a string second character of the wrap.
    */
-  public getClosingChar(): ClosingChar<Chars[1]> {
+  public getClosingChar(): WrapClosingChar<Chars> {
     return this.closingChar;
   }
 
   /**
-   * Gets the opening char of the wrap.
+   * Gets the opening char of the wrap by returning the `openingChar` property of the specified object.
    * @returns The return value is a string first character of the wrap.
    */
-  public getOpeningChar(): OpeningChar<Chars[0]> {
+  public getOpeningChar(): WrapOpeningChar<Chars> {
     return this.openingChar;
   }
 
   /**
-   * Gets the wrap consists of two chars.
-   * @returns The return value is a string consists of two allowed chars.
+   * Gets the wrap consists of two characters by using an intuitive method name.
+   * @returns The return value is a generic type `Wrap` consisting of two characters.
    */
-  public get(): Wrap<Chars> {
+  public getWrap(): Wrap<Chars> {
     return this.valueOf();
   }
 
   /**
-   * Wraps the specified text with the wrap.
+   * Wraps specified text with the wrap, the opening and closing characters of the specified object.
    * @param text The text of a generic type variable `Text` to be wrapped.
-   * @param callback An optional callback function of the `ResultCallback` type to handle the result of the check whether the provided
+   * @param callback An optional callback function of the `ResultCallback` type to handle the check result, whether the provided
    * `text` is a string type.
-   * @returns The return value is a new instance of the `Wrapped` type consisting of provided wrapped text.
+   * @returns The return value is a new instance of the `Wrapped` type consisting of the wrapped text.
    */
   public wrapText<Text extends string>(
     text: Text,
     callback?: ResultCallback<Text>
   ): Wrapped<Text, Chars> | undefined {
     return guardString(text, callback)
-      ? new Wrapped(this.#wrapText(text), this, callback)
+      ? new Wrapped(
+          `${this.openingChar}${text}${this.closingChar}` as Text,
+          this,
+          callback
+        )
       : undefined;
   }
 
   /**
    * Returns the wrap, primitive value of the specified `Wrapper` object.
-   * @returns The return value is a string type consists of two allowed chars.
+   * @returns The return value is a generic type `Wrap` consisting of two allowed chars.
    */
   public valueOf(): Wrap<Chars> {
     return super.valueOf() as Wrap<Chars>;
   }
-
-  //#region instance private methods.
-  #wrapText<Text extends string>(text: Text): Text {
-    return `${this.openingChar}${text}${this.closingChar}` as Text;
-  }
-  //#endregion instance private methods.
   //#endregion instance methods.
 }
-
-// Set the wrapper.
-Wrapper.set('<>', (result, value) => {
-  console.log(result, value);
-  return result;
-});
-
-// Returns Wrapped {'<Lorem Ipsum is simply dummy text of the printing and typesetting industry. >'}
-Wrapper.wrapText(
-  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. '
-);
