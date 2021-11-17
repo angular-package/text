@@ -7,8 +7,8 @@ import {
   isTrue,
 } from '@angular-package/type';
 // Type.
-import { ClosingChar } from '../../type/closing-char.type';
-import { OpeningChar } from '../../type/opening-char.type';
+import { WrapClosingChar } from '../type/wrap-closing-char.type';
+import { WrapOpeningChar } from '../type/wrap-opening-char.type';
 import { Wrap } from '../type/wrap.type';
 import { Wrapper } from './wrapper.class';
 /**
@@ -20,11 +20,11 @@ export class Wrapped<
 > extends String {
   //#region instance properties.
   //#region instance public properties.
-  public get closingChar(): ClosingChar<Chars[1]> | undefined {
+  public get closingChar(): WrapClosingChar<Chars> | undefined {
     return this.#closingChar;
   }
 
-  public get openingChar(): OpeningChar<Chars[0]> | undefined {
+  public get openingChar(): WrapOpeningChar<Chars> | undefined {
     return this.#openingChar;
   }
 
@@ -34,8 +34,8 @@ export class Wrapped<
   //#endregion instance public properties.
 
   //#region instance private properties.
-  #closingChar?: OpeningChar<Chars[1]>;
-  #openingChar?: OpeningChar<Chars[0]>;
+  #closingChar?: WrapOpeningChar<Chars>;
+  #openingChar?: WrapOpeningChar<Chars>;
   //#endregion instance private properties.
   //#endregion instance properties.
 
