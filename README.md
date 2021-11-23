@@ -52,23 +52,21 @@ Text on the template with replaceable tags.
 
 <br>
 
+## Documentation
+
+For the detailed documentation go to [**angular-package.gitbook.io/text**](https://angular-package.gitbook.io/text/)
+
+<br>
+
 ## Table of contents
 
-* [Basic concepts](#basic-concepts)
 * [Skeleton](#skeleton)
 * [Installation](#installation)
-* [Api](#api)
 * [Changelog](#changelog)
 * [Git](#git)
   * [Commit](#commit)
   * [Versioning](#versioning)
 * [License](#license)
-
-<br>
-
-## Basic concepts
-
-
 
 <br>
 
@@ -113,16 +111,6 @@ Install `@angular-package/text` package with command:
 
 ```bash
 npm i @angular-package/text --save
-```
-
-<br>
-
-## Api
-
-```typescript
-import {
-  // Class.
-} from '@angular-package/text';
 ```
 
 <br>
