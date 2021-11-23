@@ -60,6 +60,7 @@ Text on the template with replaceable tags.
 ## Basic concepts
 
 
+
 <br>
 
 ## Skeleton
@@ -70,26 +71,26 @@ Copy this package to the `packages/name` folder of the [library skeleton][skelet
 
 ### Code scaffolding
 
-Run `ng generate component component-name --project preferences` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project preferences`.
-> Note: Don't forget to add `--project preferences` or else it will be added to the default project in your `angular.json` file.
+Run `ng generate component component-name --project text` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project preferences`.
+> Note: Don't forget to add `--project text` or else it will be added to the default project in your `angular.json` file.
 
 ### Build
 
-Run `ng build preferences` to build the package. The build artifacts will be stored in the `dist/` directory.
+Run `ng build text` to build the package. The build artifacts will be stored in the `dist/` directory.
 
 ### Publishing
 
-After building your library with `ng build preferences`, go to the dist folder `cd dist/preferences` and run `npm publish`.
+After building your library with `ng build text`, go to the dist folder `cd dist/text` and run `npm publish`.
 
 ### Running unit tests
 
-Install `@angular-package/preferences` with command:
+Install `@angular-package/text` with command:
 
 ```typescript
 npm i @angular-package/testing --no-save
 ```
 
-Run `ng test preferences` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `ng test text` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 ### Further help
 
@@ -99,10 +100,10 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Installation
 
-Install `@angular-package/preferences` package with command:
+Install `@angular-package/text` package with command:
 
 ```bash
-npm i @angular-package/preferences --save
+npm i @angular-package/text --save
 ```
 
 <br>
@@ -112,181 +113,7 @@ npm i @angular-package/preferences --save
 ```typescript
 import {
   // Class.
-} from '@angular-package/preferences';
-```
-
-<br>
-
-## Object
-
-### `Configuration`
-
-Single read-only configuration based on the provided [`Settings`](#settings) or [`Settings`](#settings) from [`Preferences`](#preferences).
-
-<br>
-
-**Static public methods:**
-
-| Configuration.                                       | Description |
-| :--------------------------------------------------- | :---------- |
-| [`isConfiguration()`](#configurationisconfiguration) | The static method checks whether the value is an instance of [`Configuration`](#configuration). |
-
-<br>
-
-**Constructor:**
-
-| Constructor                                     | Description |
-| :---------------------------------------------- | :---------- |
-| [`Configuration()`](#configuration-constructor) | Initializes a new [`Configuration`](#configuration) instance with the provided [`Settings`](#settings) or [`Settings`](#settings) from the provided [`Preferences`](#preferences). |
-
-<br>
-
-**Instance public methods:**
-
-| Configuration.prototype.              | Description |
-| :------------------------------------ | :---------- |
-| [`get()`](#configurationprototypeget) | The method returns the immutable configuration. |
-
-<br>
-
-### `Configuration` static public methods
-
-#### `Configuration.isConfiguration()`
-
-The static method checks whether the value is an instance of [`Configuration`](#configuration).
-
-```typescript
-public static isConfiguration<Options>(
-  value: any,
-  callback?: ResultCallback<Configuration<Options>>
-): value is Configuration<Options> {
-  return isInstance(value, Configuration, callback);
-}
-```
-
-**Generic type variables:**
-
-| Name      | Default value | Description |
-| :-------- | :-----------: | :---------- |
-| `Options` | -             | A generic type variable `Options` indicates the **type** of [`Configuration`](#configuration) options via the return type `value is Configuration<Options>`. |
-
-**Parameters:**
-
-| Name: type                                          | Description |
-| :-------------------------------------------------- | :---------- |
-| `value: any`                                        | The value of [`any`][ts-any] type to tests against the instance [`Configuration`](#configuration). |
-| `callback?: ResultCallback<Configuration<Options>>` | An optional callback [`function`][js-function] of the [`ResultCallback`][package-callback-resultcallback] type to handle the result of the check whether the provided `value` is an instance of [`Configuration`](#configuration). |
-
-**Returns:**
-
-The **return value** is a [`boolean`][js-boolean] type indicating whether the provided `value` is an instance of [`Configuration`](#configuration).
-
-**Usage:**
-
-```typescript
-// Example usage.
-import { Configuration, Settings } from '@angular-package/preferences';
-
-interface UserSettings  {
-  id: number;
-  firstName: string;
-  surName?: string;
-  age: number;
-  sex?: 'male' | 'female';
-  language: 'English' | 'Other';
-}
-
-// Initialize configuration with the empty settings.
-const configuration = new Configuration(new Settings<UserSettings>([]));
-
-if (Configuration.isConfiguration<UserSettings>(configuration)) {
-  // Returns `Configuration {}` of type `Configuration<UserSettings>`
-  console.log(configuration);
-}
-```
-
-<br>
-
-### `Configuration` constructor
-
-#### `Configuration()`
-
-Initializes a new [`Configuration`](#configuration) instance with the provided [`Settings`](#settings) or [`Settings`](#settings) from the provided [`Preferences`](#preferences).
-
-```typescript
-constructor(value: Preferences<Options> | Settings<Options>) {
-  this.#pickSettings(value).#lock();
-}
-```
-
-**Generic type variables:**
-
-| Name      | Default value | Description |
-| :-------- | :-----------: | :---------- |
-| `Options` | -             | A generic type variable `Options` indicates the **type** of [`Configuration`](#configuration) options. |
-
-**Parameters:**
-
-| Name: type                                        | Description |
-| :------------------------------------------------ | :---------- |
-| `value: Preferences<Options> | Settings<Options>` | The value of [`Settings`](#settings) or [`Preferences`](#preferences) to get settings to set as immutable configuration. |
-
-**Usage:**
-
-```typescript
-// Example usage.
-import { Configuration, Settings } from '@angular-package/preferences';
-
-interface UserSettings  {
-  id: number;
-  firstName: string;
-  surName?: string;
-  age: number;
-  sex?: 'male' | 'female';
-  language: 'English' | 'Other';
-}
-
-// Initialize configuration with the empty settings.
-const configuration = new Configuration(new Settings<UserSettings>([]));
-```
-
-<br>
-
-### `Configuration` instance public methods
-
-#### `Configuration.prototype.get()`
-
-The method returns the immutable configuration.
-
-```typescript
-public get(): Options {
-  return this.#options;
-}
-```
-
-**Usage:**
-
-```typescript
-// Example usage.
-import { Configuration, Settings } from '@angular-package/preferences';
-
-interface UserSettings  {
-  id: number;
-  firstName: string;
-  surName?: string;
-  age: number;
-  sex?: 'male' | 'female';
-  language: 'English' | 'Other';
-}
-
-// Initialize settings and set `firstName` option.
-const userSettings = new Settings<UserSettings>([]).set('firstName', `Let's go Brandon`);
-
-// Initialize configuration based on `userSettings`.
-const userConfiguration = new Configuration(userSettings).get();
-
-// Returns `{firstName: "Let's go Brandon"}` of type `UserSettings`.
-userConfiguration
+} from '@angular-package/text';
 ```
 
 <br>
