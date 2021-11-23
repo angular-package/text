@@ -1,11 +1,10 @@
 // @angular-package/type.
 import {
+  // Type.
   ResultCallback,
+  // Function.
   guardString,
   areDefined,
-  isDefined,
-  isString,
-  isStringLength,
   isInstance,
   isTrue,
 } from '@angular-package/type';
@@ -37,6 +36,15 @@ export class Tagged<
     return super.valueOf() as Text;
   }
 
+  /**
+   * The property, with the help of `toStringTag`, changes the default tag to `'tagged'` for an instance of `Tag`. It can be read by
+   * the `typeOf()` function of `@angular-package/type`.
+   */
+  public get [Symbol.toStringTag](): string {
+    return 'tagged';
+  }
+
+
   public static isTagged<Text extends string, Chars extends string>(
     value: any,
     callback?: ResultCallback<any>
@@ -47,9 +55,8 @@ export class Tagged<
   constructor(
     text: Text,
     tag?: Tag<Name, Chars>,
-    callback?: ResultCallback<Text>
   ) {
-    super(guardString(text, callback) ? text : '');
+    super(guardString(text) ? text : '');
     this.#checkTagged(tag);
   }
 
