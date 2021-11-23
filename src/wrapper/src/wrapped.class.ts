@@ -1,18 +1,20 @@
 // @angular-package/type.
 import {
-  ResultCallback,
+  // Function.
   areDefined,
-  isString,
+  guardString,
+  isDefined,
   isInstance,
+  isStringType,
   isTrue,
 } from '@angular-package/type';
+// Class.
+import { Wrap } from './wrap.class';
 // Type.
 import { WrapClosingChar } from '../type/wrap-closing-char.type';
 import { WrapOpeningChar } from '../type/wrap-opening-char.type';
-import { Wrap } from '../type/wrap.type';
-import { Wrapper } from './wrapper.class';
 /**
- *
+ * The `Wrapped` object consists of wrapped text and optional wrap.
  */
 export class Wrapped<
   Text extends string = string,
@@ -20,21 +22,45 @@ export class Wrapped<
 > extends String {
   //#region instance properties.
   //#region instance public properties.
+  /**
+   *
+   */
   public get closingChar(): WrapClosingChar<Chars> | undefined {
     return this.#closingChar;
   }
 
+  /**
+   *
+   */
   public get openingChar(): WrapOpeningChar<Chars> | undefined {
     return this.#openingChar;
   }
 
+  /**
+   *
+   */
   public get text(): Text {
     return super.valueOf() as Text;
+  }
+
+  /**
+   * The property, with the help of `toStringTag`, changes the default tag to `'wrapped'` for an instance of `Wrapped`. It can be read by
+   * the `typeOf()` function of `@angular-package/type`.
+   */
+  public get [Symbol.toStringTag](): string {
+    return 'wrapped';
   }
   //#endregion instance public properties.
 
   //#region instance private properties.
+  /**
+   *
+   */
   #closingChar?: WrapOpeningChar<Chars>;
+
+  /**
+   *
+   */
   #openingChar?: WrapOpeningChar<Chars>;
   //#endregion instance private properties.
   //#endregion instance properties.
@@ -42,24 +68,33 @@ export class Wrapped<
   //#region static methods.
   public static isWrapped<Text extends string, Chars extends string>(
     value: any,
-    callback?: ResultCallback<any>
+    chars?: Chars
   ): value is Wrapped<Text, Chars> {
-    return isInstance(value, Wrapped, callback);
+    return isInstance(value, Wrapped)
+      ? isStringType(chars)
+        ? chars === `${value.openingChar}${value.closingChar}`
+        : true
+      : false;
   }
   //#endregion static methods.
 
   //#region constructor.
-  constructor(
-    text: Text,
-    wrap?: Wrap<Chars> | Wrapper<Chars>,
-    callback?: ResultCallback<Text>
-  ) {
-    super(isString(text, callback) ? text : '');
-    this.#checkWrapped(wrap);
+  /**
+   *
+   * @param text
+   * @param chars
+   */
+  constructor(text: Text, chars?: Chars | Wrap<Chars>) {
+    super(guardString(text) ? text : '');
+    isDefined(chars) && this.#checkWrapped(chars);
   }
   //#endregion constructor.
 
   //#region instance methods.
+  /**
+   *
+   * @returns
+   */
   public unwrap(): string {
     return this.#isWrapped()
       ? this.text.slice(1, this.text.length - 1)
@@ -68,24 +103,20 @@ export class Wrapped<
   //#endregion instance methods.
 
   //#region instance private methods.
-  #checkWrapped(wrap?: Wrap<Chars> | Wrapper<Chars>): void {
-    const wrapper = Wrapper.isWrapper(wrap)
-      ? wrap
-      : Wrapper.isWrap(wrap)
-      ? new Wrapper(wrap)
-      : undefined;
-    this.#setClosingChar(wrapper).#setOpeningChar(wrapper);
+  #checkWrapped(chars: Chars | Wrap<Chars>): void {
+    const wrap = Wrap.isWrap(chars) ? chars : new Wrap(chars);
+    this.#setClosingChar(wrap).#setOpeningChar(wrap);
   }
 
-  #setClosingChar(wrapper?: Wrapper<Chars>): this {
-    this.text.slice(-1) === wrapper?.closingChar &&
-      (this.#closingChar = wrapper.closingChar);
+  #setClosingChar(wrap?: Wrap<Chars>): this {
+    this.text.slice(-1) === wrap?.closingChar &&
+      (this.#closingChar = wrap.closingChar);
     return this;
   }
 
-  #setOpeningChar(wrapper?: Wrapper<Chars>): this {
-    this.text.slice(0, 1) === wrapper?.openingChar &&
-      (this.#openingChar = wrapper.openingChar);
+  #setOpeningChar(wrap?: Wrap<Chars>): this {
+    this.text.slice(0, 1) === wrap?.openingChar &&
+      (this.#openingChar = wrap.openingChar);
     return this;
   }
 
