@@ -87,7 +87,9 @@ export class Wrap<Chars extends string> extends String {
   //#region constructor.
   /**
    * Creates a new instance of the `Wrap` to wrap the specified text by using the wrap consisting of two chars.
-   * @param wrap The wrap of a generic type variable `Chars` to set.
+   * @param chars The wrap of a generic type variable `Chars` to set.
+   * @returns The return value is a new instance of `Wrap` with the primitive value of the provided `chars` if set properly, otherwise with
+   * an empty string.
    */
   constructor(chars: Chars) {
     super(guardStringLength(chars, 2) ? chars : '');
@@ -113,7 +115,7 @@ export class Wrap<Chars extends string> extends String {
 
   /**
    * Gets the wrap consists of two characters by using an intuitive method name.
-   * @returns The return value is a generic type `Wrap` consisting of two characters.
+   * @returns The return value is a generic type variable `Chars` consisting of two characters.
    */
   public getWrap(): Chars {
     return this.valueOf();
