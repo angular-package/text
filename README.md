@@ -1,7 +1,7 @@
 
 # angular-package
 
-![Package](https://avatars.githubusercontent.com/u/31412194?s=100&u=387bbfbe38201c12d3300531abd706cab2ea7482&v=4)
+<img align="left" width="100" height="100" src="https://avatars.githubusercontent.com/u/31412194?s=100&u=387bbfbe38201c12d3300531abd706cab2ea7482&v=4" />
 
 The angular package supports the development process of [angular][angulario]-based applications through the use of thoughtful, re-usable, easy-to-use small pieces of code called packages.
 
