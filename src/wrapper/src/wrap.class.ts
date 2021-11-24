@@ -89,7 +89,7 @@ export class Wrap<Chars extends string> extends String {
    * Creates a new instance of the `Wrap` to wrap the specified text by using the wrap consisting of two chars.
    * @param chars The wrap of a generic type variable `Chars` to set.
    * @returns The return value is a new instance of `Wrap` with the primitive value of the provided `chars` if set properly, otherwise with
-   * an empty string.
+   * an empty `string`.
    */
   constructor(chars: Chars) {
     super(guardStringLength(chars, 2) ? chars : '');
@@ -99,7 +99,7 @@ export class Wrap<Chars extends string> extends String {
   //#region instance public methods.
   /**
    * Gets the closing char of the wrap by returning the `closingChar` property of the specified object.
-   * @returns The return value is a string second character of the wrap.
+   * @returns The return value is a `string` second character of the wrap.
    */
   public getClosingChar(): WrapClosingChar<Chars> {
     return this.closingChar;
@@ -107,7 +107,7 @@ export class Wrap<Chars extends string> extends String {
 
   /**
    * Gets the opening char of the wrap by returning the `openingChar` property of the specified object.
-   * @returns The return value is a string first character of the wrap.
+   * @returns The return value is a `string` first character of the wrap.
    */
   public getOpeningChar(): WrapOpeningChar<Chars> {
     return this.openingChar;
@@ -135,7 +135,7 @@ export class Wrap<Chars extends string> extends String {
 
   /**
    * Returns the wrap, primitive value of the specified `Wrap` object.
-   * @returns The return value is a generic type variable `Chars` consisting of two chars.
+   * @returns The return value is a generic type variable `Chars` consisting of two chars, if properly defined, or an empty `string`.
    */
   public valueOf(): Chars {
     return super.valueOf() as Chars;
