@@ -86,8 +86,8 @@ export class Wrap<Chars extends string> extends String {
 
   //#region constructor.
   /**
-   * Creates a new instance of the `Wrap` to wrap the specified text by using the wrap consisting of two chars.
-   * @param chars The wrap of a generic type variable `Chars` to set.
+   * Creates a new instance of the `Wrap` with two specified chars.
+   * @param chars The wrap of a generic type variable `Chars` to set. The value is checked against string of two chars.
    * @returns The return value is a new instance of `Wrap` with the primitive value of the provided `chars` if set properly, otherwise with
    * an empty `string`.
    */
