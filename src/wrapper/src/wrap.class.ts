@@ -1,18 +1,18 @@
 import {
   // Function.
-  guardStringLength,
+  areString,
+  isArray,
   isInstance,
-  isStringLength,
 } from '@angular-package/type';
 // Class.
 import { Wrapped } from './wrapped.class';
-// Type.
-import { WrapClosingChar } from '../type/wrap-closing-char.type';
-import { WrapOpeningChar } from '../type/wrap-opening-char.type';
 /**
- * The `Wrap` object represents the immutable wrap consisting of two chars, the opening, and closing to wrap the text.
+ * The `Wrap` object represents the immutable wrap consisting of the opening, and closing to wrap the text.
  */
-export class Wrap<Chars extends string> extends String {
+export class Wrap<
+  Opening extends string = string,
+  Closing extends string = string
+> extends String {
   //#region properties.
   //#region static properties.
   //#region static public properties.
@@ -28,31 +28,38 @@ export class Wrap<Chars extends string> extends String {
 
   //#region instance properties.
   /**
-   * Gets the closing char of the wrap.
+   * Gets the closing of the wrap.
    */
-  public get closingChar(): WrapClosingChar<Chars> {
-    return this.wrap.substr(-1, 1) as Chars;
+  public get closing(): Closing {
+    return this.#closing;
   }
 
   /**
-   * Gets the opening char of the wrap.
+   * Gets the opening-closing pair of an array.
    */
-  public get openingChar(): WrapOpeningChar<Chars> {
-    return this.wrap.substr(0, 1);
+  public get entry(): [Opening, Closing] {
+    return [this.#opening, this.#closing];
   }
 
   /**
-   * Gets the wrap consists of two characters by using the intuitive property name.
+   * Gets the opening of the wrap.
    */
-  public get wrap(): Chars {
-    return this.value as Chars;
+  public get opening(): Opening {
+    return this.#opening;
   }
 
   /**
-   * Gets the wrap consists of two characters.
+   * Gets the wrap consists of the opening and closing by using the intuitive property name.
    */
-  public get value(): Chars {
-    return super.valueOf() as Chars;
+  public get wrap(): `${Opening}${Closing}` {
+    return this.value;
+  }
+
+  /**
+   * Gets the wrap consists of the opening and closing by using a universal property name.
+   */
+  public get value(): `${Opening}${Closing}` {
+    return this.valueOf();
   }
 
   /**
@@ -63,82 +70,143 @@ export class Wrap<Chars extends string> extends String {
     return 'wrap';
   }
   //#endregion instance properties.
+  /**
+   * A private property the closing of the wrap.
+   */
+  #closing: Closing;
+
+  /**
+   * A private property the opening of the wrap.
+   */
+  #opening: Opening;
   //#endregion properties.
 
   //#region static methods.
   /**
-   * The method checks if the value of any type is the `Wrap` instance of the two characters.
-   * @param value The value of any type to test against the `Wrap` instance of the two any or given `chars`.
-   * @param chars An optional two characters to check if the given `value` contains.
-   * @returns The return value is a `boolean` type indicating whether the value is an instance of `Wrap` of the two any or given characters.
+   * Returns an object created from the opening-closing entry of an array.
+   * @param entry An array that contains an opening-closing entry for properties.
+   * @returns The return value is an object consisting of the opening and closing of the wrap.
    */
-  public static isWrap<Chars extends string>(
+  public static pickFromEntry<Opening extends string, Closing extends string>(
+    entry: [Opening, Closing]
+  ): { opening: Opening; closing: Closing } {
+    let opening, closing;
+    return ([opening, closing] = entry), { opening, closing };
+  }
+
+  /**
+   * The method checks if the value of any type is the `Wrap` instance of any or given opening and closing.
+   * @param value The value of any type to test against the `Wrap` instance of any or given opening and closing.
+   * @param wrap An optional opening and closing entry to check if the given `value` contains.
+   * @returns The return value is a `boolean` type indicating whether the value is an instance of `Wrap` of any or given opening and
+   * closing.
+   */
+  public static isWrap<Opening extends string, Closing extends string>(
     value: any,
-    chars?: Chars
-  ): value is Wrap<Chars> {
-    return isInstance(value, Wrap) && isStringLength(value, 2)
-      ? isStringLength(chars, 2)
-        ? value.wrap === chars
+    wrap?: [Opening, Closing]
+  ): value is Wrap<Opening, Closing> {
+    return isInstance(value, Wrap)
+      ? isArray(wrap)
+        ? Wrap.pickFromEntry(wrap).opening === value.opening &&
+          Wrap.pickFromEntry(wrap).closing === value.closing
         : true
       : false;
+  }
+
+  /**
+   * The static "tag" method with an array of any text segments from the literal.
+   * @param template Tagged template literal of the wrap.
+   * @param values An array of the opening and closing of the wrap.
+   * @returns The return value is a string the wrap, or an empty string if elements of the provided `values` are not `string`.
+   */
+  public static template(
+    template: TemplateStringsArray,
+    ...values: string[]
+  ): string {
+    let opening, closing;
+    if (areString(...values).every()) {
+      return (
+        ([opening, closing] = values), `${opening}${template[0]}${closing}`
+      );
+    }
+    return ``;
   }
   //#endregion static methods.
 
   //#region constructor.
   /**
-   * Creates a new instance of the `Wrap` with two specified chars.
-   * @param chars The wrap of a generic type variable `Chars` to set. The value is checked against string of two chars.
-   * @returns The return value is a new instance of `Wrap` with the primitive value of the provided `chars` if set properly, otherwise with
-   * an empty `string`.
+   * Creates a new instance of the `Wrap` with the opening and closing.
+   * @param opening The wrap opening of a generic type variable `Opening`.
+   * @param closing The wrap closing of a generic type variable `Closing`.
+   * @returns The return value is a new instance of `Wrap` with the primitive value of the provided `opening` and `closing` if set properly,
+   * otherwise with an empty `string`.
    */
-  constructor(chars: Chars) {
-    super(guardStringLength(chars, 2) ? chars : '');
+  constructor(opening: Opening, closing: Closing) {
+    super(Wrap.template`${opening}${closing}`);
+    this.#closing = closing;
+    this.#opening = opening;
   }
   //#endregion constructor.
 
   //#region instance public methods.
   /**
-   * Gets the closing char of the wrap by returning the `closingChar` property of the specified object.
-   * @returns The return value is a `string` second character of the wrap.
+   * Gets the wrap, primitive value consists of the opening and closing by using an intuitive method name.
+   * @returns The return value is the wrap consists of the opening and closing of a generic type variable `Opening` and `Closing`.
    */
-  public getClosingChar(): WrapClosingChar<Chars> {
-    return this.closingChar;
-  }
-
-  /**
-   * Gets the opening char of the wrap by returning the `openingChar` property of the specified object.
-   * @returns The return value is a `string` first character of the wrap.
-   */
-  public getOpeningChar(): WrapOpeningChar<Chars> {
-    return this.openingChar;
-  }
-
-  /**
-   * Gets the wrap consists of two characters by using an intuitive method name.
-   * @returns The return value is a generic type variable `Chars` consisting of two characters.
-   */
-  public getWrap(): Chars {
+  public get(): `${Opening}${Closing}` {
     return this.valueOf();
   }
 
   /**
-   * Wraps specified text with the wrap, the opening and closing characters of the specified object.
-   * @param text The text of a generic type variable `Text` to be wrapped.
+   * Gets the closing of the wrap by returning the `closing` property of the specified object.
+   * @returns The return value is the wrap closing of a generic type variable `Closing`.
+   */
+  public getClosing(): Closing {
+    return this.closing;
+  }
+
+  /**
+   * Gets the opening of the wrap by returning the `opening` property of the specified object.
+   * @returns The return value is the wrap opening of a generic type variable `Opening`.
+   */
+  public getOpening(): Opening {
+    return this.opening;
+  }
+
+  /**
+   * Gets an opening-closing entry of the wrap.
+   * @returns The return value is an array of the opening-closing pair of the wrap.
+   */
+  public getEntry(): [Opening, Closing] {
+    return [this.#opening, this.#closing];
+  }
+
+  /**
+   * Wraps specific text with the wrap, the opening, and closing of the specified object.
+   * @param text The text of a generic type variable `Text`, to be wrapped.
    * @returns The return value is a new instance of the `Wrapped` type consisting of the wrapped text.
    */
-  public wrapText<Text extends string>(text: Text): Wrapped<Text, Chars> {
-    return new Wrapped(
-      `${this.openingChar}${text}${this.closingChar}` as Text,
-      this
-    );
+  public wrapText<Text extends string>(
+    text: Text
+  ): Wrapped<Text, Opening, Closing> {
+    return new Wrapped(text, this);
+  }
+
+  /**
+   * Returns the unwrapped text.
+   * @param wrapped The text or an instance of `Wrapped` to unwrap the text.
+   * @returns The return value is the unwrapped text of a string.
+   */
+  public unwrapText(wrapped: string | Wrapped): string {
+    return new Wrapped(wrapped.valueOf()).unwrap(this);
   }
 
   /**
    * Returns the wrap, primitive value of the specified `Wrap` object.
-   * @returns The return value is a generic type variable `Chars` consisting of two chars, if properly defined, or an empty `string`.
+   * @returns The return value is a generic type variable `Opening` and `Closing`, if properly defined, or an empty `string`.
    */
-  public valueOf(): Chars {
-    return super.valueOf() as Chars;
+  public valueOf(): `${Opening}${Closing}` {
+    return super.valueOf() as `${Opening}${Closing}`;
   }
   //#endregion instance methods.
 }
