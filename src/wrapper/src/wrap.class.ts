@@ -107,17 +107,17 @@ export class Wrap<
   ): value is Wrap<Opening, Closing> {
     return isInstance(value, Wrap)
       ? isArray(wrap)
-        ? Wrap.pickFromEntry(wrap).opening === value.opening &&
-          Wrap.pickFromEntry(wrap).closing === value.closing
+        ? this.pickFromEntry(wrap).opening === value.opening &&
+          this.pickFromEntry(wrap).closing === value.closing
         : true
       : false;
   }
 
   /**
-   * The static "tag" method with an array of any text segments from the literal.
+   * The static "tag" method with an `array` of any text segments from the literal.
    * @param template Tagged template literal of the wrap.
-   * @param values An array of the opening and closing of the wrap.
-   * @returns The return value is a string the wrap, or an empty string if elements of the provided `values` are not `string`.
+   * @param values A rest parameter, which takes the opening and closing of the wrap.
+   * @returns The return value is a `string` the wrap, or an empty `string` if elements of the provided `values` are not `string`.
    */
   public static template(
     template: TemplateStringsArray,
@@ -166,19 +166,20 @@ export class Wrap<
   }
 
   /**
-   * Gets the opening of the wrap by returning the `opening` property of the specified object.
-   * @returns The return value is the wrap opening of a generic type variable `Opening`.
-   */
-  public getOpening(): Opening {
-    return this.opening;
-  }
-
-  /**
    * Gets an opening-closing entry of the wrap.
    * @returns The return value is an array of the opening-closing pair of the wrap.
    */
   public getEntry(): [Opening, Closing] {
     return [this.#opening, this.#closing];
+  }
+
+
+  /**
+   * Gets the opening of the wrap by returning the `opening` property of the specified object.
+   * @returns The return value is the wrap opening of a generic type variable `Opening`.
+   */
+  public getOpening(): Opening {
+    return this.opening;
   }
 
   /**
