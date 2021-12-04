@@ -1,7 +1,7 @@
 import {
   // Function.
   areString,
-  isArray,
+  isStringType,
   isInstance,
 } from '@angular-package/type';
 // Class.
@@ -49,14 +49,14 @@ export class Wrap<
   }
 
   /**
-   * Gets the wrap consists of the opening and closing by using the intuitive property name.
+   * Gets the wrap consists of the opening and closing by using the **intuitive** property name.
    */
   public get wrap(): `${Opening}${Closing}` {
     return this.value;
   }
 
   /**
-   * Gets the wrap consists of the opening and closing by using a universal property name.
+   * Gets the wrap consists of the opening and closing by using a **universal** property name.
    */
   public get value(): `${Opening}${Closing}` {
     return this.valueOf();
@@ -97,26 +97,31 @@ export class Wrap<
   /**
    * The method checks if the value of any type is the `Wrap` instance of any or given opening and closing.
    * @param value The value of any type to test against the `Wrap` instance of any or given opening and closing.
-   * @param wrap An optional opening and closing entry to check if the given `value` contains.
+   * @param opening The wrap opening to check if the given `value` contains.
+   * @param closing The wrap closing to check if the given `value` contains.
    * @returns The return value is a `boolean` type indicating whether the value is an instance of `Wrap` of any or given opening and
    * closing.
    */
   public static isWrap<Opening extends string, Closing extends string>(
     value: any,
-    wrap?: [Opening, Closing]
+    opening?: Opening,
+    closing?: Closing,
   ): value is Wrap<Opening, Closing> {
     return isInstance(value, Wrap)
-      ? isArray(wrap)
-        ? this.pickFromEntry(wrap).opening === value.opening &&
-          this.pickFromEntry(wrap).closing === value.closing
+      ? isStringType(opening) && isStringType(closing)
+        ? opening === value.opening && closing === value.closing
+        : isStringType(opening)
+        ? opening === value.opening
+        : isStringType(closing)
+        ? closing === value.closing
         : true
       : false;
   }
 
   /**
-   * The static "tag" method with an `array` of any text segments from the literal.
-   * @param template Tagged template literal of the wrap.
-   * @param values A rest parameter, which takes the opening and closing of the wrap.
+   * The static "tag" method builds the wrap of a string type on the template.
+   * @param template An array of string values where the first element is a text between opening and closing.
+   * @param values A rest parameter, where the first element is the opening and the second is the closing of the wrap.
    * @returns The return value is a `string` the wrap, or an empty `string` if elements of the provided `values` are not `string`.
    */
   public static template(
@@ -172,7 +177,6 @@ export class Wrap<
   public getEntry(): [Opening, Closing] {
     return [this.#opening, this.#closing];
   }
-
 
   /**
    * Gets the opening of the wrap by returning the `opening` property of the specified object.
