@@ -35,13 +35,6 @@ export class Wrap<
   }
 
   /**
-   * Gets the opening-closing pair of an array.
-   */
-  public get entry(): [Opening, Closing] {
-    return [this.#opening, this.#closing];
-  }
-
-  /**
    * Gets the opening of the wrap.
    */
   public get opening(): Opening {
@@ -82,18 +75,6 @@ export class Wrap<
   //#endregion properties.
 
   //#region static methods.
-  /**
-   * Returns an object created from the opening-closing entry of an array.
-   * @param entry An array that contains an opening-closing entry for properties.
-   * @returns The return value is an object consisting of the opening and closing of the wrap.
-   */
-  public static pickFromEntry<Opening extends string, Closing extends string>(
-    entry: [Opening, Closing]
-  ): { opening: Opening; closing: Closing } {
-    let opening, closing;
-    return ([opening, closing] = entry), { opening, closing };
-  }
-
   /**
    * The method checks if the value of any type is the `Wrap` instance of any or given opening and closing.
    * @param value The value of any type to test against the `Wrap` instance of any or given opening and closing.
@@ -171,19 +152,20 @@ export class Wrap<
   }
 
   /**
-   * Gets an opening-closing entry of the wrap.
-   * @returns The return value is an array of the opening-closing pair of the wrap.
-   */
-  public getEntry(): [Opening, Closing] {
-    return [this.#opening, this.#closing];
-  }
-
-  /**
    * Gets the opening of the wrap by returning the `opening` property of the specified object.
    * @returns The return value is the wrap opening of a generic type variable `Opening`.
    */
   public getOpening(): Opening {
     return this.opening;
+  }
+
+  /**
+   * The method checks if any value is an instance of `Wrapped`.
+   * @param value Any value to check against the `Wrapped`.
+   * @returns The return value is a `boolean` indicating whether the provided `value` is an instance of `Wrapped`.
+   */
+  public isWrapped(value: any): value is Wrapped<string, Opening, Closing> {
+    return Wrapped.isWrapped(value, this);
   }
 
   /**
