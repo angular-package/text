@@ -136,17 +136,6 @@ export class Wrap<
 
   //#region instance public methods.
   /**
-   * Checks if the provided `text` has a closing of the specified `Wrap` object.
-   * @param text The text to test against the existence of the closing.
-   * @returns The return value is a `boolean` indicating whether the given `text` has the closing of the wrap.
-   */
-  public textHasClosing<Text extends string>(text: Text): text is Text {
-    return (
-      isStringType(text) && text.slice(-this.#closing.length) === this.#closing
-    );
-  }
-
-  /**
    * Gets the wrap, primitive value consists of the opening and closing by using an intuitive method name.
    * @returns The return value is the wrap consists of the opening and closing of a generic type variable `Opening` and `Closing`.
    */
@@ -171,6 +160,26 @@ export class Wrap<
   }
 
   /**
+   * The method checks if any value is an instance of `Wrapped`.
+   * @param value Any value to check against the `Wrapped`.
+   * @returns The return value is a `boolean` indicating whether the provided `value` is an instance of `Wrapped`.
+   */
+  public isTextWrapped<Text extends string>(text: Text): text is Text {
+    return this.textHasClosing(text) && this.textHasOpening(text);
+  }
+
+  /**
+   * Checks if the provided `text` has a closing of the specified `Wrap` object.
+   * @param text The text to test against the existence of the closing.
+   * @returns The return value is a `boolean` indicating whether the given `text` has the closing of the wrap.
+   */
+  public textHasClosing<Text extends string>(text: Text): text is Text {
+    return (
+      isStringType(text) && text.slice(-this.#closing.length) === this.#closing
+    );
+  }
+
+  /**
    * Checks if the provided `text` has an opening of the specified `Wrap` object.
    * @param text The text to test against the existence of the opening.
    * @returns The return value is a `boolean` indicating whether the given `text` has the opening of the wrap.
@@ -180,15 +189,6 @@ export class Wrap<
       isStringType(text) &&
       text.slice(0, this.#opening.length) === this.#opening
     );
-  }
-
-  /**
-   * The method checks if any value is an instance of `Wrapped`.
-   * @param value Any value to check against the `Wrapped`.
-   * @returns The return value is a `boolean` indicating whether the provided `value` is an instance of `Wrapped`.
-   */
-  public isTextWrapped<Text extends string>(text: Text): text is Text {
-    return this.textHasClosing(text) && this.textHasOpening(text);
   }
 
   /**
