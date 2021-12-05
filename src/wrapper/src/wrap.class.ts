@@ -86,7 +86,7 @@ export class Wrap<
   public static isWrap<Opening extends string, Closing extends string>(
     value: any,
     opening?: Opening,
-    closing?: Closing,
+    closing?: Closing
   ): value is Wrap<Opening, Closing> {
     return isInstance(value, Wrap)
       ? isStringType(opening) && isStringType(closing)
@@ -136,6 +136,17 @@ export class Wrap<
 
   //#region instance public methods.
   /**
+   * Checks if the provided `text` has a closing of the specified `Wrap` object.
+   * @param text The text to test against the existence of the closing.
+   * @returns The return value is a `boolean` indicating whether the given `text` has the closing of the wrap.
+   */
+  public textHasClosing<Text extends string>(text: Text): text is Text {
+    return (
+      isStringType(text) && text.slice(-this.#closing.length) === this.#closing
+    );
+  }
+
+  /**
    * Gets the wrap, primitive value consists of the opening and closing by using an intuitive method name.
    * @returns The return value is the wrap consists of the opening and closing of a generic type variable `Opening` and `Closing`.
    */
@@ -160,12 +171,24 @@ export class Wrap<
   }
 
   /**
+   * Checks if the provided `text` has an opening of the specified `Wrap` object.
+   * @param text The text to test against the existence of the opening.
+   * @returns The return value is a `boolean` indicating whether the given `text` has the opening of the wrap.
+   */
+  public textHasOpening<Text extends string>(text: Text): text is Text {
+    return (
+      isStringType(text) &&
+      text.slice(0, this.#opening.length) === this.#opening
+    );
+  }
+
+  /**
    * The method checks if any value is an instance of `Wrapped`.
    * @param value Any value to check against the `Wrapped`.
    * @returns The return value is a `boolean` indicating whether the provided `value` is an instance of `Wrapped`.
    */
-  public isWrapped(value: any): value is Wrapped<string, Opening, Closing> {
-    return Wrapped.isWrapped(value, this);
+  public isTextWrapped<Text extends string>(text: Text): text is Text {
+    return this.textHasClosing(text) && this.textHasOpening(text);
   }
 
   /**
@@ -180,12 +203,16 @@ export class Wrap<
   }
 
   /**
-   * Returns the unwrapped text.
-   * @param wrapped The text or an instance of `Wrapped` to unwrap the text.
-   * @returns The return value is the unwrapped text of a string.
+   * Returns the unwrapped text from the opening and closing of the wrap.
+   * @param text The text to unwrap.
+   * @returns The return value is the unwrapped text of a `string` if the opening or closing is found, or the given text.
    */
-  public unwrapText(wrapped: string | Wrapped): string {
-    return new Wrapped(wrapped.valueOf()).unwrap(this);
+  public unwrapText(text: string): string {
+    this.textHasClosing(text) &&
+      (text = text.valueOf().slice(0, text.length - this.#closing.length));
+    this.textHasOpening(text) &&
+      (text = text.valueOf().slice(this.#opening.length));
+    return text;
   }
 
   /**
