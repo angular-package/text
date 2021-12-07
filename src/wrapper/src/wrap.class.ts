@@ -12,8 +12,8 @@ export class Wrap<
   Opening extends string = string,
   Closing extends string = string
 > extends String {
-  //#region properties.
-  //#region instance properties.
+  //#region accessors.
+  //#region instance accessors.
   /**
    * The `get` accessor gets the closing of the wrap.
    * @returns The return value is the wrap closing of a generic type variable `Closing`.
@@ -54,7 +54,9 @@ export class Wrap<
   public get [Symbol.toStringTag](): string {
     return 'wrap';
   }
-  //#endregion instance properties.
+  //#endregion instance accessors.
+
+  //#region instance properties.
   /**
    * A private property the closing of the wrap.
    */
@@ -64,7 +66,7 @@ export class Wrap<
    * A private property the opening of the wrap.
    */
   #opening: Opening;
-  //#endregion properties.
+  //#endregion instance properties.
 
   //#region static methods.
   /**
@@ -160,5 +162,5 @@ export class Wrap<
   public valueOf(): `${Opening}${Closing}` {
     return super.valueOf() as `${Opening}${Closing}`;
   }
-  //#endregion instance methods.
+  //#endregion instance public methods.
 }
