@@ -42,7 +42,7 @@ export class Wrapped<
 
   /**
    * The `get` accessor gets the wrapped text primitive value of a specified object by using a **universal** name.
-   * @returns The return value is the text of a generic type variable `Text`.
+   * @returns The return value is the text of a generic type variable in order  `Opening`, `Text`, `Closing` on the template.
    * @angularpackage
    */
   public get value(): `${Opening}${Text}${Closing}` {
