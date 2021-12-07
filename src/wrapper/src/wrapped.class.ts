@@ -1,11 +1,9 @@
 // @angular-package/type.
-import {
-  // Function.
-  isDefined,
-  isInstance,
-} from '@angular-package/type';
+import { isInstance } from '@angular-package/type';
 // Class.
 import { Wrap } from './wrap.class';
+// Type.
+import { WrappedText } from '../type/wrapped-text.type';
 /**
  * The `Wrapped` string object represents the immutable wrapped text.
  */
@@ -14,64 +12,69 @@ export class Wrapped<
   Opening extends string = string,
   Closing extends string = string
 > extends String {
-  //#region instance properties.
-  //#region instance public properties.
+  //#region instance accessors.
   /**
-   * Gets the closing of the wrap, or if the wrap was not provided, or it was provided but not found in the text returns undefined.
+   * The `get` accessor gets the closing of the wrap.
    * @returns The return value is the wrap closing of a generic type variable `Closing`.
    * @angularpackage
    */
-  public get closing(): Closing | undefined {
+  public get closing(): Closing {
     return this.#closing;
   }
 
   /**
-   * Gets the opening of the wrap, or if the wrap was not provided, or it was provided but not found in the text returns undefined.
+   * The `get` accessor gets the opening of the wrap.
    * @returns The return value is the wrap opening of a generic type variable `Opening`.
    * @angularpackage
    */
-  public get opening(): Opening | undefined {
+  public get opening(): Opening {
     return this.#opening;
   }
 
   /**
-   * Gets the text primitive value of a specified object by using an **intuitive** property name.
+   * The `get` accessor gets the text.
    * @returns The return value is the text of a generic type variable `Text`.
    * @angularpackage
    */
   public get text(): Text {
-    return this.valueOf();
+    return this.#text;
   }
 
   /**
-   * Gets the text primitive value of a specified object by using a **universal** property name.
+   * The `get` accessor gets the wrapped text primitive value of a specified object by using a **universal** name.
    * @returns The return value is the text of a generic type variable `Text`.
    * @angularpackage
    */
-  public get value(): Text {
+  public get value(): `${Opening}${Text}${Closing}` {
     return this.valueOf();
   }
 
   /**
-   * The property, with the help of `toStringTag`, changes the default tag to `'wrapped'` for an instance of `Wrapped`. It can be read by
-   * the `typeOf()` function of `@angular-package/type`.
+   * The `get` accessor, with the help of `toStringTag`, changes the default tag to `'wrapped'` for an instance of `Wrapped`. It can be read
+   * by the `typeOf()` function of `@angular-package/type`.
    * @angularpackage
    */
-  public get [Symbol.toStringTag](): 'wrapped' {
+  public get [Symbol.toStringTag](): string {
     return 'wrapped';
   }
-  //#endregion instance public properties.
+  //#endregion instance accessors.
 
+  //#region instance properties.
   //#region instance private properties.
   /**
-   * The closing of the wrap or `undefined` if not set.
+   * Private property of the wrap closing.
    */
-  #closing?: Closing;
+  #closing: Closing;
 
   /**
-   * The opening of the wrap or `undefined` if not set.
+   * Private property of the wrap opening.
    */
-  #opening?: Opening;
+  #opening: Opening;
+
+  /**
+   * Private property of the wrapped text.
+   */
+  #text: Text;
   //#endregion instance private properties.
   //#endregion instance properties.
 
@@ -79,7 +82,7 @@ export class Wrapped<
   /**
    * The static method checks whether the provided `value` of any type is an instance of `Wrapped`.
    * @param value The value of any type to test against the `Wrapped` instance.
-   * @param wrap An optional characters to check if the given `value` contains.
+   * @param wrap An optional instance of `Wrap` to check if the given `value` contains the opening and closing.
    * @returns The return value is a `boolean` indicating whether the value is the `Wrapped` instance of any or given chars.
    * @angularpackage
    */
@@ -99,9 +102,9 @@ export class Wrapped<
   }
 
   /**
-   * The static "tag" method builds the wrapped text of a string type on the template.
-   * @param template An array of string values where the first element is a text between opening and closing.
-   * @param values A rest parameter, where the first element is the text and the second is an instance of `Wrap`.
+   * The static "tag" method builds the wrapped text of a `string` type on the template. It consists of a text and an instance of `Wrap`.
+   * @param template An array of `string` values where the first element is a text between opening and closing.
+   * @param values A rest parameter of expressions, where the first element is the text and the second is an instance of `Wrap`.
    * @returns The return value is a `string` the wrapped text, or an empty `string` if elements of the provided `values` are not `string`.
    * @angularpackage
    */
@@ -112,18 +115,8 @@ export class Wrapped<
     let text, wrap;
     return (
       ([text, wrap] = values),
-      `${
-        Wrap.isWrap(wrap)
-          ? text.slice(0, wrap.opening.length) === wrap.opening
-            ? ''
-            : wrap?.opening
-          : ''
-      }${template[0]}${text || ''}${
-        Wrap.isWrap(wrap)
-          ? text.slice(-wrap.closing.length) === wrap.closing
-            ? ''
-            : wrap?.closing
-          : ''
+      `${Wrap.isWrap(wrap) ? wrap?.opening : ''}${template[0]}${text || ''}${
+        Wrap.isWrap(wrap) ? wrap?.closing : ''
       }`
     );
   }
@@ -131,79 +124,38 @@ export class Wrapped<
 
   //#region constructor.
   /**
-   * Creates a new instance of `Wrapped` with the specified text and optional wrap.
-   * @param text The value of a generic type variable `Text` to set with a new instance.
-   * @param wrap An optional object of `Wrap` to set with a new instance.
+   * Creates a new instance of `Wrapped` with the specified text and wrap.
+   * @param text The value of a generic type variable `Text` to be wrapped with a given `wrap`.
+   * @param wrap An instance of `Wrap` to wrap a given `text`.
    * @returns The return value is a new instance of `Wrapped` with the primitive value of the provided `text` if set properly, otherwise
    * with an empty `string`.
    * @angularpackage
    */
-  constructor(text: Text, wrap?: Wrap<Opening, Closing>) {
+  constructor(text: Text, wrap: Wrap<Opening, Closing>) {
     super(Wrapped.template`${text}${wrap}`);
-    this.#setWrapped(wrap);
+    this.#closing = wrap.closing;
+    this.#opening = wrap.opening;
+    this.#text = text;
   }
   //#endregion constructor.
 
   //#region instance methods.
   /**
-   * Returns an unwrapped text, without the opening, and closing character of the wrap.
+   * Returns an unwrapped text, without the opening, and closing of the wrap.
    * @returns The return value is a text without the closing and opening.
    * @angularpackage
    */
-  public unwrap(wrap?: Wrap<Opening, Closing>): string {
-    isDefined(wrap) && this.#setWrapped(wrap);
-    return isDefined(this.#closing) && isDefined(this.#opening)
-      ? this.text.slice(
-          this.#opening.length,
-          this.text.length - this.#closing.length
-        )
-      : this.text;
+  public unwrap(): Text {
+    return this.#text;
   }
 
   /**
-   * Gets the primitive value of a specified object.
-   * @returns The return value is a generic type variable `Text` if properly defined, or an empty `string`.
+   * Gets wrapped text, the primitive value of a specified object.
+   * @returns The return value is a generic type `WrappedText` if properly defined, or an empty `string`.
    * @angularpackage
    */
-  public valueOf(): Text {
-    return super.valueOf() as Text;
+  public valueOf(): WrappedText<Text, Opening, Closing> {
+    return super.valueOf() as WrappedText<Text, Opening, Closing>;
   }
-
-  //#region instance private methods.
-  /**
-   * The private method sets the `closing` if the closing from the wrapped text is equal to the closing of the provided
-   * `wrap`.
-   * @param wrap An instance of `Wrap` to pick a closing and set it if found in the text.
-   * @returns The return value is an instance of `Wrapped`.
-   * @angularpackage
-   */
-  #setClosing(wrap: Wrap<Opening, Closing>): this {
-    this.text.slice(-wrap.closing.length) === wrap.closing &&
-      (this.#closing = wrap.closing);
-    return this;
-  }
-
-  /**
-   * The private method sets the `opening` if the opening from the wrapped text is equal to the opening of the provided
-   * `wrap`.
-   * @param wrap An instance of `Wrap` to pick opening and set it if found in the text.
-   * @returns The return value is an instance of `Wrapped`.
-   * @angularpackage
-   */
-  #setOpening(wrap: Wrap<Opening, Closing>): this {
-    this.text.slice(0, wrap.opening.length) === wrap.opening &&
-      (this.#opening = wrap.opening);
-    return this;
-  }
-
-  /**
-   * The private method sets the closing and opening based on provided `wrap`.
-   * @param wrap The value of an instance of `Wrap` to pick from it closing and opening.
-   * @angularpackage
-   */
-  #setWrapped(wrap?: Wrap<Opening, Closing>): void {
-    Wrap.isWrap(wrap) && this.#setClosing(wrap).#setOpening(wrap);
-  }
-  //#endregion instance private methods.
   //#endregion instance methods.
 }
