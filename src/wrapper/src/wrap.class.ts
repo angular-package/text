@@ -63,12 +63,12 @@ export class Wrap<
 
   //#region instance properties.
   /**
-   * A private property the closing of the wrap.
+   * Private property of the wrap closing.
    */
   #closing: Closing;
 
   /**
-   * A private property the opening of the wrap.
+   * Private property of the wrap opening.
    */
   #opening: Opening;
   //#endregion instance properties.
