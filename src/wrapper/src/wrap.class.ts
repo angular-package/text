@@ -62,6 +62,7 @@ export class Wrap<
   //#endregion instance accessors.
 
   //#region instance properties.
+  //#region instance private properties.
   /**
    * Private property of the wrap closing.
    */
@@ -71,6 +72,7 @@ export class Wrap<
    * Private property of the wrap opening.
    */
   #opening: Opening;
+  //#endregion instance private properties.
   //#endregion instance properties.
 
   //#region static methods.
