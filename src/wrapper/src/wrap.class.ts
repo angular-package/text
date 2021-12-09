@@ -6,7 +6,8 @@ import {
 } from '@angular-package/type';
 // Class.
 /**
- * The `Wrap` object represents the immutable wrap consisting of the opening, and closing.
+ * The `Wrap` object represents the immutable wrap of the opening and closing. It is designed to preserve the names of the opening and
+ * closing.
  */
 export class Wrap<
   Opening extends string = string,
