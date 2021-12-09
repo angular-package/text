@@ -16,7 +16,7 @@ export class Wrap<
   //#region accessors.
   //#region instance accessors.
   /**
-   * The `get` accessor gets the closing of the wrap.
+   * The `get` accessor gets the closing of the wrap by returning the `#closing` property of the specified object.
    * @returns The return value is the wrap closing of a generic type variable `Closing`.
    * @angularpackage
    */
@@ -25,7 +25,7 @@ export class Wrap<
   }
 
   /**
-   * The `get` accessor gets the opening of the wrap.
+   * The `get` accessor gets the opening of the wrap by returning the `#opening` property of the specified object.
    * @returns The return value is the wrap opening of a generic type variable `Opening`.
    * @angularpackage
    */
@@ -35,7 +35,7 @@ export class Wrap<
 
   /**
    * The `get` accessor gets the wrap consists of the opening and closing by using the **intuitive** name.
-   * @returns The return value is the wrap of a generic type variable `Opening` and `Closing` on the template.
+   * @returns The return value is the wrap of a generic type variable in order `Opening` and `Closing` on the template.
    * @angularpackage
    */
   public get wrap(): `${Opening}${Closing}` {
@@ -43,8 +43,8 @@ export class Wrap<
   }
 
   /**
-   * The `get` accessor gets the wrap consists of the opening and closing by using a **universal** name.
-   * @returns The return value is the wrap of a generic type variable `Opening` and `Closing` on the template.
+   * The `get` accessor gets the wrap consists of the opening and closing by using a **general** name.
+   * @returns The return value is the wrap of a generic type variable in order `Opening` and `Closing` on the template.
    * @angularpackage
    */
   public get value(): `${Opening}${Closing}` {
@@ -103,7 +103,8 @@ export class Wrap<
   }
 
   /**
-   * The static "tag" method builds the wrap of a string type on the template.
+   * The static "tag" method builds the wrap of a string type on the template. With the added string before the expressions, it returns a
+   * wrapped string.
    * @param template An array of string values where the first element is a text between opening and closing.
    * @param values A rest parameter of expressions, where the first element is the opening and the second is the closing of the wrap.
    * @returns The return value is a `string` the wrap, or an empty `string` if elements of the provided `values` are not `string`.
@@ -164,7 +165,7 @@ export class Wrap<
    * the template.
    * @angularpackage
    */
-   public getWrap(): `${Opening}${Closing}` {
+  public getWrap(): `${Opening}${Closing}` {
     return this.valueOf();
   }
 
