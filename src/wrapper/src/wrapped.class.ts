@@ -95,9 +95,9 @@ export class Wrapped<
     wrap?: Wrap<Opening, Closing>
   ): value is Wrapped<Text, Opening, Closing> {
     return isInstance(value, Wrapped)
-      ? Wrap.isWrap(wrap) &&
-          wrap.closing === value.closing &&
-          wrap.opening === value.opening
+      ? Wrap.isWrap(wrap)
+        ? wrap.closing === value.closing && wrap.opening === value.opening
+        : true
       : false;
   }
 
