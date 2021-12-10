@@ -28,10 +28,10 @@ testing.describe(`Wrapped`, () => {
       testing
       .it(`Wrapped.isWrapped()`, () => {
         expect(Wrapped.isWrapped(wrapped)).toBeTrue();
-        expect(Wrapped.isWrapped(wrapped, new Wrap(`[`, `]`))).toBeFalse();
-        expect(Wrapped.isWrapped(wrapped, new Wrap(opening, `]`))).toBeFalse();
-        expect(Wrapped.isWrapped(wrapped, new Wrap(`[`, closing))).toBeFalse();
-        expect(Wrapped.isWrapped(wrapped, new Wrap(opening, closing))).toBeTrue();
+        expect(Wrapped.isWrapped(wrapped, `[`, `]`)).toBeFalse();
+        expect(Wrapped.isWrapped(wrapped, opening, `]`)).toBeFalse();
+        expect(Wrapped.isWrapped(wrapped, `[`, closing)).toBeFalse();
+        expect(Wrapped.isWrapped(wrapped, opening, closing)).toBeTrue();
       })
       .it(`Wrapped.template()`, () => {
         expect(Wrapped.template`prefix-${text}${wrap}`).toContain(text);
