@@ -82,7 +82,8 @@ export class Wrapped<
   /**
    * The static method checks whether the provided `value` of any type is an instance of `Wrapped`.
    * @param value The value of any type to test against the `Wrapped` instance.
-   * @param wrap An optional opening of the `wrap` to check if the given `value` contains.
+   * @param opening An optional opening of the wrap to check if the given value contains.
+   * @param closing An optional closing of the wrap to check if the given value contains.
    * @returns The return value is a `boolean` indicating whether the value is the `Wrapped` instance of any or given chars.
    * @angularpackage
    */
