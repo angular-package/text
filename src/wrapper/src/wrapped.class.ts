@@ -115,8 +115,8 @@ export class Wrapped<
     let text, wrap;
     return (
       ([text, wrap] = values),
-      `${Wrap.isWrap(wrap) ? wrap?.opening : ''}${template[0]}${text || ''}${
-        Wrap.isWrap(wrap) ? wrap?.closing : ''
+      `${Wrap.isWrap(wrap) ? wrap.opening : ''}${template[0]}${text || ''}${
+        Wrap.isWrap(wrap) ? wrap.closing : ''
       }`
     );
   }
