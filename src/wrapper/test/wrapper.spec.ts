@@ -57,7 +57,7 @@ testing.describe(`Wrapper`, () => {
           expect(Wrapper.isWrapper(wrapper, opening, closing)).toBeTrue();
 
           expect(Wrapper.isWrapper(new Wrap(`[`, `]`))).toBeFalse();
-          expect(Wrapper.isWrapper(wrapper, `(`)).toBeFalse();
+          expect(Wrapper.isWrapper(wrapper, `{{{{{}}}}}`)).toBeFalse();
 
           expect(Wrapper.isWrapper(wrapper, undefined, `)`)).toBeFalse();
           expect(Wrapper.isWrapper(wrapper, `(`, `)`)).toBeFalse();
