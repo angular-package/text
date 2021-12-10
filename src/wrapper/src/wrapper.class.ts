@@ -75,10 +75,10 @@ export class Wrapper<
    * @returns The return value is an instance of `Wrap`.
    * @angularpackage
    */
-  public static getWrap<Opening extends string, Closing extends string>(): Wrap<
-    Opening,
-    Closing
-  > {
+  public static getWrap<
+    Opening extends string = string,
+    Closing extends string = string
+  >(): Wrap<Opening, Closing> {
     return this.wrap as Wrap<Opening, Closing>;
   }
 
