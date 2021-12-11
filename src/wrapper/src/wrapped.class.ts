@@ -41,7 +41,7 @@ export class Wrapped<
   }
 
   /**
-   * The `get` accessor gets the wrapped text primitive value of a specified object by using a **universal** name.
+   * The `get` accessor gets the wrapped text primitive value of a specified object.
    * @returns The return value is the text of a generic type variable in order  `Opening`, `Text`, `Closing` on the template.
    * @angularpackage
    */
@@ -82,8 +82,8 @@ export class Wrapped<
   /**
    * The static method checks whether the provided `value` of any type is an instance of `Wrapped`.
    * @param value The value of any type to test against the `Wrapped` instance.
-   * @param opening An optional opening of the wrap to check if the given value contains.
-   * @param closing An optional closing of the wrap to check if the given value contains.
+   * @param opening An optional opening of a generic type variable `Opening` the wrap to check if the given value contains.
+   * @param closing An optional closing of a generic type variable `Closing` the wrap to check if the given value contains.
    * @returns The return value is a `boolean` indicating whether the value is the `Wrapped` instance of any or given chars.
    * @angularpackage
    */
