@@ -54,8 +54,8 @@ export class Wrapper<
     closing: Closing
   ): Wrapper<Opening, Closing> {
     return new this(
-      this.allowedChars.filterText(opening),
-      this.allowedChars.filterText(closing)
+      this.allowedChars.filterText(opening) as Opening,
+      this.allowedChars.filterText(closing) as Closing
     );
   }
 
@@ -123,8 +123,8 @@ export class Wrapper<
     closing: Closing
   ): typeof Wrapper {
     this.wrap = new Wrap(
-      this.allowedChars.filterText(opening),
-      this.allowedChars.filterText(closing)
+      this.allowedChars.filterText(opening) as Opening,
+      this.allowedChars.filterText(closing) as Closing
     );
     return this;
   }
@@ -154,7 +154,7 @@ export class Wrapper<
 
   //#region constructor.
   /**
-   * Creates a new instance of `Wrapper` with the opening and closing.
+   * Creates a new `Wrapper` instance with the opening and closing.
    * @param opening The wrap opening of a generic type variable `Opening`.
    * @param closing The wrap closing of a generic type variable `Closing`.
    * @returns The return value is a new `Wrapper` instance.
@@ -178,7 +178,7 @@ export class Wrapper<
 
   /**
    * Checks if the provided `text` has closing of the specified `Wrapper` object.
-   * @param text The text to test against the existence of the closing.
+   * @param text The text of a generic type variable `Text` to test against the existence of the closing.
    * @returns The return value is a `boolean` indicating whether the given `text` has the closing of the wrap.
    * @angularpackage
    */
@@ -190,7 +190,7 @@ export class Wrapper<
 
   /**
    * Checks if the provided `text` has the opening of the specified `Wrapper` object.
-   * @param text The text to test against the existence of the opening.
+   * @param text The text of a generic type variable `Text` to test against the existence of the opening.
    * @returns The return value is a `boolean` indicating whether the given `text` has the opening of the wrap.
    * @angularpackage
    */
@@ -202,7 +202,7 @@ export class Wrapper<
 
   /**
    * Returns the unwrapped, text from the opening and closing of the wrapper.
-   * @param text The text to unwrap.
+   * @param text The text of a `string` type to unwrap.
    * @returns The return value is the unwrapped text of a `string` if the opening or closing is found or the given text.
    * @angularpackage
    */
