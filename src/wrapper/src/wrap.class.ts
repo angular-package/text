@@ -34,7 +34,7 @@ export class Wrap<
   }
 
   /**
-   * The `get` accessor gets the wrap consists of the opening and closing by using the **intuitive** name.
+   * The `get` accessor gets the wrap consists of the opening and closing.
    * @returns The return value is the wrap of a generic type variable in order `Opening` and `Closing` on the template.
    * @angularpackage
    */
@@ -43,7 +43,7 @@ export class Wrap<
   }
 
   /**
-   * The `get` accessor gets the wrap consists of the opening and closing by using a **general** name.
+   * The `get` accessor gets the wrap consists of the opening and closing.
    * @returns The return value is the wrap of a generic type variable in order `Opening` and `Closing` on the template.
    * @angularpackage
    */
@@ -65,12 +65,12 @@ export class Wrap<
   //#region instance properties.
   //#region instance private properties.
   /**
-   * Private property of the wrap closing.
+   * The private property indicates the wrap closing of a generic type variable `Closing`.
    */
   #closing: Closing;
 
   /**
-   * Private property of the wrap opening.
+   * The private property indicates the wrap opening of a generic type variable `Opening`.
    */
   #opening: Opening;
   //#endregion instance private properties.
@@ -80,8 +80,8 @@ export class Wrap<
   /**
    * The method checks if the value of any type is the `Wrap` instance of any or given opening and closing.
    * @param value The value of any type to test against the `Wrap` instance of any or given opening and closing.
-   * @param opening An optional wrap opening to check if the given `value` contains.
-   * @param closing An optional wrap closing to check if the given `value` contains.
+   * @param opening An optional wrap opening of a generic type variable `Opening` to check if the given `value` contains.
+   * @param closing An optional wrap closing of a generic type variable `Closing` to check if the given `value` contains.
    * @returns The return value is a `boolean` type indicating whether the value is an instance of `Wrap` of any or given opening and
    * closing.
    * @angularpackage
@@ -160,7 +160,7 @@ export class Wrap<
   }
 
   /**
-   * Gets the wrap, primitive value consists of the opening and closing by using an **intuitive** method name.
+   * Gets the wrap, primitive value consists of the opening and closing.
    * @returns The return value is the wrap consists of the opening and closing of a generic type variable `Opening` and `Closing` on
    * the template.
    * @angularpackage
