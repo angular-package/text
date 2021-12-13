@@ -162,8 +162,8 @@ export class Tag<
   ): value is Tag<Name, Opening, Closing> {
     return isInstance(value, Tag)
       ? (isStringType(name) ? value.name === name : true) &&
-          (isStringType(opening) ? value.wrapper.opening === opening : true) &&
-          (isStringType(closing) ? value.wrapper.closing === closing : true)
+        (isStringType(opening) ? value.wrapper.opening === opening : true) &&
+        (isStringType(closing) ? value.wrapper.closing === closing : true)
       : false;
   }
 
@@ -291,18 +291,6 @@ export class Tag<
   }
 
   /**
-   * Sets the tag attribute value of the specified name.
-   * @param name The attribute name of a generic type variable `AttributeName` to set in the `Tag` object.
-   * @param value The attribute value of a `string` type to set under the given `name`.
-   * @returns The return value is an instance of `Tag`.
-   * @angularpackage
-   */
-  public setAttribute(name: AttributeName, value: string): this {
-    this.#attributes?.set(name, value);
-    return this;
-  }
-
-  /**
    * The method replaces the closing tag of a specified `Tag` object with the provided `replaceValue` in the given `text` if both values are
    * strings.
    * @param text The text in which to replace the closing tag of a specified object with a given `replaceValue`.
@@ -366,6 +354,18 @@ export class Tag<
         ? (text.split(this.tag).join(replaceValue) as Text)
         : text
       : ('' as Text);
+  }
+
+  /**
+   * Sets the tag attribute value of the specified name.
+   * @param name The attribute name of a generic type variable `AttributeName` to set in the `Tag` object.
+   * @param value The attribute value of a `string` type to set under the given `name`.
+   * @returns The return value is an instance of `Tag`.
+   * @angularpackage
+   */
+  public setAttribute(name: AttributeName, value: string): this {
+    this.#attributes?.set(name, value);
+    return this;
   }
 
   /**
