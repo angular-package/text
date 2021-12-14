@@ -1,5 +1,6 @@
 import {
   guardString,
+  isArray,
   isString,
   isInstance,
   isStringType,
@@ -75,6 +76,8 @@ export class Tag<
 
   /**
    * The `get` accessor gets the opening tag with optional attributes.
+   * ! The generic type `OpeningTag` does not include attributes, which means if the attributes were added, the return value includes
+   * ! attributes e.g. `<span color="red">` but the return type indicates `<span>`.
    * @returns The return value is an opening tag of a generic type `OpeningTag`.
    * @angularpackage
    */
@@ -141,7 +144,8 @@ export class Tag<
   //#region static methods.
   //#region static public methods.
   /**
-   * The static method checks whether the value of any type is the `Tag` instance of any or given tag name, the opening, and closing.
+   * The static method checks whether the value of any type is the `Tag` instance of any or given tag name, the opening, and closing. It has
+   * an optional ability to check tag name, opening, and closing.
    * @param value The value of any type to test against the `Tag` instance.
    * @param name An optional tag name of a generic type variable `Name` to test against existence in the given `value`.
    * @param opening An optional wrap opening of a generic type variable `Opening` to check if the given `value` contains.
@@ -168,8 +172,8 @@ export class Tag<
   }
 
   /**
-   * The static "tag" method builds the tag of a string type on the template. With the added string before the expressions, it returns a tag
-   * with a prefix before the name.
+   * The static "tag" method builds from the give parameters the tag of a string type on the template. With the added string before the
+   * expressions, it returns a tag with a prefix before the name.
    * @param template An array of string values where the first element is a name between opening and closing.
    * @param values A rest parameter of expressions, where the first element is the name, the second opening, and the third is the closing of
    * the wrap.
@@ -193,14 +197,15 @@ export class Tag<
 
   //#region constructor.
   /**
-   * Creates a new `Tag` instance of `name` wrapped by an opening and closing or the static default wrapper with optional attributes.
+   * Creates a new `Tag` instance of `name` wrapped by wrap opening and closing or wrap from the static default wrapper.
+   * ! Optional attributes aren't used to build immutable tag, but are used to build the opening tag.
    * @param name The name of a generic type variable `Name` to define a new tag with a given opening and closing or the opening and closing
    * from default static `wrapper`.
    * @param opening An optional opening of the tag of a generic type variable `Opening`. By default, its value is picked from the `wrapper`
    * accessor of static `Tag`.
    * @param closing An optional closing of the tag of a generic type variable `Closing`. By default, its value is picked from the `wrapper`
    * accessor of static `Tag`.
-   * @param attributes A rest parameter of an array of attribute-value pairs to set tag attributes.
+   * @param attributes A rest parameter of an array of attribute-value pairs to set tag attributes in the opening tag.
    * @angularpackage
    */
   constructor(
@@ -211,7 +216,7 @@ export class Tag<
   ) {
     super(Tag.template`${name}${opening}${closing}`);
     // Set attributes.
-    this.#attributes = new Attributes(...attributes);
+    isArray(attributes) && (this.#attributes = new Attributes(...attributes));
     // Set name.
     this.#name = name;
     // Set wrapper.
@@ -223,7 +228,7 @@ export class Tag<
   /**
    * Gets the attribute of the specified name.
    * @param name The name of a generic type variable `AttrName` to get attribute.
-   * @returns The return value is the attribute of the `Attribute` instance if set, or `undefined`.
+   * @returns The return value is an attribute of `Attribute` instance if set, or `undefined`.
    * @angularpackage
    */
   public getAttribute<AttrName extends AttributeName>(
@@ -242,7 +247,7 @@ export class Tag<
   }
 
   /**
-   * Gets the tag name without the wrap opening and closing.
+   * Gets the tag name without the opening and closing wrap.
    * @returns The return value is a tag name of a generic type variable `Name`.
    * @angularpackage
    */
@@ -293,6 +298,7 @@ export class Tag<
   /**
    * The method replaces the closing tag of a specified `Tag` object with the provided `replaceValue` in the given `text` if both values are
    * strings.
+   * ! The return type of a generic type variable `Text` returns the text with not replaced tags.
    * @param text The text in which to replace the closing tag of a specified object with a given `replaceValue`.
    * @param replaceValue The value to replace the closing tag of a specified object in the given `text`.
    * @returns The return value is the given `text` of a generic type variable `Text` with a replaced tag if both the `text` and
@@ -302,7 +308,6 @@ export class Tag<
    */
   public replaceClosingTag<Text extends string>(
     text: Text,
-    // replaceValue?: string | Tag<Name> REVIEW: Check why tag.
     replaceValue: string
   ): Text {
     return guardString(text)
@@ -315,6 +320,7 @@ export class Tag<
   /**
    * The method replaces the opening tag of a specified `Tag` object with the provided `replaceValue` in the given `text` if both values are
    * strings.
+   * ! The return type of a generic type variable Text returns the text with not replaced tags.
    * @param text The text of a generic type variable `Text` in which to replace the opening tag of a specified object, with a given
    * `replaceValue`.
    * @param replaceValue The value of a `string` type to replace the opening tag of a specified object in the given `text`.
@@ -325,7 +331,6 @@ export class Tag<
    */
   public replaceOpeningTag<Text extends string>(
     text: Text,
-    // replaceValue?: string | Tag<Name> // REVIEW: Check why tag.
     replaceValue: string
   ): Text {
     return guardString(text)
@@ -338,6 +343,7 @@ export class Tag<
   /**
    * The method replaces the tag of a specified `Tag` object with the provided `replaceValue` in the given `text` if both values are
    * strings.
+   * ! The return type of a generic type variable `Text` returns the text with not replaced tags.
    * @param text The text of a generic type variable `Text` in which to replace a tag of a specified object with a given `replaceValue`.
    * @param replaceValue The value of a `string` type to replace a tag of a specified object in the given `text`.
    * @returns The return value is the given `text` of a generic type variable `Text` with a replaced tag if both the `text` and
@@ -347,7 +353,7 @@ export class Tag<
    */
   public replaceTag<Text extends string>(
     text: Text,
-    replaceValue?: string
+    replaceValue: string
   ): Text {
     return guardString(text)
       ? isString(replaceValue)
@@ -381,19 +387,6 @@ export class Tag<
   }
 
   /**
-   * Checks whether a text has an opening tag of a specified `Tag` object.
-   * @param text The text of a generic type variable `Text` to test against the existence of an opening tag.
-   * @returns The return value is a `boolean` indicating whether the given `text` has an opening tag.
-   * @angularpackage
-   */
-  public textHasOpeningTag<Text extends string>(text: Text): text is Text {
-    return (
-      isStringType(text) &&
-      text.slice(0, this.openingTag.length) === this.openingTag
-    );
-  }
-
-  /**
    * Checks whether the text has a closing tag of a specified `Tag` object.
    * @param text The text of a generic type variable `Text` to test against the existence of a closing tag.
    * @returns The return value is a `boolean` indicating whether the given `text` has a closing tag.
@@ -403,6 +396,19 @@ export class Tag<
     return (
       isStringType(text) &&
       text.slice(-this.closingTag.length) === this.closingTag
+    );
+  }
+
+  /**
+   * Checks whether a text has an opening tag of a specified `Tag` object.
+   * @param text The text of a generic type variable `Text` to test against the existence of an opening tag.
+   * @returns The return value is a `boolean` indicating whether the given `text` has an opening tag.
+   * @angularpackage
+   */
+  public textHasOpeningTag<Text extends string>(text: Text): text is Text {
+    return (
+      isStringType(text) &&
+      text.slice(0, this.openingTag.length) === this.openingTag
     );
   }
 
