@@ -19,6 +19,7 @@ testing.describe(`Tag`, () => {
   const name = 'quote';
   const opening = '[';
   const tag = new Tag(name, opening, closing, ['color', color], ['border', border]);
+  const text = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. [/quote]`;
 
   testing
     .describe(`accessors`, () => {
@@ -91,7 +92,6 @@ testing.describe(`Tag`, () => {
         expect(tag.hasAttribute('border')).toBeTrue();
       })
       .it(`Tag.prototype.replaceClosingTag()`, () => {
-        const text = tag.tagText(`This is my text`).value;
         expect(tag.replaceClosingTag(text, `ClosingTag`)).toContain(`ClosingTag`);
         expect(new Wrapper(opening, closing)).toEqual(tag.getWrapper());
       })
@@ -108,7 +108,6 @@ testing.describe(`Tag`, () => {
         tag.setAttribute('border', border);
       })
       .it(`Tag.prototype.tagText()`, () => {
-        const text = 'My test text';
         expect(tag.tagText(text).value).toContain(text);
         expect(tag.tagText(text)).toBeInstanceOf(Tagged);
 
@@ -118,17 +117,21 @@ testing.describe(`Tag`, () => {
         expect(tag.tagText(text).closingTag).toContain(tag.closingTag);
         expect(tag.tagText(text).openingTag).toContain(tag.openingTag);
       })
+      .it(`Tag.prototype.textHasTag()`, () => {
+        const taggedText = tag.tagText(text);
+        expect(tag.textHasTag(taggedText.value)).toBeFalse();
+      })
       .it(`Tag.prototype.textHasClosingTag()`, () => {
-        const text = tag.tagText(`Lorem Ipsum is simply dummy text of the printing and typesetting industry. `);
-        expect(tag.textHasClosingTag(text.value)).toBeTrue();
+        const taggedText = tag.tagText(text);
+        expect(tag.textHasClosingTag(taggedText.value)).toBeTrue();
       })
       .it(`Tag.prototype.textHasOpeningTag()`, () => {
-        const text = tag.tagText(`Lorem Ipsum is simply dummy text of the printing and typesetting industry. `);
-        expect(tag.textHasOpeningTag(text.value)).toBeTrue();
+        const taggedText = tag.tagText(text);
+        expect(tag.textHasOpeningTag(taggedText.value)).toBeTrue();
       })
       .it(`Tag.prototype.untagText()`, () => {
-        const text = tag.tagText(`Lorem Ipsum is simply[quote] dummy [/quote]text of the printing and typesetting industry. `);
-        expect(tag.untagText(text.value)).toEqual(`Lorem Ipsum is simply[quote] dummy [/quote]text of the printing and typesetting industry. `);
+        const taggedText = tag.tagText(text);
+        expect(tag.untagText(taggedText.value)).toEqual(text);
       })
       .it(`Tag.prototype.valueOf()`, () => {
         expect(tag.valueOf()).toEqual(`${opening}${name}${closing}`);
