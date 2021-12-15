@@ -2,6 +2,7 @@ import {
   guardString,
   isArray,
   isString,
+  isStringIncludes,
   isInstance,
   isStringType,
 } from '@angular-package/type';
@@ -410,6 +411,15 @@ export class Tag<
       isStringType(text) &&
       text.slice(0, this.openingTag.length) === this.openingTag
     );
+  }
+
+  /**
+   * Checks if text has a tag.
+   * @param text The text of a generic type variable `Text` to check whether it contains the tag.
+   * @returns The return value is a `boolean` indicating whether the text contains the tag.
+   */
+  public textHasTag<Text extends string>(text: Text): text is Text {
+    return isStringIncludes(text, [this.tag]);
   }
 
   /**
