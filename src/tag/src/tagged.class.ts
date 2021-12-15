@@ -21,8 +21,8 @@ export class Tagged<
 > extends String {
   //#region instance accessors.
   /**
-   * Gets the closing tag of tagged text.
-   * @returns The return value is a closing tag of tagged text of a generic type `ClosingTag`.
+   * The `get` accessor returns a closing tag of tagged text.
+   * @returns The return value is a closing tag of the tagged text of a generic type `ClosingTag`.
    * @angularpackage
    */
   public get closingTag(): ClosingTag<Name, Opening, Closing> {
@@ -30,8 +30,8 @@ export class Tagged<
   }
 
   /**
-   * Gets the opening tag of tagged text.
-   * @returns The return value is an opening tag of tagged text of a generic type `OpeningTag`.
+   * The `get` accessor returns an opening tag of tagged text.
+   * @returns The return value is an opening tag of the tagged text of a generic type `OpeningTag`.
    * @angularpackage
    */
   public get openingTag(): OpeningTag<Name, Opening, Closing> {
@@ -39,7 +39,7 @@ export class Tagged<
   }
 
   /**
-   * Gets the untagged text,
+   * The `get` accessor returns the untagged text,
    * @returns The return value is the text of a generic type variable `Text`.
    * @angularpackage
    */
@@ -48,7 +48,7 @@ export class Tagged<
   }
 
   /**
-   * Gets the tagged text.
+   * The `get` accessor returns the tagged text.
    * @returns The return value is the tagged text of a generic type `TaggedText`.
    * @angularpackage
    */
