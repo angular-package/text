@@ -388,7 +388,7 @@ export class Tag<
   }
 
   /**
-   * Checks whether the text has a closing tag of a specified `Tag` object.
+   * Checks whether the text has a closing tag of a specified `Tag` object at the end of the text.
    * @param text The text of a generic type variable `Text` to check whether it contains a closing tag.
    * @returns The return value is a `boolean` indicating whether the given `text` has a closing tag.
    * @angularpackage
@@ -401,7 +401,7 @@ export class Tag<
   }
 
   /**
-   * Checks whether a text has an opening tag of a specified `Tag` object.
+   * Checks whether a text has an opening tag of a specified `Tag` object at the beginning of the text.
    * @param text The text of a generic type variable `Text` to check whether it contains an opening tag.
    * @returns The return value is a `boolean` indicating whether the given `text` has an opening tag.
    * @angularpackage
