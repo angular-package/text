@@ -1,7 +1,16 @@
-import { Wrap } from '../../wrapper/type/wrap.type';
+// Type.
 import { ClosingTag } from './closing-tag.type';
 import { OpeningTag } from './opening-tag.type';
-
-
-export type TaggedText<Text extends string, Name extends string, Chars extends string> =
-  `${OpeningTag<Name, Chars>}${Text}${ClosingTag<Name, Wrap<Chars>>}`;
+/**
+ * The generic type `TaggedText` indicates the type of tagged text, with the opening tag and closing tag of the text.
+ */
+export type TaggedText<
+  Text extends string,
+  Name extends string,
+  Opening extends string,
+  Closing extends string
+> = `${OpeningTag<Name, Opening, Closing>}${Text}${ClosingTag<
+  Name,
+  Opening,
+  Closing
+>}`;
