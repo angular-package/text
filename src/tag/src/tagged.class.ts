@@ -39,7 +39,7 @@ export class Tagged<
   }
 
   /**
-   * The `get` accessor returns the untagged text,
+   * The `get` accessor returns the untagged text.
    * @returns The return value is the text of a generic type variable `Text`.
    * @angularpackage
    */
@@ -77,7 +77,7 @@ export class Tagged<
   #openingTag!: OpeningTag<Name, Opening, Closing>;
 
   /**
-   * Private text of a generic type variable `Text` to be wrapped.
+   * Private text of a generic type variable `Text` to be tagged.
    */
   #text: Text;
   //#endregion private properties.
@@ -94,7 +94,7 @@ export class Tagged<
   }
 
   /**
-   * The static "tag" method builds from the give parameters the tagged text of a string type on the template.
+   * The static "tag" method builds from the give parameters the tagged text of a `string` type on the template.
    * @param template An array of string values where the first element is a prefix before the text.
    * @param values A rest parameter of expressions, where the first element is text and the second an instance of `Tag`.
    * @returns The return value is tagged text of a `string` type.
@@ -116,7 +116,7 @@ export class Tagged<
 
   //#region constructor.
   /**
-   * Creates a new `Tagged` instance of given `text` tagged by the provided `tag`.
+   * Creates a new `Tagged` instance of given `text` tagged by the provided `Tag`.
    * @param text The text of a generic type variable `Text` to tag.
    * @param tag The tag of instance of `Tag` to tag the given `text`.
    * @angularpackage
