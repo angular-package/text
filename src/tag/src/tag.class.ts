@@ -58,7 +58,7 @@ export class Tag<
   }
 
   /**
-   * The `get` accessor gets the closing tag of a generic type `ClosingTag`.
+   * The `get` accessor gets the closing tag.
    * @returns The return value is a tag closing of a generic type `ClosingTag`.
    * @angularpackage
    */
@@ -94,7 +94,7 @@ export class Tag<
    * @angularpackage
    */
   public get tag(): `${Opening}${Name}${Closing}` {
-    return `${this.#wrapper.opening}${this.#name}${this.#wrapper.closing}`;
+    return this.value;
   }
 
   /**
@@ -248,7 +248,7 @@ export class Tag<
   }
 
   /**
-   * Gets the tag name without the opening and closing wrap.
+   * Gets the tag name without the wrap opening and closing.
    * @returns The return value is a tag name of a generic type variable `Name`.
    * @angularpackage
    */
@@ -275,7 +275,7 @@ export class Tag<
   }
 
   /**
-   * Gets the wrapper of a specified `Tag` object.
+   * Gets the `Wrapper` of a specified `Tag` object.
    * @returns The return value is the wrapper of the `Wrapper` instance.
    * @angularpackage
    */
@@ -376,7 +376,7 @@ export class Tag<
   }
 
   /**
-   * Returns the provided text, tagged with the opening and closing tag.
+   * Returns the `Tagged` object of the provided text, tagged with the opening and closing tag.
    * @param text The text of a generic type variable `Text`, to tag with the opening and closing tag.
    * @returns The return value is a new `Tagged` instance with a tagged `text`.
    * @angularpackage
