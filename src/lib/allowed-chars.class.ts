@@ -16,7 +16,7 @@ export class AllowedChars extends RegExp {
 
   /**
    * Creates a new instance of `AllowedChars`.
-   * @param pattern The regular expression of a string or `RegExp` type.
+   * @param pattern The regular expression of a `string` or `RegExp` type.
    * @param flags An optional flags of a `string` type to set.
    * @angularpackage
    */
@@ -25,9 +25,9 @@ export class AllowedChars extends RegExp {
   }
 
   /**
-   * Filters the text with a regular expression of a specified object.
+   * Filters the text with a regular expression of a specified object, by leaving only allowed chars.
    * @param text The text of a `string` type to filter.
-   * @returns The return value is the filtered text if text is a string and matches was found, or an empty `string`.
+   * @returns The return value is the filtered text if text is a `string` and matches was found, or an empty `string`.
    */
   public filterText(text: string): string {
     return guardString(text) ? text.match(this)?.join('') || '' : '';
