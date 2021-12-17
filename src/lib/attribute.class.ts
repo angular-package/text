@@ -83,7 +83,7 @@ export class Attribute<
 
   /**
    * The static "tag" method builds from the given parameters attribute of a `string` type on the template. With the added `string` before
-   * the expressions, it returns a prefixed attribute.
+   * the expressions, it returns a prefixed attribute name.
    * @param template An array of string values where the first element is a prefix of an attribute name.
    * @param values A rest parameter of expressions, where the first element is the name and the second is the value.
    * @returns The return value is the attribute of a `string` type indicating the attribute name is equal to the value.
@@ -110,7 +110,7 @@ export class Attribute<
   }
 
   /**
-   * Returns converted the attribute primitive value to the array where the first element is the name, and the second is the `Value`.
+   * Returns attribute primitive value converted to the array where the first element is the name, and the second is the value.
    * @returns The return value is the attribute of an array.
    * @angularpackage
    */
@@ -119,7 +119,7 @@ export class Attribute<
   }
 
   /**
-   * Returns converted the attribute primitive value to the object where the key is the attribute name.
+   * Returns attribute primitive value converted to the object where the key is the attribute name.
    * @returns The return value is the attribute of an object.
    * @angularpackage
    */
