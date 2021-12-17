@@ -1,14 +1,14 @@
 // @angular-package/type.
 import { isInstance, isStringType } from '@angular-package/type';
 /**
- * The `Attribute` string object represents the immutable attribute of name and value.
+ * The `Attribute` string object represents the immutable attribute of name equal to the value.
  */
 export class Attribute<
   Name extends string = string,
   Value extends string = string
 > extends String {
   /**
-   * The `get` accessor returns the attribute, the primitive value of a specified object by using an **intuitive** name.
+   * The `get` accessor returns the attribute, the primitive value of a specified object.
    * @returns The return value is the attribute of a generic type variables `Name` and `Value` on the template.
    * @angularpackage
    */
@@ -17,7 +17,8 @@ export class Attribute<
   }
 
   /**
-   * The `get` accessor returns the attribute, the primitive value of a specified object.
+   * The `get` accessor returns the attribute, the primitive value of a specified object. It is just another accessor of an general name to
+   * get the primitive value of a specified `Attribute` object.
    * @return The return value is the attribute of a generic type variables `Name` and `Value` on the template.
    * @angularpackage
    */
@@ -39,12 +40,13 @@ export class Attribute<
    * @returns The return value is the attribute of an object type.
    * @angularpackage
    */
-  public get object(): { [key in Name]: Value } {
-    return this.toObject();
-  }
+  // public get object(): { [key in Name]: Value } {
+  //   return this.toObject();
+  // }
 
   /**
-   * The `get` accessor returns the attribute value of a specified object by using an intuitive name.
+   * The `get` accessor returns the attribute value of a specified object. It is just another accessor of an general name to get the
+   * primitive value of a specified `Attribute` object.
    * @returns The return value is the attribute value of a generic type variable `Value`.
    * @angularpackage
    */
@@ -84,8 +86,24 @@ export class Attribute<
   ): value is Attribute<Name, Value> {
     return isInstance(value, Attribute)
       ? (isStringType(name) ? value.name === name : true) &&
-        (isStringType(val) ? value.value === val : true)
+          (isStringType(val) ? value.value === val : true)
       : false;
+  }
+
+  /**
+   * The static "tag" method builds from the given parameters attribute of a `string` type on the template. With the added `string` before
+   * the expressions, it returns a prefixed attribute.
+   * @param template An array of string values where the first element is a prefix of an attribute name.
+   * @param values A rest parameter of expressions, where the first element is the name and the second is the value.
+   * @returns The return value is the attribute of a `string` type indicating the attribute name is equal to the value.
+   * @angularpackage
+   */
+  public static template(
+    template: TemplateStringsArray,
+    ...values: any[]
+  ): string {
+    let name: string, value: string;
+    return ([name, value] = values), `${template[0]}${name}="${value}"`;
   }
 
   /**
@@ -95,7 +113,7 @@ export class Attribute<
    * @angularpackage
    */
   constructor(name: Name, value: Value) {
-    super(`${name}="${value}"`);
+    super(Attribute.template`${name}${value}`);
     this.#name = name;
     this.#value = value;
   }
@@ -110,7 +128,7 @@ export class Attribute<
   }
 
   /**
-   * Returns converted the attribute primitive value to the object where the key is the name.
+   * Returns converted the attribute primitive value to the object where the key is the attribute name.
    * @returns The return value is the attribute of an object.
    * @angularpackage
    */
@@ -122,7 +140,7 @@ export class Attribute<
 
   /**
    * Returns attribute, the primitive value of a specified object.
-   * @returns The return value is the attribute of a generic type variables `Name` and `Value` on the template.
+   * @returns The return value is the attribute of a generic type variables `Name` and `Value` on the template `${Name}="${Value}"`.
    * @angularpackage
    */
   public valueOf(): `${Name}="${Value}"` {
