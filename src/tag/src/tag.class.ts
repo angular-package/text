@@ -1,9 +1,9 @@
 import {
   guardString,
   isArray,
+  isInstance,
   isString,
   isStringIncludes,
-  isInstance,
   isStringType,
 } from '@angular-package/type';
 // Class.
@@ -11,7 +11,6 @@ import { Attribute } from '../../lib/attribute.class';
 import { Attributes } from '../../lib/attributes.class';
 import { Wrapper } from '../../wrapper/src/wrapper.class';
 /**
- * The `Tag` string object represents the immutable tag of the opening and closing.
  * The `Tag` string object represents the immutable tag with optional attributes.
  */
 export class Tag<
