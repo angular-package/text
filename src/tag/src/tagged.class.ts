@@ -6,9 +6,9 @@ import {
 // Class.
 import { Tag } from './tag.class';
 // Type.
-import { ClosingTag } from '../type/closing-tag.type';
-import { OpeningTag } from '../type/opening-tag.type';
 import { TaggedText } from '../type/tagged-text.type';
+import { OpeningTag } from './opening-tag.class';
+import { ClosingTag } from './closing-tag.class';
 /**
  * The `Tagged` string object represents the immutable tagged text.
  */
@@ -69,12 +69,12 @@ export class Tagged<
   /**
    * Private closing tag of a generic type `ClosingTag`.
    */
-  #closingTag!: ClosingTag<Name, Opening, Closing>;
+  #closingTag: ClosingTag<Name, Opening, Closing>;
 
   /**
    * Private opening tag of a generic type `OpeningTag`.
    */
-  #openingTag!: OpeningTag<Name, Opening, Closing>;
+  #openingTag: OpeningTag<Name, Opening, Closing>;
 
   /**
    * Private text of a generic type variable `Text` to be tagged.
@@ -89,9 +89,9 @@ export class Tagged<
    * @returns The return value is a `boolean` indicating the value is an instance of `Tagged`.
    * @angularpackage
    */
-  public static isTagged(value: any): value is Tagged {
-    return isInstance(value, Tagged);
-  }
+  // public static isTagged(value: any): value is Tagged {
+  //   return isInstance(value, Tagged);
+  // }
 
   /**
    * The static "tag" method builds from the give parameters the tagged text of a `string` type on the template.
@@ -104,11 +104,11 @@ export class Tagged<
     template: TemplateStringsArray,
     ...values: any[]
   ): string {
-    let text, tag;
+    let closingTag, openingTag, text;
     return (
-      ([text, tag] = values),
-      `${Tag.isTag(tag) ? tag.openingTag : ''}${template[0]}${text}${
-        Tag.isTag(tag) ? tag.closingTag : ''
+      ([text, openingTag, closingTag] = values),
+      `${Tag.isTag(openingTag) ? openingTag : ''}${template[0]}${text}${
+        Tag.isTag(closingTag) ? closingTag : ''
       }`
     );
   }
@@ -118,14 +118,17 @@ export class Tagged<
   /**
    * Creates a new `Tagged` instance of given `text` tagged by the provided `Tag`.
    * @param text The text of a generic type variable `Text` to tag.
-   * @param tag The tag of instance of `Tag` to tag the given `text`.
+   * @param openingTag The tag of instance of `Tag` to tag the given `text`.
    * @angularpackage
    */
-  constructor(text: Text, tag: Tag<Name, Opening, Closing, AttributeName>) {
-    super(Tagged.template`${text}${tag}`);
-    Tag.isTag(tag) &&
-      (this.#closingTag = tag.closingTag) &&
-      (this.#openingTag = tag.openingTag);
+  constructor(
+    text: Text,
+    openingTag: OpeningTag<Name, Opening, Closing, AttributeName>,
+    closingTag: ClosingTag<Name, Opening, Closing>
+  ) {
+    super(Tagged.template`${text}${openingTag}${closingTag}`);
+    this.#closingTag = closingTag;
+    this.#openingTag = openingTag;
     this.#text = text;
   }
   //#endregion constructor.
