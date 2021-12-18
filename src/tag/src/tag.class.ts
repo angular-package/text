@@ -40,13 +40,12 @@ export class Tag<
   }
 
   /**
-   * The `get` accessor gets the tag consists of the name, opening, and closing of the wrap. It is just another accessor of an intuitive
-   * name to get the primitive value of a specified `Tag` object.
+   * The `get` accessor gets the tag consists of the name, opening, and closing of the wrap.
    * @returns The return value is a tag of a generic type variables in order `Opening`, `Name` and `Closing` on the template.
    * @angularpackage
    */
   public get tag(): `${Opening}${Name}${Closing}` {
-    return this.value;
+    return `${this.#wrapper.opening}${this.#name}${this.#wrapper.closing}`;
   }
 
   /**
@@ -205,7 +204,7 @@ export class Tag<
    * @angularpackage
    */
   public getTag(): `${Opening}${Name}${Closing}` {
-    return this.valueOf();
+    return this.tag;
   }
 
   /**
@@ -234,7 +233,7 @@ export class Tag<
   ): Text {
     return guardString(text)
       ? isString(replaceValue)
-        ? (text.split(this.tag).join(replaceValue) as Text)
+        ? (text.split(this.value).join(replaceValue) as Text)
         : text
       : ('' as Text);
   }
