@@ -9,14 +9,15 @@ import {
 // Class.
 import { Attribute } from '../../lib/attribute.class';
 import { Attributes } from '../../lib/attributes.class';
-import { Wrapper } from '../../wrapper/src/wrapper.class';
+// import { Wrapper } from '../../wrapper/src/wrapper.class';
+import { Wrap } from '../../wrapper/src/wrap.class';
 /**
  * The `Tag` string object represents the immutable tag with optional attributes.
  */
 export class Tag<
   Name extends string,
-  Opening extends string = string,
-  Closing extends string = string,
+  Opening extends string = ``,
+  Closing extends string = ``,
   AttributeName extends string = string
 > extends String {
   //#region instance public accessors.
@@ -29,6 +30,10 @@ export class Tag<
     return this.#attributes;
   }
 
+  public get closing(): Closing {
+    return this.#closing;
+  }
+
   /**
    * The `get` accessor gets the tag name without the wrap from the private property `#name`.
    * @returns The return value is a tag name of a generic type variables `Name`.
@@ -38,32 +43,8 @@ export class Tag<
     return this.#name;
   }
 
-  /**
-   * The `get` accessor gets the tag consists of the name, opening, and closing of the wrap.
-   * @returns The return value is a tag of a generic type variables in order `Opening`, `Name` and `Closing` on the template.
-   * @angularpackage
-   */
-  public get tag(): `${Opening}${Name}${Closing}` {
-    return `${this.#wrapper.opening}${this.#name}${this.#wrapper.closing}`;
-  }
-
-  /**
-   * The `get` accessor gets the wrapper.
-   * @returns The return value is the `Wrapper` instance.
-   * @angularpackage
-   */
-  public get wrapper(): Wrapper<Opening, Closing> {
-    return this.#wrapper;
-  }
-
-  /**
-   * The `get` accessor gets the tag without the attributes. It is just another accessor of a general name to get the primitive value
-   * of a specified `Tag` object.
-   * @returns The return value is the tag of a generic type variables in order `Opening`, `Name` and `Closing` on the template.
-   * @angularpackage
-   */
-  public get value(): `${Opening}${Name}${Closing}` {
-    return this.valueOf();
+  public get opening(): Opening {
+    return this.#opening;
   }
 
   /**
@@ -89,7 +70,12 @@ export class Tag<
   /**
    * The private property holds an instance of `Wrapper` to wrap the given name.
    */
-  #wrapper: Wrapper<Opening, Closing>;
+  #closing: Closing;
+
+  /**
+   *
+   */
+  #opening: Opening;
   //#endregion instance private properties.
 
   //#region static public methods.
@@ -116,31 +102,42 @@ export class Tag<
   ): value is Tag<Name, Opening, Closing> {
     return isInstance(value, Tag)
       ? (isStringType(name) ? value.name === name : true) &&
-          (isStringType(opening) ? value.wrapper.opening === opening : true) &&
-          (isStringType(closing) ? value.wrapper.closing === closing : true)
+          (isStringType(opening) ? value.opening === opening : true) &&
+          (isStringType(closing) ? value.closing === closing : true)
       : false;
   }
 
   /**
    * The static "tag" method builds from the give parameters the tag of a string type on the template. With the added string before the
    * expressions, it returns a tag with a prefix before the name.
-   * @param template An array of string values where the first element is a name between opening and closing.
+   * @param strings An array of string values where the first element is a name between opening and closing.
    * @param values A rest parameter of expressions, where the first element is the name, the second opening, and the third is the closing of
    * the wrap.
    * @returns The return value is the tag of a `string` type, or an empty `string` if elements of the provided `values` are not `string`.
    * @angularpackage
    */
-  public static template(
-    template: TemplateStringsArray,
-    ...values: any[]
-  ): string {
-    let attributes, closing, name, opening;
+  protected static template<
+    Name extends string,
+    Opening extends string,
+    Closing extends string,
+    AttributeName extends string
+  >(
+    strings: TemplateStringsArray,
+    ...values: [Name, Opening, Closing, [AttributeName, string][]]
+  ): `${Opening}${Name}${string}${Closing}` {
+    let attributes: [AttributeName, string][],
+      closing: Closing,
+      name: Name,
+      opening: Opening;
     return (
       ([name, opening, closing, attributes] = values),
-      new Wrapper(opening || '', closing || '').wrapText(
-        `${template[0]}${name || ''}` +
-          (attributes.length > 0 ? ` ${new Attributes(...attributes)}` : '')
-      ).value
+      new Wrap(
+        `${name}${
+          attributes.length > 0 ? ` ` + new Attributes(...attributes) : ''
+        }`,
+        opening,
+        closing
+      ).valueOf()
     );
   }
   //#endregion static public methods.
@@ -170,8 +167,10 @@ export class Tag<
       (this.#attributes = new Attributes(...attributes));
     // Set name.
     this.#name = name;
-    // Set wrapper.
-    this.#wrapper = new Wrapper(opening, closing);
+    // Set closing.
+    this.#closing = closing;
+    // Set opening.
+    this.#opening = opening;
   }
   //#endregion constructor.
 
@@ -188,6 +187,10 @@ export class Tag<
     return this.#attributes?.get(name);
   }
 
+  public getClosing(): Closing {
+    return this.#closing;
+  }
+
   /**
    * Gets the tag name without the wrap opening and closing.
    * @returns The return value is a tag name of a generic type variable `Name`.
@@ -197,22 +200,8 @@ export class Tag<
     return this.#name;
   }
 
-  /**
-   * Gets the tag consists of the name and the opening and closing of the wrap.
-   * @returns The return value is the tag of a `string` type.
-   * @angularpackage
-   */
-  public getTag(): `${Opening}${Name}${Closing}` {
-    return this.tag;
-  }
-
-  /**
-   * Gets the `Wrapper` of a specified `Tag` object.
-   * @returns The return value is the wrapper of the `Wrapper` instance.
-   * @angularpackage
-   */
-  public getWrapper(): Wrapper<Opening, Closing> {
-    return this.#wrapper;
+  public getOpening(): Opening {
+    return this.#opening;
   }
 
   /**
@@ -232,7 +221,7 @@ export class Tag<
   ): Text {
     return guardString(text)
       ? isString(replaceValue)
-        ? (text.split(this.value).join(replaceValue) as Text)
+        ? (text.split(this.valueOf()).join(replaceValue) as Text)
         : text
       : ('' as Text);
   }
@@ -243,7 +232,7 @@ export class Tag<
    * @returns The return value is a `boolean` indicating whether the text contains the tag.
    */
   public textHasTag<Text extends string>(text: Text): text is Text {
-    return isStringIncludes(text, [this.tag]);
+    return isStringIncludes(text, [this.valueOf()]);
   }
 
   /**
