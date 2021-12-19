@@ -1,17 +1,16 @@
 import {
   // Function.
-  areString,
   isStringType,
   isInstance,
 } from '@angular-package/type';
-// Class.
 /**
  * The `Wrap` object represents the immutable wrap of the opening and closing. It is designed to preserve the names of the opening and
  * closing.
  */
 export class Wrap<
+  Text extends string = ``,
   Opening extends string = string,
-  Closing extends string = string
+  Closing extends string = string,
 > extends String {
   //#region accessors.
   //#region instance accessors.
@@ -38,18 +37,18 @@ export class Wrap<
    * @returns The return value is the wrap of a generic type variable in order `Opening` and `Closing` on the template.
    * @angularpackage
    */
-  public get wrap(): `${Opening}${Closing}` {
-    return this.value;
-  }
+  // public get wrap(): `${Opening}${Text}${Closing}` {
+  //   return this.valueOf();
+  // }
 
   /**
    * The `get` accessor gets the wrap consists of the opening and closing.
    * @returns The return value is the wrap of a generic type variable in order `Opening` and `Closing` on the template.
    * @angularpackage
    */
-  public get value(): `${Opening}${Closing}` {
-    return this.valueOf();
-  }
+  // public get value(): `${Opening}${Text}${Closing}` {
+  //   return this.valueOf();
+  // }
 
   /**
    * The `get` accessor, with the help of `toStringTag`, changes the default tag to `'wrap'` for an instance of `Wrap`. It can be read by
@@ -73,6 +72,11 @@ export class Wrap<
    * The private property indicates the wrap opening of a generic type variable `Opening`.
    */
   #opening: Opening;
+
+  /**
+   *
+   */
+  #text: Text;
   //#endregion instance private properties.
   //#endregion instance properties.
 
@@ -102,26 +106,6 @@ export class Wrap<
       : false;
   }
 
-  /**
-   * The static "tag" method builds the wrap of a string type on the template. With the added string before the expressions, it returns a
-   * wrapped string.
-   * @param template An array of string values where the first element is a text between opening and closing.
-   * @param values A rest parameter of expressions, where the first element is the opening and the second is the closing of the wrap.
-   * @returns The return value is a `string` the wrap, or an empty `string` if elements of the provided `values` are not `string`.
-   * @angularpackage
-   */
-  public static template(
-    template: TemplateStringsArray,
-    ...values: string[]
-  ): string {
-    let opening, closing;
-    if (areString(...values).every()) {
-      return (
-        ([opening, closing] = values), `${opening}${template[0]}${closing}`
-      );
-    }
-    return ``;
-  }
   //#endregion static methods.
 
   //#region constructor.
@@ -133,10 +117,11 @@ export class Wrap<
    * otherwise with an empty `string`.
    * @angularpackage
    */
-  constructor(opening: Opening, closing: Closing) {
-    super(Wrap.template`${opening}${closing}`);
+  constructor(text: Text = `` as Text, opening: Opening, closing: Closing) {
+    super(`${opening}${text}${closing}`);
     this.#closing = closing;
     this.#opening = opening;
+    this.#text = text;
   }
   //#endregion constructor.
 
@@ -160,12 +145,20 @@ export class Wrap<
   }
 
   /**
+   * 
+   * @returns 
+   */
+  public getText(): Text {
+    return this.#text;
+  }
+
+  /**
    * Gets the wrap, primitive value consists of the opening and closing.
    * @returns The return value is the wrap consists of the opening and closing of a generic type variable `Opening` and `Closing` on
    * the template.
    * @angularpackage
    */
-  public getWrap(): `${Opening}${Closing}` {
+  public getWrap(): `${Opening}${Text}${Closing}` {
     return this.valueOf();
   }
 
@@ -175,8 +168,8 @@ export class Wrap<
    * `string`.
    * @angularpackage
    */
-  public valueOf(): `${Opening}${Closing}` {
-    return super.valueOf() as `${Opening}${Closing}`;
+  public valueOf(): `${Opening}${Text}${Closing}` {
+    return super.valueOf() as `${Opening}${Text}${Closing}`;
   }
   //#endregion instance public methods.
 }
