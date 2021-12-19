@@ -9,7 +9,6 @@ import {
 // Class.
 import { Attribute } from '../../lib/attribute.class';
 import { Attributes } from '../../lib/attributes.class';
-// import { Wrapper } from '../../wrapper/src/wrapper.class';
 import { Wrap } from '../../wrapper/src/wrap.class';
 /**
  * The `Tag` string object represents the immutable tag with optional attributes.
@@ -30,6 +29,9 @@ export class Tag<
     return this.#attributes;
   }
 
+  /**
+   * @angularpackage
+   */
   public get closing(): Closing {
     return this.#closing;
   }
@@ -43,6 +45,9 @@ export class Tag<
     return this.#name;
   }
 
+  /**
+   * @angularpackage
+   */
   public get opening(): Opening {
     return this.#opening;
   }
@@ -50,6 +55,7 @@ export class Tag<
   /**
    * The `get` accessor, with the help of `toStringTag`, changes the default tag to `'tag'` for an instance of `Tag`. It can be read by
    * the `typeOf()` function of `@angular-package/type`.
+   * @angularpackage
    */
   public get [Symbol.toStringTag](): string {
     return 'tag';
@@ -187,6 +193,11 @@ export class Tag<
     return this.#attributes?.get(name);
   }
 
+  /**
+   * 
+   * @returns 
+   * @angularpackage
+   */
   public getClosing(): Closing {
     return this.#closing;
   }
@@ -200,6 +211,11 @@ export class Tag<
     return this.#name;
   }
 
+  /**
+   * 
+   * @returns 
+   * @angularpackage
+   */
   public getOpening(): Opening {
     return this.#opening;
   }
@@ -230,6 +246,7 @@ export class Tag<
    * Checks whether a text has a tag of a specified `Tag` object.
    * @param text The text of a generic type variable `Text` to check whether it contains the tag.
    * @returns The return value is a `boolean` indicating whether the text contains the tag.
+   * @angularpackage
    */
   public textHasTag<Text extends string>(text: Text): text is Text {
     return isStringIncludes(text, [this.valueOf()]);
