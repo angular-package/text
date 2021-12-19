@@ -4,6 +4,7 @@ import {
   isInstance,
 } from '@angular-package/type';
 /**
+ * REVIEW: Check all.
  * The `Wrap` object represents the immutable wrap of the opening and closing. It is designed to preserve the names of the opening and
  * closing.
  */
@@ -33,22 +34,12 @@ export class Wrap<
   }
 
   /**
-   * The `get` accessor gets the wrap consists of the opening and closing.
-   * @returns The return value is the wrap of a generic type variable in order `Opening` and `Closing` on the template.
+   * The `get` accessor gets the text of the `Wrap` by returning the `#wrap` property of the specified object.
    * @angularpackage
    */
-  // public get wrap(): `${Opening}${Text}${Closing}` {
-  //   return this.valueOf();
-  // }
-
-  /**
-   * The `get` accessor gets the wrap consists of the opening and closing.
-   * @returns The return value is the wrap of a generic type variable in order `Opening` and `Closing` on the template.
-   * @angularpackage
-   */
-  // public get value(): `${Opening}${Text}${Closing}` {
-  //   return this.valueOf();
-  // }
+  public get text(): Text {
+    return this.#text;
+  }
 
   /**
    * The `get` accessor, with the help of `toStringTag`, changes the default tag to `'wrap'` for an instance of `Wrap`. It can be read by
@@ -64,17 +55,17 @@ export class Wrap<
   //#region instance properties.
   //#region instance private properties.
   /**
-   * The private property indicates the wrap closing of a generic type variable `Closing`.
+   * The private wrap closing of a generic type variable `Closing`.
    */
   #closing: Closing;
 
   /**
-   * The private property indicates the wrap opening of a generic type variable `Opening`.
+   * The private wrap opening of a generic type variable `Opening`.
    */
   #opening: Opening;
 
   /**
-   *
+   * Private text of a generic type variable `Text`.
    */
   #text: Text;
   //#endregion instance private properties.
@@ -145,17 +136,17 @@ export class Wrap<
   }
 
   /**
-   * 
-   * @returns 
+   * Gets the text without the opening and closing of the `Wrap`.
+   * @returns The return value is the text of a generic type variable `Text`.
    */
   public getText(): Text {
     return this.#text;
   }
 
   /**
-   * Gets the wrap, primitive value consists of the opening and closing.
-   * @returns The return value is the wrap consists of the opening and closing of a generic type variable `Opening` and `Closing` on
-   * the template.
+   * Gets the wrap, primitive value of the specified `Wrap` object.
+   * @returns The return value is the wrap of a generic type variables in order `Opening`, `Text` and `Closing` on the template
+   * `${Opening}${Text}${Closing}`.
    * @angularpackage
    */
   public getWrap(): `${Opening}${Text}${Closing}` {
@@ -164,8 +155,8 @@ export class Wrap<
 
   /**
    * Returns the wrap, primitive value of the specified `Wrap` object.
-   * @returns The return value is a generic type variable `Opening` and `Closing` on the template, if properly defined, or an empty
-   * `string`.
+   * @returns The return value is the wrap of a generic type variables in order `Opening`, `Text` and `Closing` on the template
+   * `${Opening}${Text}${Closing}`.
    * @angularpackage
    */
   public valueOf(): `${Opening}${Text}${Closing}` {
