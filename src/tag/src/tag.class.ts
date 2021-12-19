@@ -20,6 +20,12 @@ export class Tag<
   AttributeName extends string = string
 > extends String {
   //#region instance public accessors.
+  public get attribute():
+    | Readonly<{ [K in AttributeName]: string }>
+    | undefined {
+    return this.#attributes?.attribute;
+  }
+
   /**
    * The `get` accessor returns the tag attributes if set, otherwise `undefined`.
    * @returns The return value is the tag attributes of an `Attributes` if set, or `undefined`.
@@ -194,8 +200,8 @@ export class Tag<
   }
 
   /**
-   * 
-   * @returns 
+   *
+   * @returns
    * @angularpackage
    */
   public getClosing(): Closing {
@@ -212,8 +218,8 @@ export class Tag<
   }
 
   /**
-   * 
-   * @returns 
+   *
+   * @returns
    * @angularpackage
    */
   public getOpening(): Opening {
