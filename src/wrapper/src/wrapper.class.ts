@@ -8,7 +8,7 @@ import { Wrap } from './wrap.class';
 export class Wrapper<
   Opening extends string = string,
   Closing extends string = string
-> extends Wrap<``, Opening, Closing> {
+> extends Wrap<Opening, Closing> {
   //#region accessors.
   //#region instance accessors.
   /**
@@ -62,7 +62,7 @@ export class Wrapper<
    * @angularpackage
    */
   constructor(opening: Opening, closing: Closing) {
-    super(undefined, opening, closing);
+    super(opening, closing);
   }
   //#endregion constructor.
 
@@ -73,7 +73,7 @@ export class Wrapper<
    * @returns The return value is a `boolean` indicating whether the provided `text` is wrapped.
    * @angularpackage
    */
-  public isTextWrapped<Txt extends string>(text: Txt): text is Txt {
+  public isTextWrapped<Text extends string>(text: Text): text is Text {
     return this.textHasClosing(text) && this.textHasOpening(text);
   }
 
@@ -83,7 +83,7 @@ export class Wrapper<
    * @returns The return value is a `boolean` indicating whether the given `text` has the closing of the wrap.
    * @angularpackage
    */
-  public textHasClosing<Txt extends string>(text: Txt): text is Txt {
+  public textHasClosing<Text extends string>(text: Text): text is Text {
     return (
       isStringType(text) && text.slice(-this.closing.length) === this.closing
     );
@@ -95,7 +95,7 @@ export class Wrapper<
    * @returns The return value is a `boolean` indicating whether the given `text` has the opening of the wrap.
    * @angularpackage
    */
-  public textHasOpening<Txt extends string>(text: Txt): text is Txt {
+  public textHasOpening<Text extends string>(text: Text): text is Text {
     return (
       isStringType(text) && text.slice(0, this.opening.length) === this.opening
     );
@@ -125,7 +125,7 @@ export class Wrapper<
   public wrap<Text extends string = ``>(
     text: Text
   ): `${Opening}${Text}${Closing}` {
-    return new Wrap(text, this.opening, this.closing).valueOf();
+    return new Wrap(this.opening, this.closing, text).valueOf();
   }
   //#endregion instance methods.
 }
