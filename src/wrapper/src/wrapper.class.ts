@@ -3,13 +3,12 @@ import { isInstance, isStringType } from '@angular-package/type';
 import { Wrap } from './wrap.class';
 /**
  * The `Wrapper` is an extension of the `Wrap` object, which means it represents the immutable wrap of the opening and closing with the
- * additional main ability to use it to wrap string. It can also define the wrap in a restricted chars range.
+ * additional main ability to use it to wrap string.
  */
 export class Wrapper<
   Opening extends string = string,
   Closing extends string = string
 > extends Wrap<Opening, Closing> {
-  //#region accessors.
   //#region instance accessors.
   /**
    * The property, with the help of `toStringTag`, changes the default tag to `'wrapper'` in the `Wrapper` instance. It can be read by the
@@ -19,14 +18,13 @@ export class Wrapper<
     return 'wrapper';
   }
   //#endregion instance accessors.
-  //#endregion accessors.
 
-  //#region static methods.
+  //#region static public methods.
   /**
-   * Defines a new `Wrapper` instance consisting of the allowed opening and closing.
-   * @param opening The allowed opening of the wrap of a generic type variable `Opening`.
-   * @param closing The allowed closing of the wrap of a generic type variable `Closing`.
-   * @returns The return value is a new `Wrapper` instance of given opening and closing.
+   * Defines a new `Wrapper` instance.
+   * @param opening The opening chars of a generic type variable `Opening`.
+   * @param closing The closing chars of a generic type variable `Closing`.
+   * @returns The return value is a new `Wrapper` instance of given opening and closing chars.
    * @angularpackage
    */
   public static define<Opening extends string, Closing extends string>(
@@ -39,8 +37,8 @@ export class Wrapper<
   /**
    * The method checks if the value of any type is an instance of the `Wrapper`.
    * @param value The value of any type to test against the instance of `Wrapper`.
-   * @param opening An optional wrap opening to check if the given value contains.
-   * @param closing An optional wrap closing to check if the given value contains.
+   * @param opening Optional opening chars to check if the given value contains.
+   * @param closing Optional closing chars to check if the given value contains.
    * @returns The return value is a `boolean` type indicating whether the value is an instance of `Wrapper`.
    * @angularpackage
    */
@@ -51,13 +49,13 @@ export class Wrapper<
   ): value is Wrapper {
     return isInstance(value, this) && super.isWrap(value, opening, closing);
   }
-  //#endregion static methods.
+  //#endregion static public methods.
 
   //#region constructor.
   /**
-   * Creates a new `Wrapper` instance with the opening and closing.
-   * @param opening The wrap opening of a generic type variable `Opening`.
-   * @param closing The wrap closing of a generic type variable `Closing`.
+   * Creates a new `Wrapper` instance with the opening and closing chars.
+   * @param opening The opening chars of a generic type variable `Opening`.
+   * @param closing The closing chars of a generic type variable `Closing`.
    * @returns The return value is a new `Wrapper` instance.
    * @angularpackage
    */
@@ -66,7 +64,7 @@ export class Wrapper<
   }
   //#endregion constructor.
 
-  //#region instance methods.
+  //#region instance public methods.
   /**
    * The method checks if the provided `text` is wrapped with the wrap of the specified `Wrapper` object.
    * @param text The `text` of a generic type variable `Text` to check whether it is wrapped.
@@ -78,8 +76,8 @@ export class Wrapper<
   }
 
   /**
-   * Checks if the provided `text` has closing of the specified `Wrapper` object at the end of the text.
-   * @param text The text of a generic type variable `Text` to test against the existence of the closing.
+   * Checks if the provided `text` has the closing of specified `Wrapper` object at the end of the text.
+   * @param text The text of a generic type variable `Text` to test against the existence of the closing chars.
    * @returns The return value is a `boolean` indicating whether the given `text` has the closing of the wrap.
    * @angularpackage
    */
@@ -91,7 +89,7 @@ export class Wrapper<
 
   /**
    * Checks if the provided `text` has the opening of the specified `Wrapper` object at the beginning of the text.
-   * @param text The text of a generic type variable `Text` to test against the existence of the opening.
+   * @param text The text of a generic type variable `Text` to test against the existence of the opening chars.
    * @returns The return value is a `boolean` indicating whether the given `text` has the opening of the wrap.
    * @angularpackage
    */
@@ -102,7 +100,7 @@ export class Wrapper<
   }
 
   /**
-   * Returns the unwrapped, text from the opening and closing of the wrapper.
+   * Returns the unwrapped, text without the opening and closing of the wrapper.
    * @param text The text of a `string` type to unwrap.
    * @returns The return value is the unwrapped text of a `string` if the opening or closing is found or the given text.
    * @angularpackage
@@ -127,5 +125,5 @@ export class Wrapper<
   ): `${Opening}${Text}${Closing}` {
     return new Wrap(this.opening, this.closing, text).valueOf();
   }
-  //#endregion instance methods.
+  //#endregion instance public methods.
 }
