@@ -3,7 +3,7 @@ import { isInstance, isStringType } from '@angular-package/type';
 import { Wrap } from './wrap.class';
 /**
  * The `Wrapper` is an extension of the `Wrap` object, which means it represents the immutable wrap of the opening and closing with the
- * additional main ability to use it to wrap string.
+ * additional main ability to use it to wrap strings.
  */
 export class Wrapper<
   Opening extends string = string,
@@ -35,7 +35,7 @@ export class Wrapper<
   }
 
   /**
-   * The method checks if the value of any type is an instance of the `Wrapper`.
+   * The method checks if the value of any type is an instance of the `Wrapper` of any, or given opening and closing chars.
    * @param value The value of any type to test against the instance of `Wrapper`.
    * @param opening Optional opening chars to check if the given value contains.
    * @param closing Optional closing chars to check if the given value contains.
