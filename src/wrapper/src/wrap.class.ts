@@ -8,7 +8,6 @@ export class Wrap<
   Closing extends string,
   Content extends string = ``,
 > extends String {
-  //#region accessors.
   //#region instance accessors.
   /**
    * The `get` accessor gets the closing of the wrap by returning the `#closing` property of the specified object.
@@ -47,7 +46,6 @@ export class Wrap<
   }
   //#endregion instance accessors.
 
-  //#region instance properties.
   //#region instance private properties.
   /**
    * The private wrap closing of a generic type variable `Closing`.
@@ -64,7 +62,6 @@ export class Wrap<
    */
   #opening: Opening;
   //#endregion instance private properties.
-  //#endregion instance properties.
 
   //#region static methods.
   /**
