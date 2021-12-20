@@ -11,7 +11,8 @@ import { Attribute } from '../../lib/attribute.class';
 import { Attributes } from '../../lib/attributes.class';
 import { Wrap } from '../../wrapper/src/wrap.class';
 /**
- * The `Tag` string object represents the immutable tag with optional attributes.
+ * The `Tag` string object represents the immutable tag consisting of a name with optional attributes wrapped by the opening and closing
+ * chars.
  */
 export class Tag<
   Name extends string,
