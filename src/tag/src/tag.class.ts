@@ -15,11 +15,16 @@ import { Wrap } from '../../wrapper/src/wrap.class';
  */
 export class Tag<
   Name extends string,
-  Opening extends string = ``,
-  Closing extends string = ``,
+  Opening extends string = string,
+  Closing extends string = string,
   AttributeName extends string = string
 > extends String {
   //#region instance public accessors.
+  /**
+   * The `get` accessor gets the tag attributes.
+   * @returns The return value is the tag attributes of an object type.
+   * @angularpackage
+   */
   public get attribute():
     | Readonly<{ [K in AttributeName]: string }>
     | undefined {
@@ -36,10 +41,11 @@ export class Tag<
   }
 
   /**
+   * The `get` accessor gets the closing chars of the tag from the private property `#wrap`.
    * @angularpackage
    */
   public get closing(): Closing {
-    return this.#closing;
+    return this.#wrap.closing;
   }
 
   /**
@@ -48,14 +54,15 @@ export class Tag<
    * @angularpackage
    */
   public get name(): Name {
-    return this.#name;
+    return this.#wrap.content;
   }
 
   /**
+   * The `get` accessor gets the opening chars of the tag from the private property `#wrap`.
    * @angularpackage
    */
   public get opening(): Opening {
-    return this.#opening;
+    return this.#wrap.opening;
   }
 
   /**
@@ -70,24 +77,14 @@ export class Tag<
 
   //#region instance private properties.
   /**
-   * An optional private property of `Attributes` indicates tag attributes.
+   * Optional private attributes of `Attributes` of a specified `Tag` object.
    */
   #attributes?: Attributes<AttributeName>;
 
   /**
-   * Private property of a generic type variable `Name` as the tag name.
+   * Private wrap of a specified `Tag` object.
    */
-  #name: Name;
-
-  /**
-   * The private property holds an instance of `Wrapper` to wrap the given name.
-   */
-  #closing: Closing;
-
-  /**
-   *
-   */
-  #opening: Opening;
+  #wrap: Wrap<Opening, Closing, Name>;
   //#endregion instance private properties.
 
   //#region static public methods.
@@ -122,10 +119,10 @@ export class Tag<
   /**
    * The static "tag" method builds from the give parameters the tag of a string type on the template. With the added string before the
    * expressions, it returns a tag with a prefix before the name.
-   * @param strings An array of string values where the first element is a name between opening and closing.
+   * @param strings -
    * @param values A rest parameter of expressions, where the first element is the name, the second opening, and the third is the closing of
-   * the wrap.
-   * @returns The return value is the tag of a `string` type, or an empty `string` if elements of the provided `values` are not `string`.
+   * the wrap. Last element is tag attributes.
+   * @returns The return value is the tag of a `string` type.
    * @angularpackage
    */
   protected static template<
@@ -144,11 +141,15 @@ export class Tag<
     return (
       ([name, opening, closing, attributes] = values),
       new Wrap(
-        `${name}${
-          attributes.length > 0 ? ` ` + new Attributes(...attributes) : ''
-        }`,
         opening,
-        closing
+        closing,
+        `${name}${
+          attributes.length > 0
+            ? attributes[0][0].length === 0
+              ? ''
+              : ' ' + new Attributes(...attributes)
+            : ''
+        }`
       ).valueOf()
     );
   }
@@ -156,14 +157,12 @@ export class Tag<
 
   //#region constructor.
   /**
-   * Creates a new `Tag` instance of `name` wrapped by wrap opening and closing or wrap from the static default wrapper.
-   * @param name The name of a generic type variable `Name` to define a new tag with a given opening and closing or the opening and closing
-   * from default static `wrapper`.
-   * @param opening An optional opening of the tag of a generic type variable `Opening`. By default, its value is picked from the `wrapper`
-   * accessor of static `Tag`.
-   * @param closing An optional closing of the tag of a generic type variable `Closing`. By default, its value is picked from the `wrapper`
-   * accessor of static `Tag`.
-   * @param attributes A rest parameter of an array of attribute-value pairs to set tag attributes in the opening tag.
+   * Creates a new `Tag` instance with the name and optional attributes wrapped by opening and closing chars.
+   * @param name The tag name of a generic type variable `Name` placed between a given `opening` and `closing`.
+   * @param opening The tag opening chars of a generic type variable `Opening` placed before the given `name`.
+   * @param closing The tag closing chars of a generic type variable `Closing` placed after the given `name`, or after the given
+   * `attributes`.
+   * @param attributes A rest parameter of an array of attribute-value pairs as tag attributes to place after the given `name`.
    * @angularpackage
    */
   constructor(
@@ -173,16 +172,12 @@ export class Tag<
     ...attributes: [AttributeName, string][]
   ) {
     super(Tag.template`${name}${opening}${closing}${attributes}`);
+    // Set wrap.
+    this.#wrap = new Wrap(opening, closing, name);
     // Set attributes.
     isArray(attributes) &&
       attributes.length > 0 &&
       (this.#attributes = new Attributes(...attributes));
-    // Set name.
-    this.#name = name;
-    // Set closing.
-    this.#closing = closing;
-    // Set opening.
-    this.#opening = opening;
   }
   //#endregion constructor.
 
@@ -200,12 +195,12 @@ export class Tag<
   }
 
   /**
-   *
-   * @returns
+   * Gets the closing chars of the tag.
+   * @returns The return value is the tag closing chars of a generic type variable `Closing`.
    * @angularpackage
    */
   public getClosing(): Closing {
-    return this.#closing;
+    return this.#wrap.closing;
   }
 
   /**
@@ -214,16 +209,16 @@ export class Tag<
    * @angularpackage
    */
   public getName(): Name {
-    return this.#name;
+    return this.#wrap.content;
   }
 
   /**
-   *
-   * @returns
+   * Gets the opening chars of the tag.
+   * @returns The return value is the tag opening chars of a generic type variable `Opening`.
    * @angularpackage
    */
   public getOpening(): Opening {
-    return this.#opening;
+    return this.#wrap.opening;
   }
 
   /**
