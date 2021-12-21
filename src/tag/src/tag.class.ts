@@ -10,6 +10,7 @@ import {
 import { Attribute } from '../../lib/attribute.class';
 import { Attributes } from '../../lib/attributes.class';
 import { Wrap } from '../../wrapper/src/wrap.class';
+import { Wrapper } from '../../wrapper/src/wrapper.class';
 /**
  * The `Tag` string object represents the immutable tag consisting of a name with optional attributes wrapped by the opening and closing
  * chars.
@@ -134,24 +135,14 @@ export class Tag<
   >(
     strings: TemplateStringsArray,
     ...values: [Name, Opening, Closing, [AttributeName, string][]]
-  ): `${Opening}${Name}${string}${Closing}` {
+  ): `${Opening}${string}${Closing}` {
     let attributes: [AttributeName, string][],
       closing: Closing,
       name: Name,
       opening: Opening;
     return (
       ([name, opening, closing, attributes] = values),
-      new Wrap(
-        opening,
-        closing,
-        `${name}${
-          attributes.length > 0
-            ? attributes[0][0].length === 0
-              ? ''
-              : ' ' + new Attributes(...attributes)
-            : ''
-        }`
-      ).valueOf()
+      new Wrapper(opening, closing).wrap(name + new Attributes(...attributes))
     );
   }
   //#endregion static public methods.
