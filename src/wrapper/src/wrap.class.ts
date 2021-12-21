@@ -149,6 +149,16 @@ export class Wrap<
   }
 
   /**
+   * Gets the wrap, the primitive value of a specified `Wrap` object.
+   * @returns The return value is the wrap of a generic type variables in order `Opening`, `Content` and `Closing` on the template
+   * `${Opening}${Content}${Closing}`.
+   * @angularpackage
+   */
+  public toString(): `${Opening}${Content}${Closing}` {
+    return this.valueOf();
+  }
+
+  /**
    * Returns the wrap, primitive value of the specified `Wrap` object.
    * @returns The return value is the wrap of a generic type variables in order `Opening`, `Content` and `Closing` on the template
    * `${Opening}${Content}${Closing}`.
