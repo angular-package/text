@@ -1,11 +1,11 @@
-export { BBCodeTag } from './src/bbcode-tag.class';
+export { BBCode } from './src/bbcode.class';
 export { ClosingTag } from './src/closing-tag.class';
-export { HtmlTag } from './src/html-tag.class';
+export { Html } from './src/html.class';
 export { OpeningTag } from './src/opening-tag.class';
 export { TagExtension } from './src/tag-extension.class';
 // Tag.
 export { Tag } from './src/tag.class';
 export { Tags } from './src/tags.class';
-// VariableTag.
-export { VariableTag } from './src/variable-tag.class';
-export { VariableTags } from './src/variable-tags.class';
+// Variable.
+export { Variable } from './src/variable.class';
+export { Variables } from './src/variables.class';
