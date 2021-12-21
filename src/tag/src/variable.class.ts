@@ -5,13 +5,13 @@ import { Tag } from './tag.class';
 /**
  * The `VariableTag` is an extension of `Tag` string object and represents any tag of variable in the template.
  */
-export class VariableTag<
+export class Variable<
   Name extends string,
   Value extends string = string
 > extends Tag<Name, `{`, `}`> {
   //#region instance public accessors.
   /**
-   * 
+   *
    */
   public get value(): string | undefined {
     return this.#value;
@@ -22,12 +22,12 @@ export class VariableTag<
    * the `typeOf()` function of `@angular-package/type`.
    */
   public get [Symbol.toStringTag](): string {
-    return 'variableTag';
+    return 'variable';
   }
   //#endregion instance public accessors.
 
   /**
-   * 
+   *
    */
   #value?: Value;
 
@@ -41,7 +41,7 @@ export class VariableTag<
    */
   public static define<Name extends string, AttributeName extends string>(
     name: Name
-  ): VariableTag<Name> {
+  ): Variable<Name> {
     return new this(name);
   }
 
@@ -52,11 +52,11 @@ export class VariableTag<
    * @returns The return value is a `boolean` type indicating whether the value is the `VariableTag` instance of any or a given name.
    * @angularpackage
    */
-  public static isVariableTag<Name extends string>(
+  public static isVariable<Name extends string>(
     value: any,
     name?: Name
-  ): value is VariableTag<Name> {
-    return isInstance(value, VariableTag)
+  ): value is Variable<Name> {
+    return isInstance(value, Variable)
       ? isDefined(name) && value.name === name
       : false;
   }
@@ -74,17 +74,17 @@ export class VariableTag<
   }
   //#endregion constructor.
   /**
-   * 
-   * @returns 
+   *
+   * @returns
    */
   public getValue(): Value | undefined {
     return this.#value;
   }
 
   /**
-   * 
-   * @param value 
-   * @returns 
+   *
+   * @param value
+   * @returns
    */
   public setValue(value: Value): this {
     this.#value = value;
@@ -92,9 +92,9 @@ export class VariableTag<
   }
 
   /**
-   * 
-   * @param text 
-   * @returns 
+   *
+   * @param text
+   * @returns
    */
   public replaceVariable(text: string): string {
     return this.replaceTag(text, this.#value || ``);
