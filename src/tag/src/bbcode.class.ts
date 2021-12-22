@@ -1,5 +1,5 @@
 // @angular-package/type.
-import { isInstance, isDefined } from '@angular-package/type';
+import { isDefined, isInstance } from '@angular-package/type';
 // Class.
 import { TagExtension } from './tag-extension.class';
 /**
@@ -11,11 +11,11 @@ export class BBCode<
 > extends TagExtension<Name, `[`, `]`, AttributeName> {
   //#region instance public accessors.
   /**
-   * The property, with the help of `toStringTag`, changes the default tag to `'bbcodeTag'` for an instance of `Tag`. It can be read by
+   * The property, with the help of `toStringTag`, changes the default tag to `'bbCode'` for an instance of `BBCode`. It can be read by
    * the `typeOf()` function of `@angular-package/type`.
    */
   public get [Symbol.toStringTag](): string {
-    return 'bbcode';
+    return 'bbCode';
   }
   //#endregion instance public accessors.
 
@@ -63,5 +63,3 @@ export class BBCode<
   }
   //#endregion constructor.
 }
-
-console.log(new BBCode(`url`, [``, 'http://onet.pl'], ['author', 'anonymous']));
