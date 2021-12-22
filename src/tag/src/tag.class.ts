@@ -70,7 +70,6 @@ export class Tag<
   /**
    * The `get` accessor, with the help of `toStringTag`, changes the default tag to `'tag'` for an instance of `Tag`. It can be read by
    * the `typeOf()` function of `@angular-package/type`.
-   * @angularpackage
    */
   public get [Symbol.toStringTag](): string {
     return 'tag';
@@ -243,6 +242,15 @@ export class Tag<
    */
   public textHasTag<Text extends string>(text: Text): text is Text {
     return isStringIncludes(text, [this.valueOf()]);
+  }
+
+  /**
+   * Returns the tag, a primitive value of the specified `Tag` object.
+   * @returns The return value is a tag name of a generic type variables in order `Opening`, `Name` and `Closing` on the template.
+   * @angularpackage
+   */
+  public toString(): `${Opening}${Name}${Closing}` {
+    return this.valueOf();
   }
 
   /**
