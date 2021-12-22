@@ -11,7 +11,7 @@ export class Html<
 > extends TagExtension<Name, '<', '>', AttributeName> {
   //#region instance public accessors.
   /**
-   * The property, with the help of `toStringTag`, changes the default tag to `'html'` for an instance of `Tag`. It can be read by
+   * The property, with the help of `toStringTag`, changes the default tag to `'html'` for an instance of `Html`. It can be read by
    * the `typeOf()` function of `@angular-package/type`.
    */
   public get [Symbol.toStringTag](): string {
@@ -66,13 +66,3 @@ export class Html<
   }
   //#endregion constructor.
 }
-
-
-// class Span<Text extends string, AttributeName extends string> extends String {
-//   constructor(text: Text, ...attributes: [AttributeName, string][]) {
-//     super(new Html(`span`, ...attributes).tagText(text).valueOf());
-//   }
-// }
-
-// console.log(new Span(`This is my tagged by span text`, ['color', 'red']));
-
