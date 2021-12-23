@@ -125,5 +125,18 @@ export class Variables<Names extends string> {
     this.#variables.set(name, new Variable(name, value));
     return this;
   }
+
+
+  /**
+   * Sets the value of the existing variable under the given name.
+   * @param name The name of a generic type variable `Name` of existing `Variable` instance to set the given value.
+   * @param value The value of a `string` type to set in the existing `Variable` instance under the given name.
+   * @returns The return value is an instance of `Variables`.
+   * @angularpackage
+   */
+  public setVariableValue<Name extends Names>(name: Name, value: string): this {
+    this.#variables.get(name)?.setValue(value);
+    return this;
+  }
   //#endregion instance public methods.
 }
