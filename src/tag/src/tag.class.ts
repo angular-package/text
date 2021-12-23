@@ -85,7 +85,7 @@ export class Tag<
   /**
    * Private wrap of a specified `Tag` object.
    */
-  #wrap: Wrap<Opening, Closing, Name>;
+  #wrap: Wrap<Opening, Name, Closing>;
   //#endregion instance private properties.
 
   //#region static public methods.

@@ -8,7 +8,7 @@ import { Wrap } from './wrap.class';
 export class Wrapper<
   Opening extends string = string,
   Closing extends string = string
-> extends Wrap<Opening, Closing> {
+> extends Wrap<Opening, '', Closing> {
   //#region instance accessors.
   /**
    * The property, with the help of `toStringTag`, changes the default tag to `'wrapper'` in the `Wrapper` instance. It can be read by the
@@ -66,7 +66,7 @@ export class Wrapper<
 
   //#region instance public methods.
   /**
-   * The method checks if the provided `text` is wrapped with the wrap of the specified `Wrapper` object.
+   * The method checks if the `text` is wrapped with the wrap of the specified `Wrapper` object.
    * @param text The `text` of a generic type variable `Text` to check whether it is wrapped.
    * @returns The return value is a `boolean` indicating whether the provided `text` is wrapped.
    * @angularpackage
