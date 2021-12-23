@@ -1,7 +1,7 @@
 import { isStringType, isInstance } from '@angular-package/type';
 /**
- * The `Wrap` object represents the immutable wrap of the opening and closing. It is designed to preserve the names of the opening and
- * closing.
+ * The `Wrap` object represents the immutable content wrapped by the opening and closing chars. It is designed to preserve the names of the
+ * opening,content and closing.
  */
 export class Wrap<
   Opening extends string,
@@ -19,7 +19,8 @@ export class Wrap<
   }
 
   /**
-   * The `get` accessor gets the content of the `Wrap` by returning the `#wrap` property of the specified object.
+   * The `get` accessor gets the content of the `Wrap` by returning the `#content` property of the specified object.
+   * @returns The return value is the content of a generic type variable `Content`.
    * @angularpackage
    */
   public get content(): Content {
@@ -48,17 +49,17 @@ export class Wrap<
 
   //#region instance private properties.
   /**
-   * The private wrap closing of a generic type variable `Closing`.
+   * The private property of wrap closing of a generic type variable `Closing`.
    */
   #closing: Closing;
 
   /**
-   * Private content of a generic type variable `Content`.
+   * Private property of content of a generic type variable `Content`.
    */
   #content: Content;
 
   /**
-   * The private wrap opening of a generic type variable `Opening`.
+   * The private property of wrap opening of a generic type variable `Opening`.
    */
   #opening: Opening;
   //#endregion instance private properties.
@@ -93,7 +94,7 @@ export class Wrap<
 
   //#region constructor.
   /**
-   * Creates a new instance of the `Wrap` with the opening and closing chars, and optional content wrapped by them.
+   * Creates a new `Wrap` instance with the opening and closing chars, and optional content wrapped by them.
    * @param opening The wrap opening of a generic type variable `Opening`, placed before the `content`.
    * @param closing The wrap closing of a generic type variable `Closing`, placed after the `content`.
    * @param content An optional content placed between the `opening` and `closing` on the template.
