@@ -1,39 +1,45 @@
 // @angular-package/type.
-import {
-  isArray,
-  isDefined,
-  isStringType,
-  isInstance,
-} from '@angular-package/type';
+import { isInstance, isStringType } from '@angular-package/type';
 // Interface.
 import { Tag } from './tag.class';
-// Type.
-import { ForEachTag } from '../type/foreach-type';
 /**
- * The `tags` object creates and stores multiple tags of the same opening and closing wrap.
+ * The `tags` object creates and stores multiple tags of the same opening and closing chars, and common optional attributes.
  */
 export class Tags<
   Names extends string,
   Opening extends string,
   Closing extends string,
-  AttributeName extends string
+  Attributes extends string = string
 > {
   /**
-   * Gets an `object` of set tags.
+   * The `get` accessor returns the closing chars common for the tags.
+   * @returns The return value is the tag closing chars of a generic type variable `Closing`.
+   * @angularpackage
    */
-  public get tag(): Record<Names, {}> {
-    return Object.fromEntries(this.#tags.entries()) as any;
+  public get closing(): Closing {
+    return this.#closing;
   }
 
   /**
-   * Gets an `array` of set tags.
+   * The `get` accessor returns the opening chars common for the tags.
+   * @returns The return value is the tag opening chars of a generic type variable `Opening`.
+   * @angularpackage
    */
-  public get tags(): Tag<Names, Opening, Closing, AttributeName>[] {
+  public get opening(): Opening {
+    return this.#opening;
+  }
+
+  /**
+   * The `get` accessor gets an `array` of set tags.
+   * @returns The return value is an array of tags.
+   * @angularpackage
+   */
+  public get tags(): Tag<Names, Opening, Closing, Attributes>[] {
     return Array.from(this.#tags.values());
   }
 
   /**
-   * The property, with the help of `toStringTag`, changes the default tag to `'tags'` for an instance of `Tag`. It can be read by
+   * The property, with the help of `toStringTag`, changes the default tag to `'tags'` for an instance of `Tags`. It can be read by
    * the `typeOf()` function of `@angular-package/type`.
    */
   public get [Symbol.toStringTag](): string {
@@ -41,17 +47,17 @@ export class Tags<
   }
 
   /**
-   * A private property holds name-tag pairs in the original insertion order of the names.
+   * Private property of the closing chars placed after the name.
    */
   #closing: Closing;
 
   /**
-   * 
+   * Private property of the opening chars placed before the name.
    */
   #opening: Opening;
 
   /**
-   * 
+   * Private property of tags of a `Map` type.
    */
   #tags: Map<Names, Tag<any, any, any, any>> = new Map();
 
@@ -60,70 +66,99 @@ export class Tags<
    * @param value The value of any type to test against the `Tags` instance.
    * @returns The return value is a `boolean` indicating whether the value is an instance of `Tags`.
    */
-  // public static isTags<Names extends string, Chars extends string = string>(
-  //   value: any
-  // ): value is Tags<Names, Chars> {
-  //   return isInstance(value, Tags);
-  // }
+  public static isTags<
+    Names extends string,
+    Opening extends string = string,
+    Closing extends string = string
+  >(value: any): value is Tags<Names, Opening, Closing> {
+    return isInstance(value, Tags);
+  }
 
   //#region constructor.
+  /**
+   * Creates a new instance of `Tags` by specifying names, or name-attributes with common opening and closing, and common optional
+   * attributes.
+   * @param names An array of tag names or an array of name-attributes of an array to define a new tags.
+   * @param opening Common opening chars for given tag names of a generic type variable `Opening` to set before each of the given names.
+   * @param closing Common closing chars for given tag names of a generic type variable `Closing` to set after each of the given names.
+   * @param attributes A rest parameter of an array attribute-value pairs to set after each of the given names.
+   * @angularpackage
+   */
   constructor(
-    names: Names[],
+    names: (Names | [Names, ...[Attributes, string][]])[],
     opening: Opening,
     closing: Closing,
-    ...attributes: [AttributeName, string][]
+    ...attributes: [Attributes, string][]
   ) {
-    names.forEach((name) =>
-      this.#tags.set(name, new Tag(name, opening, closing, ...attributes))
-    );
+    // Prepare variables.
+    let customAttributes: [Attributes, string][], name: Names;
+    // Define a new tag under the given name.
+    names.forEach((tag) => {
+      isStringType(tag)
+      ? this.#tags.set(tag, new Tag(tag, opening, closing, ...attributes))
+      : (([name, ...customAttributes] = tag),
+        this.#tags.set(
+          name,
+          new Tag(name, opening, closing, ...customAttributes)
+        ));
+    });
     this.#closing = closing;
     this.#opening = opening;
   }
   //#endregion constructor.
 
   /**
-   * The method executes a provided `forEachTag` function once per each name-tag pair in the `Tags` object.
-   * @param forEachTag Function to execute for each entry in the `Tags`.
+   * The method executes a provided `forEach` function once per each tag in the `Tags` object.
+   * @param forEach Function to execute for each entry in the `Tags`.
    * @returns The return value is an instance of `Tags`.
+   * @angularpackage
    */
-  public forEach(forEachTag: ForEachTag<Names, Opening, Closing>): this {
-    this.#tags.forEach(forEachTag);
+  public forEach(forEach: (tag: Tag<Names, Opening, Closing>) => void): this {
+    this.#tags.forEach(forEach);
     return this;
   }
 
   /**
-   * 
-   * @param name 
-   * @returns 
+   * Gets the tag of a specified name.
+   * @param name The tag name of a generic type variable `Name` to get.
+   * @param attributes A rest parameter of an array attributes names to indicate `Attribute` return type.
+   * @returns The return value is the tag of an instance of `Tag`.
+   * @angularpackage
    */
-  public get<Name extends Names>(name: Name): Tag<Name, Opening, Closing, AttributeName> {
-    return this.#tags.get(name) as Tag<Name, Opening, Closing, AttributeName>;
+  public get<Name extends Names, Attribute extends Attributes>(
+    name: Name,
+    ...attributes: Attribute[]
+  ): Tag<Name, Opening, Closing, Attribute> {
+    return this.#tags.get(name) as Tag<Name, Opening, Closing, Attribute>;
   }
 
   /**
-   * 
-   * @returns 
+   * Gets an `array` of tags.
+   * @returns The return value is an `array` of tags.
+   * @angularpackage
    */
-  public getTags(): Tag<Names, Opening, Closing, AttributeName>[] {
+  public getTags(): Tag<Names, Opening, Closing, Attributes>[] {
     return Array.from(this.#tags.values());
   }
 
   /**
-   * 
-   * @param name 
-   * @returns 
+   * Checks whether the tag of a specified name exists.
+   * @param name The tag name of a generic type variable `Name` to check.
+   * @returns The return value is a `boolean` indicating whether the tag of a specified name exists.
+   * @angularpackage
    */
   public has<Name extends Names>(name: Name): boolean {
     return this.#tags.has(name);
   }
 
   /**
-   * 
-   * @param name 
-   * @param attributes 
-   * @returns 
+   * Defines a new tag of a specified name with the opening, closing, and optional attributes of a `Tags` instance.
+   * @param name The tag name of a generic type variable `Name`.
+   * @param attributes A rest parameter of an array attribute-value pairs.
+   * @returns The return value is an instance of `Tags`.
+   * @angularpackage
    */
-  public set<Name extends Names, AttrName extends AttributeName>(
+  public set<Name extends Names, AttrName extends Attributes>(
     name: Name,
     ...attributes: [AttrName, string][]
   ): this {
