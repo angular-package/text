@@ -1,13 +1,14 @@
 import { guardString, isString } from '@angular-package/type';
 // Class.
 import { Attribute } from '../../lib/attribute.class';
+import { ClosingTag } from './closing-tag.class';
+import { OpeningTag } from './opening-tag.class';
 import { Tag } from './tag.class';
 // Type.
-import { OpeningTag } from './opening-tag.class';
-import { ClosingTag } from './closing-tag.class';
-import { Tagged } from './tagged.class';
+import { TaggedText } from '../type/tagged-text.type';
 /**
- * The `TagExtension` string object represents the immutable tag of the opening and closing.
+ * The `TagExtension` is an extension 
+ * string object represents the immutable tag of the opening and closing.
  */
 export abstract class TagExtension<
   Name extends string,
@@ -18,7 +19,7 @@ export abstract class TagExtension<
   //#region instance public accessors.
   /**
    * The `get` accessor gets the closing tag.
-   * @returns The return value is a tag closing of a generic type `ClosingTag`.
+   * @returns The return value is a tag closing of the `ClosingTag` instance.
    * @angularpackage
    */
   public get closingTag(): ClosingTag<Name, Opening, Closing> {
@@ -36,11 +37,27 @@ export abstract class TagExtension<
   //#endregion instance public accessors.
 
   //#region instance private properties.
+  /**
+   * Private property of closing tag of a `ClosingTag` type.
+   */
   #closingTag: ClosingTag<Name, Opening, Closing>;
+
+  /**
+   * Private property of opening tag of a `OpeningTag` type.
+   */
   #openingTag: OpeningTag<Name, Opening, Closing, AttributeName>;
   //#endregion instance private properties.
 
   //#region constructor.
+  /**
+   * Creates a new `Tag` instance with the name and optional attributes wrapped by opening and closing chars.
+   * @param name The tag name of a generic type variable `Name` placed between a given `opening` and `closing`.
+   * @param opening The tag opening chars of a generic type variable `Opening` placed before the given `name`.
+   * @param closing The tag closing chars of a generic type variable `Closing` placed after the given `name`, or after the given
+   * `attributes`.
+   * @param attributes A rest parameter of an array of attribute-value pairs as attributes for the opening tag to place after the given
+   * `name`.
+   */
   constructor(
     name: Name,
     opening: Opening,
@@ -55,11 +72,12 @@ export abstract class TagExtension<
   }
   //#endregion constructor.
 
-  //#region instance methods.
+  //#region instance public methods.
   /**
-   *
-   * @param name
-   * @returns
+   * Gets the attribute of a specified name.
+   * @param name The attribute name to get.
+   * @returns The return value is the attribute of an instance of `Attribute` if set, otherwise `undefined`.
+   * @angularpackage
    */
   public getAttribute<AttrName extends AttributeName>(
     name: AttrName
@@ -138,10 +156,10 @@ export abstract class TagExtension<
    * @returns The return value is a new `Tagged` instance with a tagged `text`.
    * @angularpackage
    */
-  public tagText<Text extends string>(
+  public tag<Text extends string>(
     text: Text
-  ): Tagged<Text, Name, Opening, Closing, AttributeName> {
-    return new Tagged(text, this.#openingTag, this.#closingTag);
+  ): TaggedText<Text, Name, Opening, Closing> {
+    return `${this.#openingTag.valueOf()}${text}${this.#closingTag.valueOf()}`;
   }
 
   /**
@@ -153,7 +171,7 @@ export abstract class TagExtension<
   public textHasClosingTag<Text extends string>(text: Text): text is Text {
     return (
       this.#closingTag.textHasTag(text) &&
-      text.slice(-this.closingTag.length) === this.closingTag.value
+      text.slice(-this.closingTag.length) === this.closingTag.valueOf()
     );
   }
 
@@ -166,7 +184,7 @@ export abstract class TagExtension<
   public textHasOpeningTag<Text extends string>(text: Text): text is Text {
     return (
       this.#openingTag.textHasTag(text) &&
-      text.slice(0, this.openingTag.length) === this.openingTag.value
+      text.slice(0, this.openingTag.length) === this.openingTag.valueOf()
     );
   }
 
@@ -183,5 +201,5 @@ export abstract class TagExtension<
       (text = text.valueOf().slice(this.openingTag.length));
     return text;
   }
-  //#endregion methods.
+  //#endregion instance public methods.
 }
