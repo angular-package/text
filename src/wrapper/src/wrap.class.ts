@@ -4,9 +4,9 @@ import { isStringType, isInstance } from '@angular-package/type';
  * opening,content and closing.
  */
 export class Wrap<
-  Opening extends string,
-  Closing extends string,
-  Content extends string = ``
+  Opening extends string = string,
+  Content extends string = ``,
+  Closing extends string = string,
 > extends String {
   //#region instance accessors.
   /**
