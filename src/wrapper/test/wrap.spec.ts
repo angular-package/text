@@ -31,6 +31,14 @@ testing.describe(`Wrap`, () => {
     })
     .describe(`methods`, () => {
       testing
+        .it(`Wrap.isWrap()`, () => {
+          expect(Wrap.isWrap(wrap, opening, closing, content)).toEqual(true);
+          expect(Wrap.isWrap(wrap, undefined, closing, content)).toEqual(true);
+          expect(Wrap.isWrap(wrap, undefined, undefined, content)).toEqual(true);
+          expect(Wrap.isWrap(wrap, undefined, undefined, undefined)).toEqual(true);
+          expect(Wrap.isWrap(wrap, opening, undefined, undefined)).toEqual(true);
+          expect(Wrap.isWrap(wrap, opening, closing, undefined)).toEqual(true);
+        })
         .it(`Wrap.prototype.getClosing()`, () => {
           expect(wrap.getClosing()).toEqual(closing);
           toBe.stringIncludes(wrap.getClosing(), [closing]);
