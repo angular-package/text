@@ -6,7 +6,7 @@ import { isStringType, isInstance } from '@angular-package/type';
 export class Wrap<
   Opening extends string,
   Closing extends string,
-  Content extends string = ``,
+  Content extends string = ``
 > extends String {
   //#region instance accessors.
   /**
@@ -70,23 +70,25 @@ export class Wrap<
    * @param value The value of any type to test against the `Wrap` instance of any or given opening and closing.
    * @param opening An optional wrap opening of a generic type variable `Opening` to check if the given `value` contains.
    * @param closing An optional wrap closing of a generic type variable `Closing` to check if the given `value` contains.
+   * @param content An optional content of a generic type variable `Content` to check if the given `value` contains.
    * @returns The return value is a `boolean` type indicating whether the value is an instance of `Wrap` of any or given opening and
    * closing.
    * @angularpackage
    */
-  public static isWrap<Opening extends string, Closing extends string>(
+  public static isWrap<
+    Opening extends string,
+    Closing extends string,
+    Content extends string
+  >(
     value: any,
     opening?: Opening,
-    closing?: Closing
+    closing?: Closing,
+    content?: Content
   ): value is Wrap<Opening, Closing> {
     return isInstance(value, Wrap)
-      ? isStringType(opening) && isStringType(closing)
-        ? opening === value.opening && closing === value.closing
-        : isStringType(opening)
-        ? opening === value.opening
-        : isStringType(closing)
-        ? closing === value.closing
-        : true
+      ? (isStringType(opening) ? opening === value.opening : true) &&
+          (isStringType(closing) ? closing === value.closing : true) &&
+          (isStringType(content) ? content === value.content : true)
       : false;
   }
 
@@ -125,6 +127,7 @@ export class Wrap<
   /**
    * Gets the content of the wrap, without the opening and closing of the `Wrap`.
    * @returns The return value is the content of a generic type variable `Content`.
+   * @angularpackage
    */
   public getContent(): Content {
     return this.#content;
