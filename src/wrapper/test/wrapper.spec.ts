@@ -4,14 +4,11 @@ import {
   TestingToBeMatchers,
 } from '@angular-package/testing';
 
-import { AllowedChars } from '../../lib/allowed-chars.class';
-import { Wrapper } from '../src/wrapper.class';
 import { Wrap } from '../src/wrap.class';
-// import { Wrapped } from '../src/REMOVE?-wrapped.class';
+import { Wrapper } from '../src/wrapper.class';
 
 const testing = new Testing(false, false);
 const toBe = new TestingToBeMatchers();
-
 
 testing.describe(`Wrapper`, () => {
   const opening = `<`;
