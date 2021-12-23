@@ -213,6 +213,18 @@ export class Tag<
   }
 
   /**
+   * Checks whether the tag has an attribute of a specified name.
+   * @param name The attribute name of a generic type variable `AttrName` to check whether the tag has.
+   * @returns The return value is a `boolean` indicating whether the tag has an attribute of a specified name.
+   * @angularpackage
+   */
+  public hasAttribute<AttrName extends AttributeName>(
+    name: AttrName
+  ): boolean | undefined {
+    return this.#attributes?.has(name);
+  }
+
+  /**
    * The method replaces the tag of a specified `Tag` object with the provided `replaceValue` in the given `text` if both values are
    * strings.
    * ! The return type of a generic type variable `Text` returns the text with not replaced tags.
