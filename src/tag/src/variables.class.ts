@@ -36,7 +36,7 @@ export class Variables<Names extends string> {
 
   //#region instance private properties.
   /**
-   * Private variables of a Map type to store `Variable` instances.
+   * Private variables of a `Map` type to store `Variable` instances.
    */
   #variables: Map<Names, Variable<any>> = new Map();
   //#endregion instance private properties.
@@ -87,7 +87,7 @@ export class Variables<Names extends string> {
 
   /**
    * The method gets the variable of a specified name.
-   * @param name The variable name to get.
+   * @param name The variable name of a generic type variable `Name` to retrieve an instance of `Variable`  from storage.
    * @returns The return value is the `Variable` instance of a specified name.
    * @angularpackage
    */
@@ -106,7 +106,7 @@ export class Variables<Names extends string> {
 
   /**
    * Checks whether the variable under the given name exists.
-   * @param name The variable name to check.
+   * @param name The variable name of a generic type variable `Name` under which check existence of the `Variable` instance in the storage.
    * @returns The return value is a `boolean` indicating whether a variable of a specified name exists.
    * @angularpackage
    */
@@ -115,8 +115,9 @@ export class Variables<Names extends string> {
   }
 
   /**
-   * Adds or updates the variable under the given name, with an optional value.
-   * @param name The variable name to add or update.
+   * Defines a new variable under the given name, with an optional value.
+   * @param name The name of a generic type variable `Name` to define a new variable.
+   * @param value An optional value of a `string` type to set with a given name.
    * @returns The return value is an instance of `Variables`.
    * @angularpackage
    */
