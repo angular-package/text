@@ -84,8 +84,8 @@ export class Wrap<
     opening?: Opening,
     closing?: Closing,
     content?: Content
-  ): value is Wrap<Opening, Closing> {
-    return isInstance(value, Wrap)
+  ): value is Wrap<Opening, Closing, Content> {
+    return isInstance(value, this)
       ? (isStringType(opening) ? opening === value.opening : true) &&
           (isStringType(closing) ? closing === value.closing : true) &&
           (isStringType(content) ? content === value.content : true)
