@@ -1,6 +1,6 @@
 import { Testing, TestingToBeMatchers } from '@angular-package/testing';
 
-import { Attribute } from '../lib/attribute.class';
+import { Attribute } from '../src/attribute.class';
 
 const testing = new Testing(true, true);
 const toBe = new TestingToBeMatchers();

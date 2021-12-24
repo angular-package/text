@@ -1,6 +1,6 @@
 import { Testing, TestingToBeMatchers } from '@angular-package/testing';
 
-import { Attributes } from '../../lib/attributes.class';
+import { Attributes } from '../attribute/src/attributes.class';
 import { Tag } from '../src/tag.class';
 import { Wrapper } from '../../wrapper/src/wrapper.class';
 

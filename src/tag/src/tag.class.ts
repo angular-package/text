@@ -7,8 +7,8 @@ import {
   isStringType,
 } from '@angular-package/type';
 // Class.
-import { Attribute } from '../../lib/attribute.class';
-import { Attributes } from '../../lib/attributes.class';
+import { Attribute } from '../attribute/src/attribute.class';
+import { Attributes } from '../attribute/src/attributes.class';
 import { Wrap } from '../../wrapper/src/wrap.class';
 import { Wrapper } from '../../wrapper/src/wrapper.class';
 /**

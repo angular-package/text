@@ -1,6 +1,6 @@
 import { guardString, isString } from '@angular-package/type';
 // Class.
-import { Attribute } from '../../lib/attribute.class';
+import { Attribute } from '../attribute/src/attribute.class';
 import { ClosingTag } from './closing-tag.class';
 import { OpeningTag } from './opening-tag.class';
 import { Tag } from './tag.class';
