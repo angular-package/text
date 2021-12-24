@@ -11,6 +11,7 @@ export class Tags<
   Closing extends string,
   Attributes extends string = string
 > {
+  //#region instance public accessors.
   /**
    * The `get` accessor returns the closing chars common for the tags.
    * @returns The return value is the tag closing chars of a generic type variable `Closing`.
@@ -45,7 +46,9 @@ export class Tags<
   public get [Symbol.toStringTag](): string {
     return 'tags';
   }
+  //#endregion instance public accessors.
 
+  //#region instance private properties.
   /**
    * Private property of the closing chars placed after the name.
    */
@@ -60,7 +63,9 @@ export class Tags<
    * Private property of tags of a `Map` type.
    */
   #tags: Map<Names, Tag<any, any, any, any>> = new Map();
+  //#endregion instance private properties.
 
+  //#region static public methods.
   /**
    * The method checks if the value of any type is an instance of `Tags`.
    * @param value The value of any type to test against the `Tags` instance.
@@ -73,6 +78,7 @@ export class Tags<
   >(value: any): value is Tags<Names, Opening, Closing> {
     return isInstance(value, Tags);
   }
+  //#endregion static public methods.
 
   //#region constructor.
   /**
@@ -106,6 +112,23 @@ export class Tags<
     this.#opening = opening;
   }
   //#endregion constructor.
+
+  //#region instance public methods.
+  /**
+   * Removes the tag under the given name from the `Tags` storage.
+   * @param name The tag name to remove.
+   * @param removed An optional callback function to get the status of the removal.
+   * @returns The return value is an instance of `Tags`.
+   * @angularpackage
+   */
+   public delete<Name extends Names>(
+    name: Name,
+    removed: (status: boolean) => void = () => {}
+  ): this {
+    removed(this.#tags.delete(name));
+    return this;
+  }
+
 
   /**
    * The method executes a provided `forEach` function once per each tag in the `Tags` object.
@@ -168,4 +191,5 @@ export class Tags<
     );
     return this;
   }
+  //#endregion instance public methods.
 }
