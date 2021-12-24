@@ -69,6 +69,7 @@ export class Attribute<
    * @param name An optional attribute name of a generic type variable `Name` to check if the given `value` contains.
    * @param val An optional attribute value of a generic type variable `Value` to check if the given `value` contains.
    * @returns The return value is a `boolean` indicating whether the provided `value` is an instance of `Attribute`.
+   * @angularpackage
    */
   public static isAttribute<Name extends string, Value extends string>(
     value: any,
@@ -89,7 +90,7 @@ export class Attribute<
    * @returns The return value is the attribute of a `string` type indicating the attribute name is equal to the value.
    * @angularpackage
    */
-  public static template(
+  protected static template(
     template: TemplateStringsArray,
     ...values: any[]
   ): string {
@@ -127,6 +128,15 @@ export class Attribute<
     return {
       [this.#name]: this.#value,
     } as { [key in Name]: Value };
+  }
+
+  /**
+   * Returns attribute, the primitive value of a specified object.
+   * @returns The return value is the attribute of a generic type variables `Name` and `Value` on the template `${Name}="${Value}"`.
+   * @angularpackage
+   */
+  public toString(): `${Name}="${Value}"` {
+    return this.valueOf();
   }
 
   /**
