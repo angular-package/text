@@ -3,7 +3,8 @@ import { isInstance, isDefined } from '@angular-package/type';
 // Class.
 import { Tag } from './tag.class';
 /**
- * The `Variable` is an extension of the `Tag` string object and represents an immutable variable in the form {variable name}.
+ * The `Variable` is an extension of the `Tag` string object that represents an immutable variable in the form {variable name} with the
+ * ability to set its replacement value.
  */
 export class Variable<
   Name extends string,
@@ -12,7 +13,7 @@ export class Variable<
   //#region instance public accessors.
   /**
    * The `get` accessor returns the value of a specified `Variable` object.
-   * @returns The return value is the value of a `string` type if set, otherwise `undefined`.
+   * @returns The return value is the value of a `string` type from the private `#value` property if set, otherwise `undefined`.
    * @angularpackage
    */
   public get value(): Value | undefined {
@@ -39,7 +40,7 @@ export class Variable<
 
   //#region instance private properties.
   /**
-   * Private value of a generic type variable `Value`.
+   * Private property of the value of a generic type variable `Value`.
    */
   #value?: Value;
   //#endregion instance private properties.
@@ -60,7 +61,7 @@ export class Variable<
   }
 
   /**
-   * The static method checks if the value of any type is an instance of a `Variable`.
+   * The static method checks whether the value of any type is an instance of a `Variable`.
    * @param value The value of any type to check against the instance of `Variable`.
    * @param name Optional name of a generic type variable `Name`, as the variable name of a given value.
    * @returns The return value is a `boolean` type indicating whether the value is the `Variable` instance of any or a given name.
@@ -92,7 +93,8 @@ export class Variable<
   //#region instance public methods.
   /**
    * Gets the value of the variable.
-   * @returns The return value is the value of a generic type variable `Value` if set, otherwise `undefined`.
+   * @returns The return value is the value of a generic type variable `Value` from the private `#value` property if set, otherwise
+   * `undefined`.
    * @angularpackage
    */
   public getValue(): Value | undefined {
@@ -100,42 +102,52 @@ export class Variable<
   }
 
   /**
+   * @deprecated Deprecated to achieve immutable name and the value.
    * Sets the value for the variable.
-   * @param value The value of a generic type variable `Value` to set.
+   * @param value The value of a generic type variable `Value` to set the private `#value` property.
    * @returns The return value is an instance of `Variable`.
    * @angularpackage
    */
   public setValue(value: Value): this {
-    this.#value = value;
+    // this.#value = value;
     return this;
   }
 
   /**
-   * Replaces variable in format {variable name} with the value of a specified `Variable` object in the given text.
-   * @param text The text of a `string` type in which replace the variable with the value.
+   * Replaces variable in format {variable name} with the value of a specified `Variable` object or with a provided `replaceValue` in the
+   * given text.
+   * @param text The text of a `string` type in which replace the variable with the value from the private `#value` property.
+   * @param replaceValue An optional value of a generic type variable `Value` to replace in a given `text`. By default, it takes the value
+   * from a private `#value` property.
    * @returns The return value is the text of a `string` type with a replaced variable by value.
    * @angularpackage
    */
-  public replaceVariable(text: string): string {
-    return this.replaceTag(text, this.#value || ``);
+  public replaceVariable<Val extends Value>(
+    text: string,
+    replaceValue: Val | undefined = this.#value as Val
+  ): string {
+    return this.replaceTag(text, replaceValue || ``);
   }
 
   /**
-   * Returns converted variable to array where the first element is the name, and the second is the value.
-   * @returns The return value is an array of attributes.
+   * Returns converted variable to a read-only array where the first element is the name, and the second is the value.
+   * @returns The return value is a read-only array of the variable name and value.
    * @angularpackage
    */
-  public toArray(): [Name, Value | undefined] {
+  public toArray(): readonly [Name, Value | undefined] {
     return [this.name, this.#value];
   }
 
   /**
-   * Returns converted variable to object where the key is the variable name.
-   * @returns The return value is an object where the property name is variable name equal to variable value.
+   * Returns converted variable to a read-only object where the key is the variable name.
+   * @returns The return value is a read-only object where the property name is the variable name, and the property value is equal to the
+   * variable value.
    * @angularpackage
    */
-  public toObject(): Readonly<{ [K in Name]: Value }> {
-    return { [this.name]: this.#value } as { [K in Name]: Value };
+  public toObject(): Readonly<{ [K in Name]: Value | undefined }> {
+    return Object.freeze({ [this.name]: this.#value }) as {
+      [K in Name]: Value | undefined;
+    };
   }
 
   /**
