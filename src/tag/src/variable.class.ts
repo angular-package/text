@@ -1,5 +1,5 @@
 // @angular-package/type.
-import { isInstance, isDefined } from '@angular-package/type';
+import { isInstance, isDefined, isStringType } from '@angular-package/type';
 // Class.
 import { Tag } from './tag.class';
 /**
@@ -64,15 +64,18 @@ export class Variable<
    * The static method checks whether the value of any type is an instance of a `Variable`.
    * @param value The value of any type to check against the instance of `Variable`.
    * @param name Optional name of a generic type variable `Name`, as the variable name of a given value.
+   * @param variableValue The optional variable value of a generic type variable `Value` to check if the given value contains.
    * @returns The return value is a `boolean` type indicating whether the value is the `Variable` instance of any or a given name.
    * @angularpackage
    */
-  public static isVariable<Name extends string>(
+  public static isVariable<Name extends string, Value extends string>(
     value: any,
-    name?: Name
+    name?: Name,
+    variableValue?: Value
   ): value is Variable<Name> {
     return isInstance(value, Variable)
-      ? isDefined(name) && value.name === name
+      ? (isStringType(name) ? value.name === name : true) &&
+        (isStringType(variableValue) ? value.value === variableValue : true)
       : false;
   }
   //#endregion static public methods.
