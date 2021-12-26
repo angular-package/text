@@ -101,12 +101,17 @@ export class Tags<
     // Define a new tag under the given name.
     names.forEach((tag) => {
       isStringType(tag)
-      ? this.#tags.set(tag, new Tag(tag, opening, closing, ...attributes))
-      : (([name, ...customAttributes] = tag),
-        this.#tags.set(
-          name,
-          new Tag(name, opening, closing, ...customAttributes)
-        ));
+        ? this.#tags.set(tag, new Tag(tag, opening, closing, ...attributes))
+        : (([name, ...customAttributes] = tag),
+          this.#tags.set(
+            name,
+            new Tag(
+              name,
+              opening,
+              closing,
+              ...customAttributes.concat(attributes)
+            )
+          ));
     });
     this.#closing = closing;
     this.#opening = opening;
@@ -121,14 +126,13 @@ export class Tags<
    * @returns The return value is an instance of `Tags`.
    * @angularpackage
    */
-   public delete<Name extends Names>(
+  public delete<Name extends Names>(
     name: Name,
     removed: (status: boolean) => void = () => {}
   ): this {
     removed(this.#tags.delete(name));
     return this;
   }
-
 
   /**
    * The method executes a provided `forEach` function once per each tag in the `Tags` object.
