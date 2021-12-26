@@ -12,7 +12,7 @@ export class Variables<Names extends string> {
    * @returns The return value is an object of variables built from the `Map` entries.
    * @angularpackage
    */
-  public get variable(): Record<Names, {}> {
+  public get variable(): Record<Names, Variable<Names>> {
     return Object.fromEntries(this.#variables.entries()) as any;
   }
 
@@ -88,11 +88,11 @@ export class Variables<Names extends string> {
   /**
    * The method gets the variable of a specified name.
    * @param name The variable name of a generic type variable `Name` to retrieve an instance of `Variable`  from storage.
-   * @returns The return value is the `Variable` instance of a specified name.
+   * @returns The return value is the `Variable` instance of a specified name if set, otherwise `undefined`.
    * @angularpackage
    */
-  public get<Name extends Names>(name: Name): Variable<Name> {
-    return this.#variables.get(name) as Variable<Name>;
+  public get<Name extends Names>(name: Name): Variable<Name> | undefined {
+    return this.#variables.get(name);
   }
 
   /**
@@ -123,20 +123,6 @@ export class Variables<Names extends string> {
    */
   public set<Name extends Names>(name: Name, value?: string): this {
     this.#variables.set(name, new Variable(name, value));
-    return this;
-  }
-
-
-  /**
-   * @deprecated Deprecated to achieve immutable name and the value.
-   * Sets the value of the existing variable under the given name.
-   * @param name The name of a generic type variable `Name` of existing `Variable` instance to set the given value.
-   * @param value The value of a `string` type to set in the existing `Variable` instance under the given name.
-   * @returns The return value is an instance of `Variables`.
-   * @angularpackage
-   */
-  public setVariableValue<Name extends Names>(name: Name, value: string): this {
-    // this.#variables.get(name)?.setValue(value);
     return this;
   }
   //#endregion instance public methods.
