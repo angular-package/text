@@ -4,7 +4,7 @@ import { isInstance } from '@angular-package/type';
 import { Variable } from '../tag/src/variable.class';
 import { Variables } from '../tag/src/variables.class';
 /**
- * The `Template` string object is an immutable template with variables to be replaced.
+ * The `Template` string object is an immutable template with immutable replaceable variables.
  */
 export class Template<
   Tpl extends string = string,
@@ -25,8 +25,8 @@ export class Template<
    * @returns The return value is an object of attributes.
    * @angularpackage
    */
-  public get variable(): Record<VariableNames, {}> {
-    return this.#variables.variable;
+  public get variable(): Record<VariableNames, Variable<VariableNames>> {
+    return this.#variables.variable as any;
   }
 
   /**
@@ -73,12 +73,16 @@ export class Template<
   /**
    * Creates a new `Template` instance of immutable template with a replaceable variables.
    * @param template The template of a generic type variable `Tpl` where given variables names should exists.
-   * @param variablesNames A rest parameter of variable names that should exist in the template in a form {name}.
+   * @param variables A rest parameter of string variable names or an array of name-value pairs that should exist in the template
+   * in a form {name}.
    * @angularpackage
    */
-  constructor(template: Tpl, ...variablesNames: VariableNames[]) {
+  constructor(
+    template: Tpl,
+    ...variables: (VariableNames | [VariableNames, string])[]
+  ) {
     super(template);
-    this.#variables = new Variables(...variablesNames);
+    this.#variables = new Variables(...variables);
   }
   //#endregion constructor.
 
@@ -111,7 +115,9 @@ export class Template<
    * @returns The return value is the variable of a `Variable` type.
    * @angularpackage
    */
-  public getVariable<Name extends VariableNames>(name: Name): Variable<Name> {
+  public getVariable<Name extends VariableNames>(
+    name: Name
+  ): Variable<Name> | undefined {
     return this.#variables.get(name);
   }
 
@@ -146,21 +152,6 @@ export class Template<
     value?: string
   ): this {
     this.#variables.set(name, value);
-    return this;
-  }
-
-  /**
-   * Sets the value of existing variable under specified name.
-   * @param name The name of a generic type variable `Name` under which the value of the `Variable` instance is set.
-   * @param value The value of a `string` type to set in the `Variable` instance under the given name.
-   * @returns The return value is an instance of `Template`.
-   * @angularpackage
-   */
-  public setVariableValue<Name extends VariableNames>(
-    name: Name,
-    value: string
-  ): this {
-    this.#variables.setVariableValue(name, value);
     return this;
   }
 
