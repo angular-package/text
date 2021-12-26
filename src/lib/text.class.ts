@@ -128,7 +128,6 @@ export class Text<Tpl extends string, VariableNames extends string> {
   }
 
   /**
-   * REVIEW: variables
    * Sets the template with initial or provided variables.
    * @param template The template of the `Template` type to set.
    * @param variables A rest parameter of string variable names or an array of name-value pairs to set with a given template. If there is
