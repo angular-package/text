@@ -1,15 +1,17 @@
+// @angular-package/type.
+import { isTrue } from '@angular-package/type';
 // Class.
 import { Template } from './template.class';
 /**
- *
+ * The `Text` object with the use of `Template` creates the text by replacing template variables.
  */
-export class Text<Tpl extends string, Variables extends string> {
+export class Text<Tpl extends string, VariableNames extends string> {
   /**
    * The `get` accessor returns the template of a specified `Text` object.
    * @returns The return value is the template of a `Template` type.
    * @angularpackage
    */
-  public get template(): Template<Tpl, Variables> {
+  public get template(): Template<Tpl, VariableNames> {
     return this.#template;
   }
 
@@ -19,34 +21,37 @@ export class Text<Tpl extends string, Variables extends string> {
    * @angularpackage
    */
   public get text(): string {
-    this.#resetText().#replaceVariables();
-    return this.#text;
+    return this.#replaceVariables().#text;
   }
 
   /**
    * Private property of an array of variable names.
    */
-  #names: Variables[];
+  #names: (VariableNames | [VariableNames, string])[];
 
   /**
    * Private property of the template of `Template` type.
    */
-  #template: Template<Tpl, Variables>;
+  #template: Template<Tpl, VariableNames>;
 
   /**
    * Private property of the text of a `string` type, by default an empty string.
    */
-  #text = '';
+  #text: string;
 
   /**
    * Creates the `Text` instance with the template and replaceable variables.
    * @param template The template of a generic type variable `Tpl` to set.
-   * @param names A rest parameter of variable names to replace in the given template.
+   * @param variables A rest parameter of string variable names or an array of name-value pairs to replace in the given template.
    * @angularpackage
    */
-  constructor(template: Tpl, ...names: Variables[]) {
-    this.#template = new Template(template, ...names);
-    this.#names = names;
+  constructor(
+    template: Tpl,
+    ...variables: (VariableNames | [VariableNames, string])[]
+  ) {
+    this.#template = new Template(template, ...variables);
+    this.#names = variables;
+    this.#text = this.#template.template;
   }
 
   /**
@@ -55,10 +60,10 @@ export class Text<Tpl extends string, Variables extends string> {
    * @returns The return value is a `string` type replacement value if set, otherwise `undefined`.
    * @angularpackage
    */
-  public getReplacement<Variable extends Variables>(
+  public getReplacement<Variable extends VariableNames>(
     variable: Variable
   ): string | undefined {
-    return this.#template.getVariable(variable).value;
+    return this.#template.getVariable(variable)?.value;
   }
 
   /**
@@ -66,7 +71,7 @@ export class Text<Tpl extends string, Variables extends string> {
    * @returns The return value is the template of the `Template` type.
    * @angularpackage
    */
-  public getTemplate(): Template<Tpl, Variables> {
+  public getTemplate(): Template<Tpl, VariableNames> {
     return this.#template;
   }
 
@@ -75,34 +80,70 @@ export class Text<Tpl extends string, Variables extends string> {
    * @returns The return value is the text of a `string` type.
    * @angularpackage
    */
-  public getText(): string {
-    return this.text;
+  public getText(resetText: boolean = false): string {
+    return isTrue(resetText) && this.resetText(), this.text;
   }
 
   /**
    * Replaces the variable of a given name with the replacement value in the template.
-   * @param variable The name of a generic type variable `Variable` to replace with the given replacement value in the template.
+   * @param variableName The name of a generic type variable `Variable` to replace with the given replacement value in the template.
    * @param replaceValue The replacement value of a `string` type for the given variable name in the template.
    * @returns The return value is an instance of `Text`.
    * @angularpackage
    */
-  public replace<Variable extends Variables>(
-    variable: Variable,
+  public replaceVariable<VariableName extends VariableNames>(
+    variableName: VariableName,
     replaceValue: string
   ): this {
-    this.#template.setVariable(variable, replaceValue);
+    this.#text =
+      this.#template
+        .getVariable(variableName)
+        ?.replaceVariable(this.#text, replaceValue) || this.#text;
     return this;
   }
 
   /**
-   * Sets the template with initial or provided variables.
-   * @param template The template of the `Template` type to set.
-   * @param names A rest parameter of variable names to set with a given template. If not provided then initial variables are used.
+   * Defines a new variable of specified name with an optional value.
+   * @param variableName The variable name of a generic type variable `VariableName` to define.
+   * @param replaceValue An optional variable value of a `string` type to define with a new variable.
    * @returns The return value is an instance of `Text`.
    * @angularpackage
    */
-  public setTemplate(template: Tpl, ...names: Variables[]): this {
-    this.#template = new Template(template, ...names.length > 0 ? names : this.#names);
+  public setVariable<VariableName extends VariableNames>(
+    variableName: VariableName,
+    replaceValue?: string
+  ): this {
+    this.#template.setVariable(variableName, replaceValue);
+    return this;
+  }
+
+  /**
+   * Resets private `#text` property with a clean template.
+   * @returns The return value is an instance of `Text`.
+   * @angularpackage
+   */
+  public resetText(): this {
+    this.#text = this.#template.template;
+    return this;
+  }
+
+  /**
+   * REVIEW: variables
+   * Sets the template with initial or provided variables.
+   * @param template The template of the `Template` type to set.
+   * @param variables A rest parameter of string variable names or an array of name-value pairs to set with a given template. If there is
+   * no value provided then the initial variables are used.
+   * @returns The return value is an instance of `Text`.
+   * @angularpackage
+   */
+  public setTemplate(
+    template: Tpl,
+    ...variables: (VariableNames | [VariableNames, string])[]
+  ): this {
+    this.#template = new Template(
+      template,
+      ...(variables.length > 0 ? variables : this.#names)
+    );
     return this;
   }
 
@@ -114,19 +155,8 @@ export class Text<Tpl extends string, Variables extends string> {
   #replaceVariables(): this {
     // Use tags from the template to replace text.
     this.#template.forEachVariable(
-      (variable) => (this.#text = variable.replaceVariable(this.#text ))
+      (variable) => (this.#text = variable.replaceVariable(this.#text))
     );
-    return this;
-  }
-
-  /**
-   * Resets private `#text` property with a clean template.
-   * @returns The return value is an instance of `Text`.
-   * @angularpackage
-   */
-  #resetText(): this {
-    // Reset text.
-    this.#text = this.#template.valueOf();
     return this;
   }
 }
