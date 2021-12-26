@@ -1,3 +1,4 @@
+// @angular-package/type.
 import { guardString, isString } from '@angular-package/type';
 // Class.
 import { Attribute } from '../attribute/src/attribute.class';
@@ -7,8 +8,8 @@ import { Tag } from './tag.class';
 // Type.
 import { TaggedText } from '../type/tagged-text.type';
 /**
- * The `TagExtension` is an extension 
- * string object represents the immutable tag of the opening and closing.
+ * The `TagExtension` string object is an extension for `Tag` string object and is a middleware to create in an easy way `Html` and `BBCode`
+ * tags with additional crucial features like `OpeningTag` and `ClosingTag`.
  */
 export abstract class TagExtension<
   Name extends string,
