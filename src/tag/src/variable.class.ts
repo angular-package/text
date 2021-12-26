@@ -4,7 +4,7 @@ import { isInstance, isDefined } from '@angular-package/type';
 import { Tag } from './tag.class';
 /**
  * The `Variable` is an extension of the `Tag` string object that represents an immutable variable in the form {variable name} with the
- * ability to set its replacement value.
+ * ability to set its value.
  */
 export class Variable<
   Name extends string,
@@ -86,7 +86,7 @@ export class Variable<
    */
   constructor(name: Name, value?: Value) {
     super(name, '{', '}');
-    this.#value = value;
+    isDefined(value) && (this.#value = value);
   }
   //#endregion constructor.
 
@@ -102,31 +102,19 @@ export class Variable<
   }
 
   /**
-   * @deprecated Deprecated to achieve immutable name and the value.
-   * Sets the value for the variable.
-   * @param value The value of a generic type variable `Value` to set the private `#value` property.
-   * @returns The return value is an instance of `Variable`.
-   * @angularpackage
-   */
-  public setValue(value: Value): this {
-    // this.#value = value;
-    return this;
-  }
-
-  /**
    * Replaces variable in format {variable name} with the value of a specified `Variable` object or with a provided `replaceValue` in the
    * given text.
    * @param text The text of a `string` type in which replace the variable with the value from the private `#value` property.
    * @param replaceValue An optional value of a generic type variable `Value` to replace in a given `text`. By default, it takes the value
-   * from a private `#value` property.
+   * from a private `#value` property and if it's `undefined` then it takes an empty `string`.
    * @returns The return value is the text of a `string` type with a replaced variable by value.
    * @angularpackage
    */
-  public replaceVariable<Val extends Value>(
+  public replaceVariable<ReplaceValue extends Value>(
     text: string,
-    replaceValue: Val | undefined = this.#value as Val
+    replaceValue?: ReplaceValue
   ): string {
-    return this.replaceTag(text, replaceValue || ``);
+    return this.replaceTag(text, replaceValue || this.#value || '');
   }
 
   /**
