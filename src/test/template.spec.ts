@@ -17,12 +17,12 @@ testing.describe(`Template`, () => {
   const problem = 'problem';
   const problemValue = 'crucial crush';
 
-  const text = 'There is {fix} for the {problem} with {id}';
+  const template = 'There is {fix} for the {problem} with {id}';
   const variables = [fix, id, problem];
 
-  const template = new Template(text, fix, id, problem);
-  const templateVariables = new Template(text, ...variables);
-  const templateWithValues = new Template(text, [fix, fixValue], [id, idValue], [problem, problemValue]);
+  const templateSimple = new Template(template, fix, id, problem);
+  const templateVariables = new Template(template, ...variables);
+  const templateWithValues = new Template(template, [fix, fixValue], [id, idValue], [problem, problemValue]);
 
   testing
 
@@ -31,29 +31,29 @@ testing.describe(`Template`, () => {
       testing
 
         .it(`Template.prototype.template`, () => {
-          expect(template.template).toEqual(text);
-          toBe.stringIncludes(template.template, [fix, id, problem]);
+          expect(templateSimple.template).toEqual(template);
+          toBe.stringIncludes(templateSimple.template, [fix, id, problem]);
 
-          expect(templateVariables.template).toEqual(text);
+          expect(templateVariables.template).toEqual(template);
           toBe.stringIncludes(templateVariables.template, [fix, id, problem]);
 
-          expect(templateWithValues.template).toEqual(text);
+          expect(templateWithValues.template).toEqual(template);
           toBe.stringIncludes(templateWithValues.template, [fix, id, problem]);
         })
 
         .it(`Template.prototype.variable`, () => {
           // template
-          expect(template.variable.fix).toBeInstanceOf(Variable);
-          expect(template.variable.id).toBeInstanceOf(Variable);
-          expect(template.variable.problem).toBeInstanceOf(Variable);
+          expect(templateSimple.variable.fix).toBeInstanceOf(Variable);
+          expect(templateSimple.variable.id).toBeInstanceOf(Variable);
+          expect(templateSimple.variable.problem).toBeInstanceOf(Variable);
 
-          expect(template.variable.fix.name).toEqual(fix);
-          expect(template.variable.id.name).toEqual(id);
-          expect(template.variable.problem.name).toEqual(problem);
+          expect(templateSimple.variable.fix.name).toEqual(fix);
+          expect(templateSimple.variable.id.name).toEqual(id);
+          expect(templateSimple.variable.problem.name).toEqual(problem);
 
-          expect(template.variable.fix.value).toBeUndefined();
-          expect(template.variable.id.value).toBeUndefined();
-          expect(template.variable.problem.value).toBeUndefined();
+          expect(templateSimple.variable.fix.value).toBeUndefined();
+          expect(templateSimple.variable.id.value).toBeUndefined();
+          expect(templateSimple.variable.problem.value).toBeUndefined();
 
           // templateVariables
           expect(templateVariables.variable.fix).toBeInstanceOf(Variable);
@@ -84,15 +84,15 @@ testing.describe(`Template`, () => {
 
         .it(`Template.prototype.variables`, () => {
           // template
-          expect(template.variables[0].name).toEqual(fix);
-          expect(template.variables[1].name).toEqual(id);
-          expect(template.variables[2].name).toEqual(problem);
+          expect(templateSimple.variables[0].name).toEqual(fix);
+          expect(templateSimple.variables[1].name).toEqual(id);
+          expect(templateSimple.variables[2].name).toEqual(problem);
 
-          expect(template.variables[0].value).toBeUndefined();
-          expect(template.variables[1].value).toBeUndefined();
-          expect(template.variables[2].value).toBeUndefined();
+          expect(templateSimple.variables[0].value).toBeUndefined();
+          expect(templateSimple.variables[1].value).toBeUndefined();
+          expect(templateSimple.variables[2].value).toBeUndefined();
 
-          template.variables.forEach(variable =>
+          templateSimple.variables.forEach(variable =>
             (expect(variable).toBeInstanceOf(Variable),
             toBe.instance(variable, Variable)));
 
@@ -123,7 +123,7 @@ testing.describe(`Template`, () => {
             toBe.instance(variable, Variable)));
 
           toBe
-            .array(template.variables)
+            .array(templateSimple.variables)
             .array(templateVariables.variables)
             .array(templateWithValues.variables);
         });
@@ -135,7 +135,7 @@ testing.describe(`Template`, () => {
       testing
 
         .it(`Template.prototype.forEachVariable()`, () => {
-          template.forEachVariable(variable =>
+          templateSimple.forEachVariable(variable =>
             (expect(variable).toBeInstanceOf(Variable),
             toBe
               .instance(variable, Variable)
@@ -156,53 +156,53 @@ testing.describe(`Template`, () => {
         })
 
         .it(`Template.prototype.getTemplate()`, () => {
-          expect(template.template).toEqual(text);
-          toBe.stringIncludes(template.template, [fix, id, problem]);
+          expect(templateSimple.template).toEqual(template);
+          toBe.stringIncludes(templateSimple.template, [fix, id, problem]);
 
-          expect(templateVariables.template).toEqual(text);
+          expect(templateVariables.template).toEqual(template);
           toBe.stringIncludes(templateVariables.template, [fix, id, problem]);
 
-          expect(templateWithValues.template).toEqual(text);
+          expect(templateWithValues.template).toEqual(template);
           toBe.stringIncludes(templateWithValues.template, [fix, id, problem]);
         })
 
         .it(`Template.prototype.getVariable()`, () => {
-          expect(template.getVariable(fix)?.name).toEqual(fix);
+          expect(templateSimple.getVariable(fix)?.name).toEqual(fix);
           expect(templateVariables.getVariable(fix)?.name).toEqual(fix);
           expect(templateWithValues.getVariable(fix)?.name).toEqual(fix);
 
-          expect(template.getVariable(fix)?.value).toBeUndefined();
+          expect(templateSimple.getVariable(fix)?.value).toBeUndefined();
           expect(templateVariables.getVariable(fix)?.value).toBeUndefined();
           expect(templateWithValues.getVariable(fix)?.value).toEqual(fixValue);
 
-          expect(template.getVariable(id)?.name).toEqual(id);
+          expect(templateSimple.getVariable(id)?.name).toEqual(id);
           expect(templateVariables.getVariable(id)?.name).toEqual(id);
           expect(templateWithValues.getVariable(id)?.name).toEqual(id);
 
-          expect(template.getVariable(id)?.value).toBeUndefined();
+          expect(templateSimple.getVariable(id)?.value).toBeUndefined();
           expect(templateVariables.getVariable(id)?.value).toBeUndefined();
           expect(templateWithValues.getVariable(id)?.value).toEqual(idValue);
 
-          expect(template.getVariable(problem)?.name).toEqual(problem);
+          expect(templateSimple.getVariable(problem)?.name).toEqual(problem);
           expect(templateVariables.getVariable(problem)?.name).toEqual(problem);
           expect(templateWithValues.getVariable(problem)?.name).toEqual(problem);
 
-          expect(template.getVariable(problem)?.value).toBeUndefined();
+          expect(templateSimple.getVariable(problem)?.value).toBeUndefined();
           expect(templateVariables.getVariable(problem)?.value).toBeUndefined();
           expect(templateWithValues.getVariable(problem)?.value).toEqual(problemValue);
         })
 
         .it(`Template.prototype.getVariables()`, () => {
           // template
-          expect(template.getVariables()[0].name).toEqual(fix);
-          expect(template.getVariables()[1].name).toEqual(id);
-          expect(template.getVariables()[2].name).toEqual(problem);
+          expect(templateSimple.getVariables()[0].name).toEqual(fix);
+          expect(templateSimple.getVariables()[1].name).toEqual(id);
+          expect(templateSimple.getVariables()[2].name).toEqual(problem);
 
-          expect(template.getVariables()[0].value).toBeUndefined();
-          expect(template.getVariables()[1].value).toBeUndefined();
-          expect(template.getVariables()[2].value).toBeUndefined();
+          expect(templateSimple.getVariables()[0].value).toBeUndefined();
+          expect(templateSimple.getVariables()[1].value).toBeUndefined();
+          expect(templateSimple.getVariables()[2].value).toBeUndefined();
 
-          template.getVariables().forEach(variable =>
+          templateSimple.getVariables().forEach(variable =>
             (expect(variable).toBeInstanceOf(Variable),
             toBe.instance(variable, Variable)));
 
@@ -233,42 +233,42 @@ testing.describe(`Template`, () => {
             toBe.instance(variable, Variable)));
 
           toBe
-            .array(template.getVariables())
+            .array(templateSimple.getVariables())
             .array(templateVariables.getVariables())
             .array(templateWithValues.getVariables());
         })
 
         .it(`Template.prototype.hasVariable()`, () => {
-          expect(template.hasVariable(fix)).toBeTrue();
+          expect(templateSimple.hasVariable(fix)).toBeTrue();
           expect(templateVariables.hasVariable(fix)).toBeTrue();
           expect(templateWithValues.hasVariable(fix)).toBeTrue();
 
-          expect(template.hasVariable(id)).toBeTrue();
+          expect(templateSimple.hasVariable(id)).toBeTrue();
           expect(templateVariables.hasVariable(id)).toBeTrue();
           expect(templateWithValues.hasVariable(id)).toBeTrue();
 
-          expect(template.hasVariable(problem)).toBeTrue();
+          expect(templateSimple.hasVariable(problem)).toBeTrue();
           expect(templateVariables.hasVariable(problem)).toBeTrue();
           expect(templateWithValues.hasVariable(problem)).toBeTrue();
 
-          expect(template.hasVariable('no prop' as any)).toBeFalse();
+          expect(templateSimple.hasVariable('no prop' as any)).toBeFalse();
           expect(templateVariables.hasVariable('no prop' as any)).toBeFalse();
           expect(templateWithValues.hasVariable('no prop' as any)).toBeFalse();
         })
 
         .it(`Template.prototype.setVariable()`, () => {
-          expect(template.setVariable(fix, 'new Value').getVariable(fix)?.value).toEqual('new Value');
-          template.setVariable(fix);
+          expect(templateSimple.setVariable(fix, 'new Value').getVariable(fix)?.value).toEqual('new Value');
+          templateSimple.setVariable(fix);
         })
 
         .it(`Template.prototype.valueOf()`, () => {
-          expect(template.valueOf()).toEqual(text);
-          toBe.stringIncludes(template.valueOf(), [fix, id, problem]);
+          expect(templateSimple.valueOf()).toEqual(template);
+          toBe.stringIncludes(templateSimple.valueOf(), [fix, id, problem]);
 
-          expect(templateVariables.valueOf()).toEqual(text);
+          expect(templateVariables.valueOf()).toEqual(template);
           toBe.stringIncludes(templateVariables.valueOf(), [fix, id, problem]);
 
-          expect(templateWithValues.valueOf()).toEqual(text);
+          expect(templateWithValues.valueOf()).toEqual(template);
           toBe.stringIncludes(templateWithValues.valueOf(), [fix, id, problem]);
         });
 
