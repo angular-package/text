@@ -9,19 +9,19 @@ export class Variables<Names extends string> {
   //#region instance public accessors.
   /**
    * The `get` accessor gets an `object` of set variables where the key is the variable name.
-   * @returns The return value is an object of variables built from the `Map` entries.
+   * @returns The return value is a read-only object of variables built from the `Map` entries.
    * @angularpackage
    */
-  public get variable(): Record<Names, Variable<Names>> {
-    return Object.fromEntries(this.#variables.entries()) as any;
+  public get variable(): Readonly<Record<Names, Variable<Names>>> {
+    return Object.freeze(Object.fromEntries(this.#variables.entries())) as any;
   }
 
   /**
    * The `get` accessor gets an `array` of set variables.
-   * @returns The return value is an array of variables built from the `Map` values.
+   * @returns The return value is a read-only array of variables built from the `Map` values.
    * @angularpackage
    */
-  public get variables(): Variable<Names>[] {
+  public get variables(): readonly Variable<Names>[] {
     return Array.from(this.#variables.values());
   }
 
@@ -100,7 +100,16 @@ export class Variables<Names extends string> {
    * @returns The return value is an array of variables built from the `Map` values.
    * @angularpackage
    */
-  public getAll(): Variable<Names>[] {
+  public getAll(): readonly Variable<Names>[] {
+    return Array.from(this.#variables.values());
+  }
+
+  /**
+   * Gets an array of set variables.
+   * @returns The return value is a read-only array of variables built from the `Map` values.
+   * @angularpackage
+   */
+  public getVariables(): readonly Variable<Names>[] {
     return Array.from(this.#variables.values());
   }
 
