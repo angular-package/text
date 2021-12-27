@@ -25,7 +25,7 @@ export class Template<
    * @returns The return value is an object of attributes.
    * @angularpackage
    */
-  public get variable(): Record<VariableNames, Variable<VariableNames>> {
+  public get variable(): Readonly<Record<VariableNames, Variable<VariableNames>>> {
     return this.#variables.variable as any;
   }
 
