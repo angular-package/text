@@ -9,7 +9,7 @@ import { Attribute } from './attribute.class';
 export class Attributes<Names extends string = string> extends String {
   /**
    * The `get` accessor `attribute` gets the attributes in an object form, where the key is the attribute name.
-   * @returns The return value is an `object` of attributes.
+   * @returns The return value is a read-only `object` of attributes.
    * @angularpackage
    */
   public get attribute(): Readonly<{ [K in Names]: string }> {
@@ -23,11 +23,11 @@ export class Attributes<Names extends string = string> extends String {
 
   /**
    * The `get` accessor returns the attributes in an array form.
-   * @returns The return value is an array of attributes.
+   * @returns The return value is a read-only array of attributes.
    * @angularpackage
    */
   public get attributes(): readonly Attribute<Names>[] {
-    return Array.from(this.#attributes.values()) as Attribute<Names>[];
+    return Array.from(this.#attributes.values());
   }
 
   /**
@@ -74,8 +74,8 @@ export class Attributes<Names extends string = string> extends String {
 
   //#region constructor.
   /**
-   * Creates an instance of `Attributes` by specifying attribute-value pairs of an array.
-   * @param attributes A rest parameter of attribute-value pairs of an array.
+   * Creates an instance of `Attributes` by specifying name-value pairs.
+   * @param attributes A rest parameter of an array name-value pairs.
    * @angularpackage
    */
   constructor(...attributes: [Names, string][]) {
@@ -109,7 +109,7 @@ export class Attributes<Names extends string = string> extends String {
    * @angularpackage
    */
   public getAll(): readonly Attribute<Names>[] {
-    return Array.from(this.#attributes.values()) as any;
+    return this.attributes;
   }
 
   /**
@@ -118,7 +118,7 @@ export class Attributes<Names extends string = string> extends String {
    * @angularpackage
    */
   public getAttributes(): readonly Attribute<Names>[] {
-    return Array.from(this.#attributes.values()) as any;
+    return this.attributes;
   }
 
   /**
@@ -129,6 +129,15 @@ export class Attributes<Names extends string = string> extends String {
    */
   public has<Name extends Names>(name: Name): boolean {
     return this.#attributes.has(name);
+  }
+
+  /**
+   * Gets the attributes in an object form, where the key is the attribute name.
+   * @returns The return value is a read-only `object` of attributes.
+   * @angularpackage
+   */
+  public toObject(): Readonly<{ [K in Names]: string }> {
+    return this.attribute;
   }
 
   /**
