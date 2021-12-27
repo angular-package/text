@@ -26,9 +26,10 @@ export class Attributes<Names extends string = string> extends String {
    * @returns The return value is an array of attributes.
    * @angularpackage
    */
-  public get attributes(): Attribute<Names>[] {
+  public get attributes(): readonly Attribute<Names>[] {
     return Array.from(this.#attributes.values()) as Attribute<Names>[];
   }
+
   /**
    * The `get` accessor gets the attribute list, the primitive value of a specified `Attributes` object.
    * @returns The return value is a list of attributes of a string type built from `attribute="value""` separated by space.
@@ -104,10 +105,19 @@ export class Attributes<Names extends string = string> extends String {
 
   /**
    * Gets the attributes in an array form.
-   * @returns The return value is an array of attributes.
+   * @returns The return value is a read-only array of attributes.
    * @angularpackage
    */
-  public getAll(): Attribute<Names>[] {
+  public getAll(): readonly Attribute<Names>[] {
+    return Array.from(this.#attributes.values()) as any;
+  }
+
+  /**
+   * Gets the attributes in an array form.
+   * @returns The return value is a read-only array of attributes.
+   * @angularpackage
+   */
+  public getAttributes(): readonly Attribute<Names>[] {
     return Array.from(this.#attributes.values()) as any;
   }
 
