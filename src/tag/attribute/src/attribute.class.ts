@@ -1,7 +1,7 @@
 // @angular-package/type.
 import { isInstance, isStringType } from '@angular-package/type';
 /**
- * The `Attribute` string object represents the immutable attribute of name equal to the value.
+ * The `Attribute` string object is the immutable attribute of name equal to the value in a from name="value".
  */
 export class Attribute<
   Name extends string = string,
@@ -112,22 +112,22 @@ export class Attribute<
 
   /**
    * Returns attribute primitive value converted to the array where the first element is the name, and the second is the value.
-   * @returns The return value is the attribute of an array.
+   * @returns The return value is the attribute of a read-only array.
    * @angularpackage
    */
-  public toArray(): [Name, Value] {
+  public toArray(): readonly [Name, Value] {
     return [this.#name, this.#value];
   }
 
   /**
    * Returns attribute primitive value converted to the object where the key is the attribute name.
-   * @returns The return value is the attribute of an object.
+   * @returns The return value is the attribute of a read-only object.
    * @angularpackage
    */
-  public toObject(): { [key in Name]: Value } {
-    return {
+  public toObject(): Readonly<{ [key in Name]: Value }> {
+    return Object.freeze({
       [this.#name]: this.#value,
-    } as { [key in Name]: Value };
+    }) as { [key in Name]: Value };
   }
 
   /**
