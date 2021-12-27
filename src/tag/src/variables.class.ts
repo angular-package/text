@@ -101,7 +101,7 @@ export class Variables<Names extends string> {
    * @angularpackage
    */
   public getAll(): readonly Variable<Names>[] {
-    return Array.from(this.#variables.values());
+    return this.variables;
   }
 
   /**
@@ -110,7 +110,7 @@ export class Variables<Names extends string> {
    * @angularpackage
    */
   public getVariables(): readonly Variable<Names>[] {
-    return Array.from(this.#variables.values());
+    return this.variables;
   }
 
   /**
