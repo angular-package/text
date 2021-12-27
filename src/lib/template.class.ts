@@ -34,7 +34,7 @@ export class Template<
    * @returns The return value is an array of variables.
    * @angularpackage
    */
-  public get variables(): Variable<VariableNames>[] {
+  public get variables(): readonly Variable<VariableNames>[] {
     return this.#variables.variables;
   }
 
@@ -126,7 +126,7 @@ export class Template<
    * @returns The return value is an array of the `Variable` instances.
    * @angularpackage
    */
-  public getVariables(): Variable<VariableNames>[] {
+  public getVariables(): readonly Variable<VariableNames>[] {
     return this.variables;
   }
 
