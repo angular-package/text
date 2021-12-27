@@ -77,11 +77,15 @@ export class Text<Tpl extends string, VariableNames extends string> {
 
   /**
    * Gets the text with replaced variables. If a variable does not have a value set it's replaced with an empty string.
+   * @param replaceAll Replaces all the variables if set to `true`. By default, it's set to `true`.
    * @returns The return value is the text of a `string` type.
    * @angularpackage
    */
-  public getText(resetText: boolean = false): string {
-    return isTrue(resetText) && this.resetText(), this.text;
+  public getText(replaceAll = true): string {
+    return (
+      isTrue(replaceAll) && this.#replaceVariables(),
+      this.#text
+    );
   }
 
   /**
