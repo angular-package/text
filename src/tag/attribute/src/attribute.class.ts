@@ -18,8 +18,8 @@ export class Attribute<
 
   /**
    * The `get` accessor returns the attribute, the primitive value of a specified object. It is just another accessor of a general name to
-   * get the primitive value of a specified `Attribute` object.
-   * @return The return value is the attribute of a generic type variables `Name` and `Value` on the template `${Name}="${Value}"`.
+   *   the primitive value of a specified `Attribute` object.
+   * @return The return value is the attribute of generic type variables `Name` and `Value` on the template `${Name}="${Value}"`.
    * @angularpackage
    */
   public get get(): `${Name}="${Value}"` {
@@ -36,8 +36,7 @@ export class Attribute<
   }
 
   /**
-   * The `get` accessor returns the attribute value of a specified object. It is just another accessor of a general name to get the
-   * primitive value of a specified `Attribute` object.
+   * The `get` accessor returns the attribute value of a specified object.
    * @returns The return value is the attribute value of a generic type variable `Value`.
    * @angularpackage
    */
@@ -64,7 +63,7 @@ export class Attribute<
   #value: Value;
 
   /**
-   * Checks if the value is an instance of `Attribute` of any or given name, value.
+   * Checks if the value is an instance of `Attribute` of any or given name, and value.
    * @param value The value of any type to check against the `Attribute` instance.
    * @param name An optional attribute name of a generic type variable `Name` to check if the given `value` contains.
    * @param val An optional attribute value of a generic type variable `Value` to check if the given `value` contains.
@@ -132,7 +131,7 @@ export class Attribute<
 
   /**
    * Returns attribute, the primitive value of a specified object.
-   * @returns The return value is the attribute of a generic type variables `Name` and `Value` on the template `${Name}="${Value}"`.
+   * @returns The return value is the attribute of generic type variables `Name` and `Value` on the template `${Name}="${Value}"`.
    * @angularpackage
    */
   public toString(): `${Name}="${Value}"` {
@@ -141,7 +140,7 @@ export class Attribute<
 
   /**
    * Returns attribute, the primitive value of a specified object.
-   * @returns The return value is the attribute of a generic type variables `Name` and `Value` on the template `${Name}="${Value}"`.
+   * @returns The return value is the attribute of generic type variables `Name` and `Value` on the template `${Name}="${Value}"`.
    * @angularpackage
    */
   public valueOf(): `${Name}="${Value}"` {
