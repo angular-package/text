@@ -1,8 +1,8 @@
 // Type.
 import { isInstance } from '@angular-package/type';
 // Class.
-import { Variable } from '../tag/src/variable.class';
-import { Variables } from '../tag/src/variables.class';
+import { Variable } from '../tag/variable/src/variable.class';
+import { Variables } from '../tag/variable/src/variables.class';
 /**
  * The `Template` string object is an immutable template with immutable replaceable variables.
  */

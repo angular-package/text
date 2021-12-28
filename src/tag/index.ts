@@ -10,5 +10,5 @@ export { TagExtension } from './src/tag-extension.class';
 export { Tag } from './src/tag.class';
 export { Tags } from './src/tags.class';
 
-export { Variable } from './src/variable.class';
-export { Variables } from './src/variables.class';
+export { Variable } from './variable/src/variable.class';
+export { Variables } from './variable/src/variables.class';

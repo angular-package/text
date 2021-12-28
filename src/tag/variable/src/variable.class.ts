@@ -1,7 +1,7 @@
 // @angular-package/type.
 import { isInstance, isDefined, isStringType } from '@angular-package/type';
 // Class.
-import { Tag } from './tag.class';
+import { Tag } from '../../src/tag.class';
 /**
  * The `Variable` is an extension of the `Tag` string object that represents an immutable variable in the form {variable name} with the
  * ability to set its value.

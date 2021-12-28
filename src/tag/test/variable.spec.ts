@@ -1,5 +1,5 @@
 import { Testing, TestingToBeMatchers } from '@angular-package/testing';
-import { Variable } from '../src/variable.class';
+import { Variable } from '../variable/src/variable.class';
 
 const testing = new Testing(true, true);
 const toBe = new TestingToBeMatchers();
