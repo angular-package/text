@@ -1,12 +1,13 @@
+// @angular-package/type.
 import { isStringType, isInstance } from '@angular-package/type';
 /**
  * The `Wrap` object represents the immutable content wrapped by the opening and closing chars. It is designed to preserve the names of the
- * opening,content and closing.
+ * opening, content and closing.
  */
 export class Wrap<
   Opening extends string = string,
   Content extends string = ``,
-  Closing extends string = string,
+  Closing extends string = string
 > extends String {
   //#region instance accessors.
   /**
@@ -71,20 +72,20 @@ export class Wrap<
    * @param opening An optional wrap opening of a generic type variable `Opening` to check if the given `value` contains.
    * @param closing An optional wrap closing of a generic type variable `Closing` to check if the given `value` contains.
    * @param content An optional content of a generic type variable `Content` to check if the given `value` contains.
-   * @returns The return value is a `boolean` type indicating whether the value is an instance of `Wrap` of any or given opening and
-   * closing.
+   * @returns The return value is a `boolean` type indicating whether the value is an instance of `Wrap` of any, or the given opening,
+   * closing, and content.
    * @angularpackage
    */
   public static isWrap<
-    Opening extends string,
-    Closing extends string,
-    Content extends string
+    Opening extends string = string,
+    Closing extends string = string,
+    Content extends string = ``
   >(
     value: any,
     opening?: Opening,
     closing?: Closing,
     content?: Content
-  ): value is Wrap<Opening, Closing, Content> {
+  ): value is Wrap<Opening, Content, Closing> {
     return isInstance(value, this)
       ? (isStringType(opening) ? opening === value.opening : true) &&
           (isStringType(closing) ? closing === value.closing : true) &&
@@ -99,7 +100,7 @@ export class Wrap<
    * Creates a new `Wrap` instance with the opening and closing chars, and optional content wrapped by them.
    * @param opening The wrap opening of a generic type variable `Opening`, placed before the `content`.
    * @param closing The wrap closing of a generic type variable `Closing`, placed after the `content`.
-   * @param content An optional content placed between the `opening` and `closing` on the template.
+   * @param content An optional content placed between the `opening` and `closing` on the template `${Opening}${Content}${Closing}`.
    * @angularpackage
    */
   constructor(
@@ -116,7 +117,7 @@ export class Wrap<
 
   //#region instance public methods.
   /**
-   * Gets the closing of the wrap by returning the `#closing` property of the specified object.
+   * Gets the closing of the wrap by returning the `#closing` property of a specified object.
    * @returns The return value is the wrap closing of a generic type variable `Closing`.
    * @angularpackage
    */
@@ -125,7 +126,7 @@ export class Wrap<
   }
 
   /**
-   * Gets the content of the wrap, without the opening and closing of the `Wrap`.
+   * Gets the content of the wrap by returning the `#content` property of a specified object, without the opening and closing of the `Wrap`.
    * @returns The return value is the content of a generic type variable `Content`.
    * @angularpackage
    */
@@ -134,7 +135,7 @@ export class Wrap<
   }
 
   /**
-   * Gets the opening of the wrap by returning the `#opening` property of the specified object.
+   * Gets the opening of the wrap by returning the `#opening` property of a specified object.
    * @returns The return value is the wrap opening of a generic type variable `Opening`.
    * @angularpackage
    */
@@ -143,8 +144,8 @@ export class Wrap<
   }
 
   /**
-   * Gets the wrap, primitive value of the specified `Wrap` object.
-   * @returns The return value is the wrap of a generic type variables in order `Opening`, `Content` and `Closing` on the template
+   * Gets the wrap, primitive value of a specified `Wrap` object.
+   * @returns The return value is the wrap of generic type variables in order `Opening`, `Content`, and `Closing` on the template
    * `${Opening}${Content}${Closing}`.
    * @angularpackage
    */
@@ -154,7 +155,7 @@ export class Wrap<
 
   /**
    * Gets the wrap, the primitive value of a specified `Wrap` object.
-   * @returns The return value is the wrap of a generic type variables in order `Opening`, `Content` and `Closing` on the template
+   * @returns The return value is the wrap of generic type variables in order `Opening`, `Content`, and `Closing` on the template
    * `${Opening}${Content}${Closing}`.
    * @angularpackage
    */
@@ -163,8 +164,8 @@ export class Wrap<
   }
 
   /**
-   * Returns the wrap, primitive value of the specified `Wrap` object.
-   * @returns The return value is the wrap of a generic type variables in order `Opening`, `Content` and `Closing` on the template
+   * Returns the wrap, primitive value of a specified `Wrap` object.
+   * @returns The return value is the wrap of generic type variables in order `Opening`, `Content`, and `Closing` on the template
    * `${Opening}${Content}${Closing}`.
    * @angularpackage
    */
