@@ -6,11 +6,14 @@ const testing = new Testing(true, true);
 const toBe = new TestingToBeMatchers();
 
 testing.describe(`Wrap`, () => {
+
   const opening = `[`;
   const closing = `]`;
   const content = `quote`;
   const wrap = new Wrap(opening, closing, content);
+
   testing
+
     .describe(`accessors`, () => {
       testing
         .it(`Wrap.prototype.closing`, () => {
@@ -29,6 +32,7 @@ testing.describe(`Wrap`, () => {
           expect(typeOf(wrap)).toEqual('wrap');
         });
     })
+
     .describe(`methods`, () => {
       testing
         .it(`Wrap.isWrap()`, () => {
