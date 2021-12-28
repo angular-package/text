@@ -1,8 +1,5 @@
 import { typeOf } from '@angular-package/type';
-import {
-  Testing,
-  TestingToBeMatchers,
-} from '@angular-package/testing';
+import { Testing, TestingToBeMatchers } from '@angular-package/testing';
 
 import { Wrap } from '../src/wrap.class';
 import { Wrapper } from '../src/wrapper.class';
