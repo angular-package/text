@@ -4,11 +4,11 @@ import { isDefined, isFalse } from '@angular-package/type';
 import { Attribute } from './attribute.class';
 /**
  * The `Attributes` string object builds an immutable list of attributes in original insertion order where attribute comes in form
- * `attribute="value"`.
+ * `name="value"`.
  */
 export class Attributes<Names extends string = string> extends String {
   /**
-   * The `get` accessor `attribute` gets the attributes in an object form, where the key is the attribute name.
+   * The `get` accessor `attribute` gets the attributes in an `object` form, where the key is the attribute name.
    * @returns The return value is a read-only `object` of attributes.
    * @angularpackage
    */
@@ -22,8 +22,8 @@ export class Attributes<Names extends string = string> extends String {
   }
 
   /**
-   * The `get` accessor returns the attributes in an array form.
-   * @returns The return value is a read-only array of attributes.
+   * The `get` accessor returns the attributes in an `array` form.
+   * @returns The return value is a read-only `array` of attributes.
    * @angularpackage
    */
   public get attributes(): readonly Attribute<Names>[] {
@@ -32,7 +32,7 @@ export class Attributes<Names extends string = string> extends String {
 
   /**
    * The `get` accessor gets the attribute list, the primitive value of a specified `Attributes` object.
-   * @returns The return value is a list of attributes of a string type built from `attribute="value""` separated by space.
+   * @returns The return value is a list of attributes of a `string` type built from `attribute="value"` separated by space.
    * @angularpackage
    */
   public get value(): string {
@@ -47,7 +47,7 @@ export class Attributes<Names extends string = string> extends String {
   /**
    * The "tag" static method builds the attribute list.
    * @param strings -
-   * @param values A rest parameter of attribute-value pairs of an array.
+   * @param values A rest parameter of attribute-value pairs of an `array`.
    * @returns The return value is the attribute list of a `string` type.
    * @angularpackage
    */
@@ -75,7 +75,7 @@ export class Attributes<Names extends string = string> extends String {
   //#region constructor.
   /**
    * Creates an instance of `Attributes` by specifying name-value pairs.
-   * @param attributes A rest parameter of an array name-value pairs.
+   * @param attributes A rest parameter of an `array` name-value pairs.
    * @angularpackage
    */
   constructor(...attributes: [Names, string][]) {
@@ -95,7 +95,7 @@ export class Attributes<Names extends string = string> extends String {
   //#region instance public methods.
   /**
    * Gets the attribute of a specified name.
-   * @param name The name of attribute to get.
+   * @param name The name of an attribute to get the `Attribute` instance.
    * @returns The return value is the attribute of the `Attribute` instance.
    * @angularpackage
    */
@@ -104,8 +104,8 @@ export class Attributes<Names extends string = string> extends String {
   }
 
   /**
-   * Gets the attributes in an array form.
-   * @returns The return value is a read-only array of attributes.
+   * Gets the attributes in an `array` form.
+   * @returns The return value is a read-only `array` of attributes.
    * @angularpackage
    */
   public getAll(): readonly Attribute<Names>[] {
@@ -113,8 +113,8 @@ export class Attributes<Names extends string = string> extends String {
   }
 
   /**
-   * Gets the attributes in an array form.
-   * @returns The return value is a read-only array of attributes.
+   * Gets the attributes in an `array` form.
+   * @returns The return value is a read-only `array` of attributes.
    * @angularpackage
    */
   public getAttributes(): readonly Attribute<Names>[] {
@@ -132,7 +132,7 @@ export class Attributes<Names extends string = string> extends String {
   }
 
   /**
-   * Gets the attributes in an object form, where the key is the attribute name.
+   * Gets the attributes in an `object` form, where the key is the attribute name.
    * @returns The return value is a read-only `object` of attributes.
    * @angularpackage
    */
@@ -142,7 +142,7 @@ export class Attributes<Names extends string = string> extends String {
 
   /**
    * Gets the attribute list, the primitive value of a specified `Attributes` object.
-   * @returns The return value is a list of attributes of a string type built from `attribute="value""` separated by space.
+   * @returns The return value is a list of attributes of a `string` type built from `attribute="value""` separated by space.
    * @angularpackage
    */
   public toString(): string {
@@ -151,7 +151,7 @@ export class Attributes<Names extends string = string> extends String {
 
   /**
    * Gets the attribute list, the primitive value of a specified `Attributes` object.
-   * @returns The return value is a list of attributes of a string type built from `attribute="value""` separated by space.
+   * @returns The return value is a list of attributes of a `string` type built from `attribute="value""` separated by space.
    * @angularpackage
    */
   public valueOf(): string {
