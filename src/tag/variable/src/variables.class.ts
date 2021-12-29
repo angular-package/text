@@ -96,7 +96,7 @@ export class Variables<Names extends string> {
   }
 
   /**
-   * Gets an array of set variables.
+   * Gets an `array` of set variables.
    * @returns The return value is an array of variables built from the `Map` values.
    * @angularpackage
    */
@@ -105,7 +105,7 @@ export class Variables<Names extends string> {
   }
 
   /**
-   * Gets an array of set variables.
+   * Gets an `array` of set variables.
    * @returns The return value is a read-only array of variables built from the `Map` values.
    * @angularpackage
    */
