@@ -3,8 +3,8 @@ import { isInstance, isDefined, isStringType } from '@angular-package/type';
 // Class.
 import { Tag } from '../../src/tag.class';
 /**
- * The `Variable` is an extension of the `Tag` string object that represents an immutable variable in the form {variable name} with the
- * ability to set its value.
+ * The `Variable` is an extension of the `Tag` string object and represents an immutable variable in the form of name between curly brackets
+ * e.g. `{variable name}` with the ability to set its value.
  */
 export class Variable<
   Name extends string,
@@ -12,8 +12,8 @@ export class Variable<
 > extends Tag<Name, `{`, `}`> {
   //#region instance public accessors.
   /**
-   * The `get` accessor returns the value of a specified `Variable` object.
-   * @returns The return value is the value of a `string` type from the private `#value` property if set, otherwise `undefined`.
+   * The `get` accessor returns the value from a private `#value` property of a specified `Variable` object.
+   * @returns The return value is the value of a generic type variable `Value` if set, otherwise `undefined`.
    * @angularpackage
    */
   public get value(): Value | undefined {
@@ -21,7 +21,7 @@ export class Variable<
   }
 
   /**
-   * The `get` accessor returns the variable in form {variable name}, a primitive value of the specified `Variable` object.
+   * The `get` accessor returns the variable in the form `{variable name}`, a primitive value of a specified `Variable` object.
    * @returns The return value is the variable of a generic type variable `Name` on the template `{${Name}}`.
    * @angularpackage
    */
@@ -48,8 +48,8 @@ export class Variable<
   //#region static public methods.
   /**
    * The static method defines the `Variable` of a specified name with an optional value.
-   * @param name The name of `Variable` to define.
-   * @param value An optional value of the variable.
+   * @param name The variable name of a generic type variable `Name` to define.
+   * @param value Optional variable value of a generic type variable `Value`.
    * @returns The return value is a new instance of `Variable` with the given `name` and an optional value.
    * @angularpackage
    */
@@ -72,7 +72,7 @@ export class Variable<
     value: any,
     name?: Name,
     variableValue?: Value
-  ): value is Variable<Name> {
+  ): value is Variable<Name, Value> {
     return isInstance(value, Variable)
       ? (isStringType(name) ? value.name === name : true) &&
         (isStringType(variableValue) ? value.value === variableValue : true)
@@ -83,8 +83,8 @@ export class Variable<
   //#region constructor.
   /**
    * Creates a new instance of `Variable` with a specified name and optional value.
-   * @param name The name of the variable in form {name} of a generic type variable `Name` to create.
-   * @param value An optional value of a variable.
+   * @param name The variable name in form {name} of a generic type variable `Name` to create.
+   * @param value An optional variable value of a generic type variable `Value`.
    * @angularpackage
    */
   constructor(name: Name, value?: Value) {
@@ -95,9 +95,8 @@ export class Variable<
 
   //#region instance public methods.
   /**
-   * Gets the value of the variable.
-   * @returns The return value is the value of a generic type variable `Value` from the private `#value` property if set, otherwise
-   * `undefined`.
+   * Gets the value of the variable by returning the private `#value`  property of a specified `Variable` object.
+   * @returns The return value is the value of a generic type variable `Value` if set, otherwise `undefined`.
    * @angularpackage
    */
   public getValue(): Value | undefined {
@@ -105,11 +104,13 @@ export class Variable<
   }
 
   /**
-   * Replaces variable in format {variable name} with the value of a specified `Variable` object or with a provided `replaceValue` in the
-   * given text.
-   * @param text The text of a `string` type in which replace the variable with the value from the private `#value` property.
-   * @param replaceValue An optional value of a generic type variable `Value` to replace in a given `text`. By default, it takes the value
-   * from a private `#value` property and if it's `undefined` then it takes an empty `string`.
+   * Replaces variable in the format `{variable name}` with the value of a specified `Variable` object or with a provided `replaceValue`, in
+   * a given `text`.
+   * ! If `replaceValue` is not provided, ​private `#value` property is used, and if the `#value` is `undefined` an empty string` is used.
+   * @param text The text of a `string` type in which replace the variable with the value from the private `#value` property or a given
+   * `replaceValue`.
+   * @param replaceValue Optional value of a generic type variable `ReplaceValue` to replace the variable in the form `{variable name}` in a
+   * given `text`.
    * @returns The return value is the text of a `string` type with a replaced variable by value.
    * @angularpackage
    */
@@ -121,8 +122,9 @@ export class Variable<
   }
 
   /**
-   * Returns converted variable to a read-only array where the first element is the name, and the second is the value.
-   * @returns The return value is a read-only array of the variable name and value.
+   * Returns converted variable to a read-only `array` where the first element is the name, and the second is the value if set, otherwise
+   * `undefined`.
+   * @returns The return value is a read-only `array` of the variable name and value.
    * @angularpackage
    */
   public toArray(): readonly [Name, Value | undefined] {
@@ -130,8 +132,8 @@ export class Variable<
   }
 
   /**
-   * Returns converted variable to a read-only object where the key is the variable name.
-   * @returns The return value is a read-only object where the property name is the variable name, and the property value is equal to the
+   * Returns converted variable to a read-only `object` where the key is the variable name.
+   * @returns The return value is a read-only `object` where the property name is the variable name, and the property value is equal to the
    * variable value.
    * @angularpackage
    */
@@ -142,7 +144,7 @@ export class Variable<
   }
 
   /**
-   * Returns the variable in form {name}, a primitive value of the specified `Variable` object.
+   * Returns the variable in form `{name}`, a primitive value of the specified `Variable` object.
    * @returns The return value is the variable of a generic type variable `Name` on the template `{${Name}}`.
    * @angularpackage
    */
@@ -151,7 +153,7 @@ export class Variable<
   }
 
   /**
-   * Returns the variable in form {name}, a primitive value of the specified `Variable` object.
+   * Returns the variable in form `{name}`, a primitive value of the specified `Variable` object.
    * @returns The return value is the variable of a generic type variable `Name` on the template `{${Name}}`.
    * @angularpackage
    */
