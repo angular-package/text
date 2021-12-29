@@ -5,7 +5,7 @@
 
 The angular package supports the development process of [angular][angulario]-based applications through the use of thoughtful, re-usable, easy-to-use small pieces of code called packages.
 
-[**angular-package.gitbook.io**](https://angular-package.gitbook.io/home/)
+[**docs.angular-package.dev**](https://docs.angular-package.dev)
 
 <br>
 
@@ -54,7 +54,7 @@ Text on the template with replaceable tags.
 
 ## Documentation
 
-For the detailed documentation go to [**angular-package.gitbook.io/text**](https://angular-package.gitbook.io/text/)
+For the detailed documentation go to [**https://docs.angular-package.dev/v/text-v1.x/**](https://docs.angular-package.dev/v/text-v1.x/)
 
 <br>
 
