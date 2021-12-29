@@ -11,7 +11,7 @@ export class Wrap<
 > extends String {
   //#region instance accessors.
   /**
-   * The `get` accessor gets the closing of the wrap by returning the `#closing` property of the specified object.
+   * The `get` accessor gets the closing of the wrap by returning the `#closing` property of a specified object.
    * @returns The return value is the wrap closing of a generic type variable `Closing`.
    * @angularpackage
    */
@@ -20,7 +20,7 @@ export class Wrap<
   }
 
   /**
-   * The `get` accessor gets the content of the `Wrap` by returning the `#content` property of the specified object.
+   * The `get` accessor gets the content of the `Wrap` by returning the `#content` property of a specified object.
    * @returns The return value is the content of a generic type variable `Content`.
    * @angularpackage
    */
@@ -29,7 +29,7 @@ export class Wrap<
   }
 
   /**
-   * The `get` accessor gets the opening of the wrap by returning the `#opening` property of the specified object.
+   * The `get` accessor gets the opening of the wrap by returning the `#opening` property of a specified object.
    * @returns The return value is the wrap opening of a generic type variable `Opening`.
    * @angularpackage
    */
