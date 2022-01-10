@@ -197,11 +197,13 @@ export class Wrap<
 
   /**
    * The method checks whether the text of a specified `Wrap` object is defined, which means it's a string of at least one char.
+   * @param text Optional text of a string type to check whether it's a text of the `Wrap` object.
    * @returns The return value is a `boolean` indicating whether the text is defined.
    * @angularpackage
    */
-  public hasText(): boolean {
-    return isStringLength(this.text, { min: 1 });
+  public hasText(text?: string): boolean {
+    return isStringLength(this.text, { min: 1 })
+      && (isStringLength(text, { min: 1 }) ? this.text === text : true);
   }
 
   /**
