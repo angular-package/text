@@ -10,7 +10,6 @@ import {
 import { Attribute } from '../attribute/src/attribute.class';
 import { Attributes } from '../attribute/src/attributes.class';
 import { Wrap } from '../../wrapper/src/wrap.class';
-import { Wrapper } from '../../wrapper/src/wrapper.class';
 /**
  * The `Tag` string object represents the immutable tag consisting of a name with optional attributes wrapped by the opening and closing
  * chars.
@@ -56,7 +55,7 @@ export class Tag<
    * @angularpackage
    */
   public get name(): Name {
-    return this.#wrap.content;
+    return this.#wrap.text;
   }
 
   /**
@@ -141,7 +140,7 @@ export class Tag<
       opening: Opening;
     return (
       ([name, opening, closing, attributes] = values),
-      new Wrapper(opening, closing).wrap(name + new Attributes(...attributes))
+      new Wrap(opening, closing, name + new Attributes(...attributes)).valueOf()
     );
   }
   //#endregion static public methods.
@@ -200,7 +199,7 @@ export class Tag<
    * @angularpackage
    */
   public getName(): Name {
-    return this.#wrap.content;
+    return this.#wrap.text;
   }
 
   /**
@@ -235,7 +234,7 @@ export class Tag<
    * are not strings returns an empty `string`.
    * @angularpackage
    */
-  public replaceTag<Text extends string>(
+  public replaceTagIn<Text extends string>(
     text: Text,
     replaceValue: string
   ): Text {
@@ -252,7 +251,7 @@ export class Tag<
    * @returns The return value is a `boolean` indicating whether the text contains the tag.
    * @angularpackage
    */
-  public textHasTag<Text extends string>(text: Text): text is Text {
+  public isTagIn<Text extends string>(text: Text): text is Text {
     return isStringIncludes(text, [this.valueOf()]);
   }
 
