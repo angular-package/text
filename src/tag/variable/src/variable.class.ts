@@ -118,7 +118,7 @@ export class Variable<
     text: string,
     replaceValue?: ReplaceValue
   ): string {
-    return this.replaceTag(text, replaceValue || this.#value || '');
+    return this.replaceTagIn(text, replaceValue || this.#value || '');
   }
 
   /**
@@ -149,7 +149,7 @@ export class Variable<
    * @angularpackage
    */
   public toString(): `{${Name}}` {
-    return this.valueOf();
+    return super.toString();
   }
 
   /**
