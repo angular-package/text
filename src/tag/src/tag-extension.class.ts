@@ -115,14 +115,14 @@ export abstract class TagExtension<
    * are not strings returns an empty `string`.
    * @angularpackage
    */
-  public replaceClosingTag<Text extends string>(
+  public replaceClosingTagIn<Text extends string>(
     text: Text,
     replaceValue: string
   ): Text {
     return guardString(text)
       ? isString(replaceValue)
         ? // ? (text.split(this.closingTag.value).join(replaceValue) as Text)
-          this.#closingTag.replaceTag(text, replaceValue)
+          this.#closingTag.replaceTagIn(text, replaceValue)
         : text
       : ('' as Text);
   }
@@ -139,14 +139,14 @@ export abstract class TagExtension<
    * are not strings returns an empty `string`.
    * @angularpackage
    */
-  public replaceOpeningTag<Text extends string>(
+  public replaceOpeningTagIn<Text extends string>(
     text: Text,
     replaceValue: string
   ): Text {
     return guardString(text)
       ? isString(replaceValue)
         ? // ? (text.split(this.openingTag.value).join(replaceValue) as Text)
-          this.#openingTag.replaceTag(text, replaceValue)
+          this.#openingTag.replaceTagIn(text, replaceValue)
         : text
       : ('' as Text);
   }
@@ -157,7 +157,7 @@ export abstract class TagExtension<
    * @returns The return value is a new `Tagged` instance with a tagged `text`.
    * @angularpackage
    */
-  public tag<Text extends string>(
+  public tagOn<Text extends string>(
     text: Text
   ): TaggedText<Text, Name, Opening, Closing> {
     return `${this.#openingTag.valueOf()}${text}${this.#closingTag.valueOf()}`;
@@ -169,9 +169,9 @@ export abstract class TagExtension<
    * @returns The return value is a `boolean` indicating whether the given `text` has a closing tag.
    * @angularpackage
    */
-  public textHasClosingTag<Text extends string>(text: Text): text is Text {
+  public isClosingTagIn<Text extends string>(text: Text): text is Text {
     return (
-      this.#closingTag.textHasTag(text) &&
+      this.#closingTag.isTagIn(text) &&
       text.slice(-this.closingTag.length) === this.closingTag.valueOf()
     );
   }
@@ -182,9 +182,9 @@ export abstract class TagExtension<
    * @returns The return value is a `boolean` indicating whether the given `text` has an opening tag.
    * @angularpackage
    */
-  public textHasOpeningTag<Text extends string>(text: Text): text is Text {
+  public isOpeningTagIn<Text extends string>(text: Text): text is Text {
     return (
-      this.#openingTag.textHasTag(text) &&
+      this.#openingTag.isTagIn(text) &&
       text.slice(0, this.openingTag.length) === this.openingTag.valueOf()
     );
   }
@@ -195,10 +195,10 @@ export abstract class TagExtension<
    * @returns The return value is the text of a string type untagged from the opening and closing tag if tags are found, or the text.
    * @angularpackage
    */
-  public untagText(text: string): string {
-    this.textHasClosingTag(text) &&
+  public removeTagIn(text: string): string {
+    this.isClosingTagIn(text) &&
       (text = text.valueOf().slice(0, text.length - this.closingTag.length));
-    this.textHasOpeningTag(text) &&
+    this.isOpeningTagIn(text) &&
       (text = text.valueOf().slice(this.openingTag.length));
     return text;
   }

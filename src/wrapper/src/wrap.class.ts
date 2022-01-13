@@ -1,12 +1,16 @@
 // @angular-package/type.
-import { isStringType, isInstance } from '@angular-package/type';
+import {
+  isStringLength,
+  isStringType,
+  isInstance,
+} from '@angular-package/type';
 /**
- * The `Wrap` object represents the immutable content wrapped by the opening and closing chars. It is designed to preserve the names of the
- * opening, content and closing.
+ * The `Wrap` object represents the immutable text wrapped by the opening and closing chars. It is designed to preserve the names of the
+ * opening, text and closing.
  */
 export class Wrap<
   Opening extends string = string,
-  Content extends string = ``,
+  Text extends string = ``,
   Closing extends string = string
 > extends String {
   //#region instance accessors.
@@ -20,15 +24,6 @@ export class Wrap<
   }
 
   /**
-   * The `get` accessor gets the content of the `Wrap` by returning the `#content` property of a specified object.
-   * @returns The return value is the content of a generic type variable `Content`.
-   * @angularpackage
-   */
-  public get content(): Content {
-    return this.#content;
-  }
-
-  /**
    * The `get` accessor gets the opening of the wrap by returning the `#opening` property of a specified object.
    * @returns The return value is the wrap opening of a generic type variable `Opening`.
    * @angularpackage
@@ -38,12 +33,21 @@ export class Wrap<
   }
 
   /**
-   * Returns the wrap, primitive value of a specified `Wrap` object.
-   * @returns The return value is the wrap of generic type variables in order `Opening`, `Content`, and `Closing` on the template
-   * `${Opening}${Content}${Closing}`.
+   * The `get` accessor gets the text of the `Wrap` by returning the `#text` property of a specified object.
+   * @returns The return value is the text of a generic type variable `Text`.
    * @angularpackage
    */
-  public get value(): `${Opening}${Content}${Closing}` {
+  public get text(): Text {
+    return this.#text;
+  }
+
+  /**
+   * Returns the wrap, primitive value of a specified `Wrap` object.
+   * @returns The return value is the wrap of generic type variables in order `Opening`, `Text`, and `Closing` on the template
+   * `${Opening}${Text}${Closing}`.
+   * @angularpackage
+   */
+  public get value(): `${Opening}${Text}${Closing}` {
     return this.valueOf();
   }
 
@@ -65,9 +69,9 @@ export class Wrap<
   #closing: Closing;
 
   /**
-   * Private property of content of a generic type variable `Content`.
+   * Private property of text of a generic type variable `Text`.
    */
-  #content: Content;
+  #text: Text;
 
   /**
    * The private property of wrap opening of a generic type variable `Opening`.
@@ -77,13 +81,39 @@ export class Wrap<
 
   //#region static methods.
   /**
+   * Checks whether the text has `closing` chars at the beginning.
+   * @param text The text of `string`, to check whether it contains given `closing` chars.
+   * @param closing The closing chars of `string` to check if a given text contains.
+   * @returns The return value is a `boolean` indicating whether the text contains `closing` chars.
+   * @angularpackage
+   */
+   public static hasClosing(text: string, closing: string): boolean {
+    return isStringType(text)
+      ? closing.length >= 1 && text.slice(-closing.length) === closing
+      : false;
+  }
+
+  /**
+   * Checks whether the text has `opening` chars at the beginning.
+   * @param text The text of `string`, to check whether it contains given `opening` chars.
+   * @param opening The opening chars of `string` to check if a given text contains.
+   * @returns The return value is a `boolean` indicating whether the text contains `opening` chars.
+   * @angularpackage
+   */
+  public static hasOpening(text: string, opening: string): boolean {
+    return isStringType(text)
+      ? opening.length >= 1 && text.slice(0, opening.length) === opening
+      : false;
+  }
+
+  /**
    * The method checks if the value of any type is the `Wrap` instance of any or given opening and closing.
    * @param value The value of any type to test against the `Wrap` instance of any or given opening and closing.
    * @param opening An optional wrap opening of a generic type variable `Opening` to check if the given `value` contains.
    * @param closing An optional wrap closing of a generic type variable `Closing` to check if the given `value` contains.
-   * @param content An optional content of a generic type variable `Content` to check if the given `value` contains.
+   * @param text An optional text of a generic type variable `Text` to check if the given `value` contains.
    * @returns The return value is a `boolean` type indicating whether the value is an instance of `Wrap` of any, or the given opening,
-   * closing, and content.
+   * closing, and text.
    * @angularpackage
    */
   public static isWrap<
@@ -94,40 +124,45 @@ export class Wrap<
     value: any,
     opening?: Opening,
     closing?: Closing,
-    content?: Content
+    text?: Content
   ): value is Wrap<Opening, Content, Closing> {
     return isInstance(value, this)
       ? (isStringType(opening) ? opening === value.opening : true) &&
           (isStringType(closing) ? closing === value.closing : true) &&
-          (isStringType(content) ? content === value.content : true)
+          (isStringType(text) ? text === value.text : true)
       : false;
   }
-
   //#endregion static methods.
 
   //#region constructor.
   /**
-   * Creates a new `Wrap` instance with the opening and closing chars, and optional content wrapped by them.
-   * @param opening The wrap opening of a generic type variable `Opening`, placed before the `content`.
-   * @param closing The wrap closing of a generic type variable `Closing`, placed after the `content`.
-   * @param content An optional content placed between the `opening` and `closing` on the template `${Opening}${Content}${Closing}`.
+   * Creates a new `Wrap` instance with the opening and closing chars, and optional text wrapped by them.
+   * @param opening The wrap opening of a generic type variable `Opening`, placed before the `text`.
+   * @param closing The wrap closing of a generic type variable `Closing`, placed after the `text`.
+   * @param text An optional text placed between the `opening` and `closing` on the template `${Opening}${Text}${Closing}`.
    * @angularpackage
    */
-  constructor(
-    opening: Opening,
-    closing: Closing,
-    content: Content = `` as Content
-  ) {
-    super(`${opening}${content}${closing}`);
-    this.#closing = closing;
-    this.#content = content;
-    this.#opening = opening;
+  constructor(opening: Opening, closing: Closing, text: Text = '' as Text) {
+    super(`${opening}${text}${closing}`);
+    this.#closing = String(closing) as Closing;
+    this.#text = String(text) as Text;
+    this.#opening = String(opening) as Opening;
   }
   //#endregion constructor.
 
   //#region instance public methods.
   /**
-   * Gets the closing of the wrap by returning the `#closing` property of a specified object.
+   * Returns the wrap, primitive value of a specified `Wrap` object. It's an alias of `valueOf()` method.
+   * @returns The return value is the wrap of generic type variables in order `Opening`, `Text`, and `Closing` on the template
+   * `${Opening}${Text}${Closing}`.
+   * @angularpackage
+   */
+  public get(): `${Opening}${Text}${Closing}` {
+    return this.valueOf();
+  }
+
+  /**
+   * Gets the closing chars of the wrap by returning the `#closing` property of a specified object.
    * @returns The return value is the wrap closing of a generic type variable `Closing`.
    * @angularpackage
    */
@@ -136,16 +171,7 @@ export class Wrap<
   }
 
   /**
-   * Gets the content of the wrap by returning the `#content` property of a specified object, without the opening and closing of the `Wrap`.
-   * @returns The return value is the content of a generic type variable `Content`.
-   * @angularpackage
-   */
-  public getContent(): Content {
-    return this.#content;
-  }
-
-  /**
-   * Gets the opening of the wrap by returning the `#opening` property of a specified object.
+   * Gets the opening chars of the wrap by returning the `#opening` property of a specified object.
    * @returns The return value is the wrap opening of a generic type variable `Opening`.
    * @angularpackage
    */
@@ -154,33 +180,131 @@ export class Wrap<
   }
 
   /**
-   * Gets the wrap, primitive value of a specified `Wrap` object.
-   * @returns The return value is the wrap of generic type variables in order `Opening`, `Content`, and `Closing` on the template
-   * `${Opening}${Content}${Closing}`.
+   * Gets the text of the wrap by returning the `#text` property of a specified object, without the opening and closing chars of the `Wrap`.
+   * @returns The return value is the text of a generic type variable `Text`.
    * @angularpackage
    */
-  public getWrap(): `${Opening}${Content}${Closing}` {
-    return this.valueOf();
+  public getText(): Text {
+    return this.#text;
+  }
+
+  /**
+   * Checks whether the primitive value of a specified object has the closing chars or given closing chars.
+   * @param closing Optional closing chars of a `string` type to check if the primitive value contains at the end.
+   * @returns The return value is a `boolean` indicating whether the primitive value has the closing chars.
+   * @angularpackage
+   */
+  public hasClosing(closing?: string): boolean {
+    return isStringType(this.text)
+      ? isStringType(closing)
+        ? isStringLength(closing, { min: 1 }) &&
+          this.toString().slice(-closing.length) === closing
+        : isStringLength(this.closing, { min: 1 }) &&
+          this.toString().slice(-this.closing.length) === this.closing
+      : false;
+  }
+
+  /**
+   * Checks whether the primitive value of a specified object has the opening chars or given opening chars.
+   * @param opening Optional opening chars of a `string` type to check if the primitive value contains at the beginning.
+   * @returns The return value is a `boolean` indicating whether the primitive value has the opening chars.
+   * @angularpackage
+   */
+  public hasOpening(opening?: string): boolean {
+    return isStringType(this.text)
+      ? isStringType(opening)
+        ? isStringLength(opening, { min: 1 }) &&
+          this.toString().slice(0, opening.length) === opening
+        : isStringLength(this.opening, { min: 1 }) &&
+          this.toString().slice(0, this.opening.length) === this.opening
+      : false;
+  }
+
+  /**
+   * The method checks whether the text of a specified `Wrap` object is defined, which means it's a string of at least one char.
+   * @param text Optional text of a string type to check whether it's a text of the `Wrap` object.
+   * @returns The return value is a `boolean` indicating whether the text is defined.
+   * @angularpackage
+   */
+  public hasText(text?: string): boolean {
+    return (
+      isStringLength(this.text, { min: 1 }) &&
+      (isStringLength(text, { min: 1 }) ? this.text === text : true)
+    );
+  }
+
+  /**
+   * The method checks whether the primitive value of the specified object is wrapped by the opening and closing chars of an instance or
+   * given opening and closing chars.
+   * @param opening Optional opening chars of a `string` type, to check if the text contains at the beginning.
+   * @param closing Optional closing chars of string, to check if the text contains at the end.
+   * @returns The return value is a `boolean` indicating whether the object has both opening and closing chars.
+   * @angularpackage
+   */
+  public isWrapped(
+    opening: string = this.opening,
+    closing: string = this.closing
+  ): boolean {
+    return this.hasOpening(opening) && this.hasClosing(closing);
+  }
+
+  /**
+   * Returns the primitive value with replaced closing chars.
+   * @param closing The closing chars of a generic type variable `ReplaceClosing` to replace the closing chars in the primitive value.
+   * @returns The return value is the primitive value with replaced closing chars of a generic type variables in order `Opening`, `Text` and
+   * `ReplaceClosing` on the template `${Opening}${Text}${ReplaceClosing}`;
+   * @angularpackage
+   */
+  public replaceClosing<ReplaceClosing extends string = ''>(
+    closing: ReplaceClosing
+  ): `${Opening}${Text}${ReplaceClosing}` {
+    return `${this.#opening}${this.#text}${String(closing) as ReplaceClosing}`;
+  }
+
+  /**
+   * Returns the primitive value with replaced opening chars.
+   * @param opening The opening chars of a generic type variable `ReplaceOpening` to replace the opening chars in the primitive value.
+   * @returns The return value is the primitive value with replaced opening chars of a generic type variables in order `ReplaceOpening`,
+   * `Text` and `Closing` on the template `${ReplaceOpening}${Text}${Closing}`;
+   * @angularpackage
+   */
+  public replaceOpening<ReplaceOpening extends string = ''>(
+    opening: ReplaceOpening
+  ): `${ReplaceOpening}${Text}${Closing}` {
+    return `${String(opening) as ReplaceOpening}${this.#text}${this.#closing}`;
+  }
+
+  /**
+   * Returns the primitive value with replaced text.
+   * @param text The text of a generic type variable `ReplaceText` to replace the text in the primitive value.
+   * @returns The return value is the primitive value with replaced text of a generic type variables in order `Opening`, `ReplaceText`
+   * and `Closing` on the template `${Opening}${ReplaceText}${Closing}`;
+   * @angularpackage
+   */
+  public replaceText<ReplaceText extends string>(
+    text: ReplaceText
+  ): `${Opening}${ReplaceText}${Closing}` {
+    return `${this.#opening}${String(text) as ReplaceText}${this.#closing}`;
   }
 
   /**
    * Gets the wrap, the primitive value of a specified `Wrap` object.
-   * @returns The return value is the wrap of generic type variables in order `Opening`, `Content`, and `Closing` on the template
-   * `${Opening}${Content}${Closing}`.
+   * @returns The return value is the wrap of generic type variables in order `Opening`, `Text`, and `Closing` on the template
+   * `${Opening}${Text}${Closing}`.
    * @angularpackage
    */
-  public toString(): `${Opening}${Content}${Closing}` {
-    return this.valueOf();
+  public toString(): `${Opening}${Text}${Closing}` {
+    return super.toString() as `${Opening}${Text}${Closing}`;
   }
 
   /**
    * Returns the wrap, primitive value of a specified `Wrap` object.
-   * @returns The return value is the wrap of generic type variables in order `Opening`, `Content`, and `Closing` on the template
-   * `${Opening}${Content}${Closing}`.
+   * @returns The return value is the wrap of generic type variables in order `Opening`, `Text`, and `Closing` on the template
+   * `${Opening}${Text}${Closing}`.
    * @angularpackage
    */
-  public valueOf(): `${Opening}${Content}${Closing}` {
-    return super.valueOf() as `${Opening}${Content}${Closing}`;
+  public valueOf(): `${Opening}${Text}${Closing}` {
+    return super.valueOf() as `${Opening}${Text}${Closing}`;
   }
   //#endregion instance public methods.
 }

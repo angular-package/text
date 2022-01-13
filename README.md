@@ -1,9 +1,9 @@
 
 # angular-package
 
-<img align="left" width="100" height="100" src="https://avatars.githubusercontent.com/u/31412194?s=100&u=387bbfbe38201c12d3300531abd706cab2ea7482&v=4" />
+<img align="left" width="100" height="100" src="https://avatars.githubusercontent.com/u/31412194?s=400&u=c9929aa36826318ccac8f7b84516e1ce3af7e21c&v=4" />
 
-The angular package supports the development process of [angular][angulario]-based applications through the use of thoughtful, re-usable, easy-to-use small pieces of code called packages.
+The angular-package supports the development process of [angular][angulario]-based applications in varied ways through the thoughtful, reusable, easy-to-use small pieces of code called packages.
 
 [**docs.angular-package.dev**](https://docs.angular-package.dev)
 
@@ -39,8 +39,11 @@ Click on the package name to visit its [GitHub](https://github.com/) page.
 Text on the template with replaceable tags.
 
 [![Gitter][gitter-badge]][gitter-chat]
+[![Discord][discord-badge]][discord-channel]
+[![Twitter][twitter-badge]][twitter-follow]
 <!-- npm badge -->
 [![npm version][text-npm-badge-svg]][text-npm-badge]
+
 <!-- GitHub badges -->
 [![GitHub issues][text-badge-issues]][text-issues]
 [![GitHub forks][text-badge-forks]][text-forks]
@@ -171,9 +174,17 @@ MIT © angular-package ([license][text-license])
 [new]: https://img.shields.io/badge/-new-green
 [update]: https://img.shields.io/badge/-update-red
 
+<!-- Discord -->
+[discord-badge]: https://img.shields.io/discord/925168966098386944
+[discord-channel]: https://discord.com/channels/925168966098386944/925168966098386948
+
 <!-- Gitter -->
 [gitter-badge]: https://badges.gitter.im/angularpackage/Lobby.svg
 [gitter-chat]: https://gitter.im/angularpackage/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+
+<!-- Twitter -->
+[twitter-badge]: https://img.shields.io/twitter/url?style=social&label=Follow%20%40angularpackage&url=https%3A%2F%2Ftwitter.com%2Fangularpackage
+[twitter-follow]: https://twitter.com/angularpackage
 
 <!-- GIT -->
 [git-semver]: http://semver.org/
