@@ -82,10 +82,7 @@ export class Text<Tpl extends string, VariableNames extends string> {
    * @angularpackage
    */
   public getText(replaceAll = true): string {
-    return (
-      isTrue(replaceAll) && this.#replaceVariables(),
-      this.#text
-    );
+    return isTrue(replaceAll) && this.#replaceVariables(), this.#text;
   }
 
   /**
