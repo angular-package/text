@@ -42,16 +42,6 @@ export class Wrap<
   }
 
   /**
-   * Returns the wrap, primitive value of a specified `Wrap` object.
-   * @returns The return value is the wrap of generic type variables in order `Opening`, `Text`, and `Closing` on the template
-   * `${Opening}${Text}${Closing}`.
-   * @angularpackage
-   */
-  public get value(): `${Opening}${Text}${Closing}` {
-    return this.valueOf();
-  }
-
-  /**
    * The `get` accessor, with the help of `toStringTag`, changes the default tag to `'wrap'` for an instance of `Wrap`. It can be read by
    * the `typeOf()` function of `@angular-package/type`.
    * @returns The return value is the word 'wrap` of a `string`.
