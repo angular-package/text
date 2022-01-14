@@ -21,15 +21,6 @@ export class Variable<
   }
 
   /**
-   * The `get` accessor returns the variable in the form `{variable name}`, a primitive value of a specified `Variable` object.
-   * @returns The return value is the variable of a generic type variable `Name` on the template `{${Name}}`.
-   * @angularpackage
-   */
-  public get variable(): `{${Name}}` {
-    return super.valueOf();
-  }
-
-  /**
    * The property, with the help of `toStringTag`, changes the default tag to `'variable'` for an instance of `Variable`. It can be read by
    * the `typeOf()` function of `@angular-package/type`.
    */
@@ -75,7 +66,7 @@ export class Variable<
   ): value is Variable<Name, Value> {
     return isInstance(value, Variable)
       ? (isStringType(name) ? value.name === name : true) &&
-        (isStringType(variableValue) ? value.value === variableValue : true)
+        (isStringType(variableValue) ? value.getValue() === variableValue : true)
       : false;
   }
   //#endregion static public methods.
@@ -89,7 +80,7 @@ export class Variable<
    */
   constructor(name: Name, value?: Value) {
     super(name, '{', '}');
-    isDefined(value) && (this.#value = value);
+    isDefined(value) && (this.#value = String(value) as Value);
   }
   //#endregion constructor.
 
@@ -114,7 +105,7 @@ export class Variable<
    * @returns The return value is the text of a `string` type with a replaced variable by value.
    * @angularpackage
    */
-  public replaceVariable<ReplaceValue extends Value>(
+  public replaceVariableIn<ReplaceValue extends Value>(
     text: string,
     replaceValue?: ReplaceValue
   ): string {
