@@ -13,7 +13,7 @@ export class Wrap<
   Text extends string = ``,
   Closing extends string = string
 > extends String {
-  //#region instance accessors.
+  //#region instance public accessors.
   /**
    * The `get` accessor gets the closing of the wrap by returning the `#closing` property of a specified object.
    * @returns The return value is closing of the wrap of a generic type variable `Closing`.
@@ -60,7 +60,7 @@ export class Wrap<
   public get [Symbol.toStringTag](): string {
     return 'wrap';
   }
-  //#endregion instance accessors.
+  //#endregion instance public accessors.
 
   //#region instance private properties.
   /**
@@ -79,7 +79,7 @@ export class Wrap<
   #opening: Opening;
   //#endregion instance private properties.
 
-  //#region static methods.
+  //#region static public methods.
   /**
    * Checks whether the text has `closing` chars at the beginning.
    * @param text The text of `string` type, to check whether it contains given `closing` chars.
@@ -132,7 +132,7 @@ export class Wrap<
           (isStringType(text) ? text === value.text : true)
       : false;
   }
-  //#endregion static methods.
+  //#endregion static public methods.
 
   //#region constructor.
   /**
