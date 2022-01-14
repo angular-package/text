@@ -16,7 +16,7 @@ export class Wrap<
   //#region instance accessors.
   /**
    * The `get` accessor gets the closing of the wrap by returning the `#closing` property of a specified object.
-   * @returns The return value is the wrap closing of a generic type variable `Closing`.
+   * @returns The return value is closing of the wrap of a generic type variable `Closing`.
    * @angularpackage
    */
   public get closing(): Closing {
@@ -25,7 +25,7 @@ export class Wrap<
 
   /**
    * The `get` accessor gets the opening of the wrap by returning the `#opening` property of a specified object.
-   * @returns The return value is the wrap opening of a generic type variable `Opening`.
+   * @returns The return value is the opening of the wrap of a generic type variable `Opening`.
    * @angularpackage
    */
   public get opening(): Opening {
@@ -54,7 +54,7 @@ export class Wrap<
   /**
    * The `get` accessor, with the help of `toStringTag`, changes the default tag to `'wrap'` for an instance of `Wrap`. It can be read by
    * the `typeOf()` function of `@angular-package/type`.
-   * @returns The return value is word 'wrap` of a `string`.
+   * @returns The return value is the word 'wrap` of a `string`.
    * @angularpackage
    */
   public get [Symbol.toStringTag](): string {
@@ -64,7 +64,7 @@ export class Wrap<
 
   //#region instance private properties.
   /**
-   * The private property of wrap closing of a generic type variable `Closing`.
+   * Private property of the closing chars of a generic type variable `Closing`.
    */
   #closing: Closing;
 
@@ -74,7 +74,7 @@ export class Wrap<
   #text: Text;
 
   /**
-   * The private property of wrap opening of a generic type variable `Opening`.
+   * Private property of the opening chars of a generic type variable `Opening`.
    */
   #opening: Opening;
   //#endregion instance private properties.
@@ -82,12 +82,12 @@ export class Wrap<
   //#region static methods.
   /**
    * Checks whether the text has `closing` chars at the beginning.
-   * @param text The text of `string`, to check whether it contains given `closing` chars.
-   * @param closing The closing chars of `string` to check if a given text contains.
-   * @returns The return value is a `boolean` indicating whether the text contains `closing` chars.
+   * @param text The text of `string` type, to check whether it contains given `closing` chars.
+   * @param closing The closing chars of `string` type to check if a given `text` contains.
+   * @returns The return value is a `boolean` indicating whether the `text` contains `closing` chars at the end.
    * @angularpackage
    */
-   public static hasClosing(text: string, closing: string): boolean {
+  public static hasClosing(text: string, closing: string): boolean {
     return isStringType(text)
       ? closing.length >= 1 && text.slice(-closing.length) === closing
       : false;
@@ -97,7 +97,7 @@ export class Wrap<
    * Checks whether the text has `opening` chars at the beginning.
    * @param text The text of `string`, to check whether it contains given `opening` chars.
    * @param opening The opening chars of `string` to check if a given text contains.
-   * @returns The return value is a `boolean` indicating whether the text contains `opening` chars.
+   * @returns The return value is a `boolean` indicating whether the text contains `opening` chars at the beginning.
    * @angularpackage
    */
   public static hasOpening(text: string, opening: string): boolean {
@@ -107,10 +107,10 @@ export class Wrap<
   }
 
   /**
-   * The method checks if the value of any type is the `Wrap` instance of any or given opening and closing.
+   * The method checks whether the value of any type is the `Wrap` instance of any or given opening and closing chars.
    * @param value The value of any type to test against the `Wrap` instance of any or given opening and closing.
-   * @param opening An optional wrap opening of a generic type variable `Opening` to check if the given `value` contains.
-   * @param closing An optional wrap closing of a generic type variable `Closing` to check if the given `value` contains.
+   * @param opening Optional opening chars of a generic type variable `Opening` to check if the given `value` contains.
+   * @param closing Optional closing chars of a generic type variable `Closing` to check if the given `value` contains.
    * @param text An optional text of a generic type variable `Text` to check if the given `value` contains.
    * @returns The return value is a `boolean` type indicating whether the value is an instance of `Wrap` of any, or the given opening,
    * closing, and text.
@@ -136,10 +136,10 @@ export class Wrap<
 
   //#region constructor.
   /**
-   * Creates a new `Wrap` instance with the opening and closing chars, and optional text wrapped by them.
-   * @param opening The wrap opening of a generic type variable `Opening`, placed before the `text`.
-   * @param closing The wrap closing of a generic type variable `Closing`, placed after the `text`.
-   * @param text An optional text placed between the `opening` and `closing` on the template `${Opening}${Text}${Closing}`.
+   * Creates a new `Wrap` instance of the opening and closing chars and optional text to wrap.
+   * @param opening Opening characters of the generic type variable `Opening` placed before the given `text`.
+   * @param closing Closing characters of the generic type variable `Closing` placed after the given `text`.
+   * @param text An optional text placed between the given `opening` and `closing` chars on the template `${Opening}${Text}${Closing}`.
    * @angularpackage
    */
   constructor(opening: Opening, closing: Closing, text: Text = '' as Text) {
@@ -163,7 +163,7 @@ export class Wrap<
 
   /**
    * Gets the closing chars of the wrap by returning the `#closing` property of a specified object.
-   * @returns The return value is the wrap closing of a generic type variable `Closing`.
+   * @returns The return value is closing chars of a generic type variable `Closing`.
    * @angularpackage
    */
   public getClosing(): Closing {
@@ -172,7 +172,7 @@ export class Wrap<
 
   /**
    * Gets the opening chars of the wrap by returning the `#opening` property of a specified object.
-   * @returns The return value is the wrap opening of a generic type variable `Opening`.
+   * @returns The return value is opening chars of a generic type variable `Opening`.
    * @angularpackage
    */
   public getOpening(): Opening {
@@ -189,8 +189,9 @@ export class Wrap<
   }
 
   /**
-   * Checks whether the primitive value of a specified object has the closing chars or given closing chars.
-   * @param closing Optional closing chars of a `string` type to check if the primitive value contains at the end.
+   * Checks whether the primitive value of a specified object has the closing chars or given closing chars. An empty string indicates
+   * `undefined`.
+   * @param closing Optional closing chars of a `string` type to check whether the primitive value contains them at the end.
    * @returns The return value is a `boolean` indicating whether the primitive value has the closing chars.
    * @angularpackage
    */
@@ -205,8 +206,9 @@ export class Wrap<
   }
 
   /**
-   * Checks whether the primitive value of a specified object has the opening chars or given opening chars.
-   * @param opening Optional opening chars of a `string` type to check if the primitive value contains at the beginning.
+   * Checks whether the primitive value of a specified object has the opening chars or given opening chars. An empty string indicates
+   * `undefined`.
+   * @param opening Optional opening chars of a `string` type to check if the primitive value contains them at the beginning.
    * @returns The return value is a `boolean` indicating whether the primitive value has the opening chars.
    * @angularpackage
    */
@@ -221,9 +223,10 @@ export class Wrap<
   }
 
   /**
-   * The method checks whether the text of a specified `Wrap` object is defined, which means it's a string of at least one char.
-   * @param text Optional text of a string type to check whether it's a text of the `Wrap` object.
-   * @returns The return value is a `boolean` indicating whether the text is defined.
+   * The method checks whether the text of a specified `Wrap` object is defined, which means it's a string of at least one char and
+   * optionally equal to the given `text`.
+   * @param text Optional text of `string` type to check whether it's equal to the text of the `Wrap` object.
+   * @returns The return value is a `boolean` indicating whether the text is defined and equal to the optionally given text.
    * @angularpackage
    */
   public hasText(text?: string): boolean {
@@ -236,8 +239,8 @@ export class Wrap<
   /**
    * The method checks whether the primitive value of the specified object is wrapped by the opening and closing chars of an instance or
    * given opening and closing chars.
-   * @param opening Optional opening chars of a `string` type, to check if the text contains at the beginning.
-   * @param closing Optional closing chars of string, to check if the text contains at the end.
+   * @param opening Optional opening chars of a `string` type to check if the text contains them at the beginning.
+   * @param closing Optional closing chars of a `string` type to check if the text contains them at the end.
    * @returns The return value is a `boolean` indicating whether the object has both opening and closing chars.
    * @angularpackage
    */
