@@ -145,8 +145,7 @@ export abstract class TagExtension<
   ): Text {
     return guardString(text)
       ? isString(replaceValue)
-        ? // ? (text.split(this.openingTag.value).join(replaceValue) as Text)
-          this.#openingTag.replaceTagIn(text, replaceValue)
+        ? this.#openingTag.replaceTagIn(text, replaceValue)
         : text
       : ('' as Text);
   }
