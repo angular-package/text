@@ -189,7 +189,7 @@ export class Wrapper<
     opening: CustomOpening,
     closing: CustomClosing
   ): `${CustomOpening}${Text}${CustomClosing}` {
-    return new Wrap(opening, closing, this.text).value;
+    return new Wrap(opening, closing, this.text).valueOf();
   }
 
   /**
@@ -261,7 +261,7 @@ export class Wrapper<
     opening: CustomOpening = this.opening as any,
     closing: CustomClosing = this.closing as any
   ): `${CustomOpening}${Opening}${Text}${Closing}${CustomClosing}` {
-    return new Wrap(opening, closing, this.value).value;
+    return new Wrap(opening, closing, this.valueOf()).valueOf();
   }
 
   /**
@@ -274,7 +274,7 @@ export class Wrapper<
   public wrapOn<Txt extends string = ''>(
     text: Txt
   ): `${Opening}${Txt}${Closing}` {
-    return new Wrap(this.opening, this.closing, text).value;
+    return new Wrap(this.opening, this.closing, text).valueOf();
   }
   //#endregion instance public methods.
 }
