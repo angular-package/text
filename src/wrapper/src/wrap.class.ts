@@ -78,22 +78,26 @@ export class Wrap<
    * @angularpackage
    */
   public static hasClosing(text: string, closing: string): boolean {
-    return isStringType(text)
-      ? closing.length >= 1 && text.slice(-closing.length) === closing
-      : false;
+    return (
+      isStringLength(text, { min: 1 }) &&
+      isStringLength(closing, { min: 1 }) &&
+      text.slice(-closing.length) === closing
+    );
   }
 
   /**
    * Checks whether the text has `opening` chars at the beginning.
    * @param text The text of `string`, to check whether it contains given `opening` chars.
    * @param opening The opening chars of `string` to check if a given text contains.
-   * @returns The return value is a `boolean` indicating whether the text contains `opening` chars at the beginning.
+   * @returns The return value is a `boolean` indicating whether the `text` contains `opening` chars at the beginning.
    * @angularpackage
    */
   public static hasOpening(text: string, opening: string): boolean {
-    return isStringType(text)
-      ? opening.length >= 1 && text.slice(0, opening.length) === opening
-      : false;
+    return (
+      isStringLength(text, { min: 1 }) &&
+      isStringLength(opening, { min: 1 }) &&
+      text.slice(0, opening.length) === opening
+    );
   }
 
   /**
@@ -109,13 +113,13 @@ export class Wrap<
   public static isWrap<
     Opening extends string = string,
     Closing extends string = string,
-    Content extends string = ``
+    Text extends string = ``
   >(
     value: any,
     opening?: Opening,
     closing?: Closing,
-    text?: Content
-  ): value is Wrap<Opening, Content, Closing> {
+    text?: Text
+  ): value is Wrap<Opening, Text, Closing> {
     return isInstance(value, this)
       ? (isStringType(opening) ? opening === value.opening : true) &&
           (isStringType(closing) ? closing === value.closing : true) &&
@@ -186,13 +190,10 @@ export class Wrap<
    * @angularpackage
    */
   public hasClosing(closing?: string): boolean {
-    return isStringType(this.text)
-      ? isStringType(closing)
-        ? isStringLength(closing, { min: 1 }) &&
-          this.toString().slice(-closing.length) === closing
-        : isStringLength(this.closing, { min: 1 }) &&
-          this.toString().slice(-this.closing.length) === this.closing
-      : false;
+    return (
+      isStringLength(this.#closing, { min: 1 }) &&
+      (isStringType(closing) ? this.#closing === closing : true)
+    );
   }
 
   /**
@@ -203,13 +204,10 @@ export class Wrap<
    * @angularpackage
    */
   public hasOpening(opening?: string): boolean {
-    return isStringType(this.text)
-      ? isStringType(opening)
-        ? isStringLength(opening, { min: 1 }) &&
-          this.toString().slice(0, opening.length) === opening
-        : isStringLength(this.opening, { min: 1 }) &&
-          this.toString().slice(0, this.opening.length) === this.opening
-      : false;
+    return (
+      isStringLength(this.#opening, { min: 1 }) &&
+      (isStringType(opening) ? this.#opening === opening : true)
+    );
   }
 
   /**
@@ -221,8 +219,8 @@ export class Wrap<
    */
   public hasText(text?: string): boolean {
     return (
-      isStringLength(this.text, { min: 1 }) &&
-      (isStringLength(text, { min: 1 }) ? this.text === text : true)
+      isStringLength(this.#text, { min: 1 }) &&
+      (isStringType(text) ? this.#text === text : true)
     );
   }
 
