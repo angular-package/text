@@ -36,7 +36,7 @@ testing.describe(`Wrap`, () => {
         })
 
         .it(`Wrap.prototype.value`, () => {
-          expect(wrap.value).toEqual(`${opening}${text}${closing}`);
+          expect(wrap.valueOf()).toEqual(`${opening}${text}${closing}`);
           toBe.stringIncludes(wrap.valueOf(), [opening, text, closing]);
         })
 

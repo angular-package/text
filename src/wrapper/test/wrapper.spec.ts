@@ -42,13 +42,13 @@ testing.describe(`Wrapper`, () => {
         })
         .it(`Wrapper.replaceClosing()`, () => {
           expect(Wrapper.replaceClosing(`${opening}${text}${closing}`, closing, replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
-          expect(Wrapper.replaceClosing(new Wrap(opening, closing, text).value, closing, replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
-          expect(Wrapper.replaceClosing(new Wrapper(opening, closing, text).value, closing, replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
+          expect(Wrapper.replaceClosing(new Wrap(opening, closing, text).valueOf(), closing, replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
+          expect(Wrapper.replaceClosing(new Wrapper(opening, closing, text).valueOf(), closing, replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
         })
         .it(`Wrapper.replaceOpening()`, () => {
           expect(Wrapper.replaceOpening(`${opening}${text}`, opening, replaceOpening)).toEqual(`${replaceOpening}${text}`);
-          expect(Wrapper.replaceOpening(new Wrap(opening, closing, text).value, opening, replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
-          expect(Wrapper.replaceOpening(new Wrapper(opening, closing, text).value, opening, replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
+          expect(Wrapper.replaceOpening(new Wrap(opening, closing, text).valueOf(), opening, replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
+          expect(Wrapper.replaceOpening(new Wrapper(opening, closing, text).valueOf(), opening, replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
         })
         .it(`Wrapper.unwrap()`, () => {
           expect(Wrapper.unwrap(`${opening}${text}${closing}`, opening, closing)).toEqual(text);
@@ -78,12 +78,12 @@ testing.describe(`Wrapper`, () => {
         expect(wrapper.isOpeningIn(`${closing}text${closing}`)).toBeFalse();
       })
       .it(`Wrapper.prototype.replaceClosingIn()`, () => {
-        expect(wrapper.replaceClosingIn(wrapper.value, replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
-        expect(wrapper.replaceClosingIn(wrapper.value, replaceOpening)).not.toEqual(`${opening}${text}${replaceClosing}`);
+        expect(wrapper.replaceClosingIn(wrapper.valueOf(), replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
+        expect(wrapper.replaceClosingIn(wrapper.valueOf(), replaceOpening)).not.toEqual(`${opening}${text}${replaceClosing}`);
       })
       .it(`Wrapper.prototype.replaceOpeningIn()`, () => {
-        expect(wrapper.replaceOpeningIn(wrapper.value, replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
-        expect(wrapper.replaceOpeningIn(wrapper.value, replaceClosing)).not.toEqual(`${replaceOpening}${text}${closing}`);
+        expect(wrapper.replaceOpeningIn(wrapper.valueOf(), replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
+        expect(wrapper.replaceOpeningIn(wrapper.valueOf(), replaceClosing)).not.toEqual(`${replaceOpening}${text}${closing}`);
       })
       .it(`Wrapper.prototype.textWrap()`, () => {
         expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textWrap(replaceOpening, replaceClosing)).toEqual(`${replaceOpening}${opening}${text}${closing}${replaceClosing}`);
@@ -117,12 +117,12 @@ testing.describe(`Wrapper`, () => {
 
       .it(`Wrapper.prototype.removeWrapIn()`, () => {
         expect(wrapper.removeWrapIn(`${opening}text is ok${closing}`)).toEqual(`text is ok`);
-        expect(wrapper.removeWrapIn(wrapper.value)).toEqual(text);
+        expect(wrapper.removeWrapIn(wrapper.valueOf())).toEqual(text);
       })
 
       .it(`Wrapper.prototype.wrapOn()`, () => {
         expect(wrapper.wrapOn(text)).toEqual(`${opening}${text}${closing}`);
-        expect(wrapper.wrapOn(wrapper.value)).toEqual(`${opening}${opening}${text}${closing}${closing}`);
+        expect(wrapper.wrapOn(wrapper.valueOf())).toEqual(`${opening}${opening}${text}${closing}${closing}`);
       });
     });
 });
