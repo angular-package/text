@@ -99,6 +99,7 @@ testing.describe(`Wrap`, () => {
           expect(wrap.hasOpening()).toBeTrue();
           expect(wrap.hasOpening(opening)).toBeTrue();
           expect(wrap.hasOpening('')).toBeFalse();
+          expect(wrap.hasOpening(replaceOpening)).toBeFalse();
 
           toBe
             .true(wrap.hasOpening())
