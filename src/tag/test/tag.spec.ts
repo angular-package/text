@@ -1,5 +1,4 @@
 import { Testing, TestingToBeMatchers } from '@angular-package/testing';
-
 import { Attributes } from '../attribute/src/attributes.class';
 import { Tag } from '../src/tag.class';
 import { Wrapper } from '../../wrapper/src/wrapper.class';
@@ -44,9 +43,7 @@ testing.describe(`Tag`, () => {
         .it(`Tag.prototype.closing`, () => {
           toBe.stringIncludes(tag.closing, [closing]);
           expect(tag.closing).toContain(closing);
-          // expect(
-            // new Wrapper(opening, closing).textHasClosing(tag.closing)
-          // ).toBeTrue();
+          expect(new Tag(opening, closing, text).valueOf());
         })
 
         .it(`Tag.prototype.name`, () => {
@@ -54,22 +51,30 @@ testing.describe(`Tag`, () => {
           toBe.stringIncludes(tag.name, [name]);
         })
 
-        .it(`Tag.prototype.openingTag`, () => {
+        .it(`Tag.prototype.opening`, () => {
           expect(tag.opening).toContain(opening);
           toBe.stringIncludes(tag.opening, [opening]);
-          // expect(new Wrapper(opening, closing).textHasOpening(tag.opening)).toBeTrue();
         })
+
+        .it(`Tag.prototype.wrapper`, () => {
+          expect(tag.wrapper).toBeInstanceOf(Wrapper);
+          expect(tag.wrapper.text).toEqual(name);
+          expect(tag.wrapper.closing).toEqual(closing);
+          expect(tag.wrapper.opening).toEqual(opening);
+          toBe
+            .stringIncludes(tag.wrapper.valueOf(), [opening, name, closing]);
+        });
+
     })
     .describe(`methods`, () => {
       testing
-
         .it(`Tag.prototype.getAttribute()`, () => {
           expect(tag.getAttribute('border')?.value).toEqual(border);
           expect(tag.getAttribute('color')?.value).toEqual(color);
         })
-
         .it(`Tag.prototype.getClosing()`, () => {
           expect(tag.getClosing()).toContain(closing);
+          expect(tag.wrapper).toContain(closing);
           // expect(
             // new Wrapper(opening, closing).textHasClosing(tag.getClosing())
           // ).toBeTrue();
