@@ -54,13 +54,19 @@ export class Wrapper<
    * closing chars, and text.
    * @angularpackage
    */
-  public static isWrapper<Opening extends string, Closing extends string, Text extends string = ''>(
+  public static isWrapper<
+    Opening extends string,
+    Closing extends string,
+    Text extends string = ''
+  >(
     value: any,
     opening?: Opening,
     closing?: Closing,
     text?: Text
   ): value is Wrapper<Opening, Text, Closing> {
-    return isInstance(value, this) && super.isWrap(value, opening, closing, text);
+    return (
+      isInstance(value, this) && super.isWrap(value, opening, closing, text)
+    );
   }
 
   /**
@@ -174,10 +180,9 @@ export class Wrapper<
   }
 
   /**
-   * REVIEW:
-   * Returns the text without the opening and closing of the wrapper.
-   * @param text The text of a `string` type to unwrap.
-   * @returns The return value is the unwrapped text of a `string` if the opening or closing is found or the given `text`.
+   * Returns given text without the opening and closing chars of the wrapper.
+   * @param text The text of a `string` type to unwrap with the opening and closing chars of the `Wrapper` object.
+   * @returns The return value is the unwrapped text from the opening and closing chars of a `string` type.
    * @angularpackage
    */
   public removeWrapIn(text: string): string {
@@ -210,11 +215,21 @@ export class Wrapper<
 
   /**
    * The method returns the text of the `Wrapper` object without the opening and closing chars.
+   * @param opening The opening chars of the generic type variable `CustomOpening` to remove from the beginning of the text of the `Wrapper`
+   * instance. By default, its value is from the opening chars of an instance of `Wrapper`.
+   * @param closing The closing chars of the generic type variable `CustomClosing` to remove from the end of the text of the `Wrapper`
+   * instance. By default, its value is from the closing chars of an instance of `Wrapper`.
    * @returns The return value is the text of string type without the opening and closing chars.
    * @angularpackage
    */
-  public textUnwrap(): string {
-    return Wrapper.unwrap(this.text, this.opening, this.closing);
+  public textUnwrap<
+    CustomOpening extends string = Opening,
+    CustomClosing extends string = Closing
+  >(
+    opening: CustomOpening = this.opening as any,
+    closing: CustomClosing = this.closing as any
+  ): string {
+    return Wrapper.unwrap(this.text, opening, closing);
   }
 
   /**
@@ -261,6 +276,10 @@ export class Wrapper<
   /**
    * The method returns the primitive value of a specified `Wrapper` object with unwrapped text from its opening and closing chars or the
    * given `opening` and `closing` chars.
+   * @param opening The opening chars of the generic type variable `CustomOpening` to remove from the beginning of the text of the `Wrapper`
+   * instance. By default, its value is from the opening chars of an instance of `Wrapper`.
+   * @param closing The closing chars of the generic type variable `CustomClosing` to remove from the end of the text of the `Wrapper`
+   * instance. By default, its value is from the closing chars of an instance of `Wrapper`.
    * @returns The return value is the primitive value of `string` type with unwrapped text from its opening and closing chars or from the
    * given `opening` and `closing` chars.
    * @angularpackage
@@ -281,9 +300,9 @@ export class Wrapper<
    * The method wraps the primitive value of a specified `Wrapper` object by its opening and closing chars or the given `opening` and
    * `closing` chars.
    * @param opening The opening chars of a generic type variable `CustomOpening` to wrap the primitive value of the `Wrapper` instance. By
-   * default its value is from the `Wrapper` instance.
+   * default, its value is from the opening chars of an instance of `Wrapper`.
    * @param closing The closing chars of a generic type variable `CustomClosing` to wrap the primitive value of the `Wrapper` instance. By
-   * default its value is from the `Wrapper` instance.
+   * default, its value is from the closing chars of an instance of `Wrapper`.
    * @returns The return value is the wrapped primitive value by the given opening and closing chars or the opening and closing chars of the
    * `Wrapper` instance.
    * @angularpackage
