@@ -9,7 +9,7 @@ import {
 // Class.
 import { Attribute } from '../attribute/src/attribute.class';
 import { Attributes } from '../attribute/src/attributes.class';
-import { Wrap } from '../../wrapper/src/wrap.class';
+import { Wrapper } from '../../wrapper/src/wrapper.class';
 /**
  * The `Tag` string object represents the immutable tag consisting of a name with optional attributes wrapped by the opening and closing
  * chars.
@@ -46,7 +46,7 @@ export class Tag<
    * @angularpackage
    */
   public get closing(): Closing {
-    return this.#wrap.closing;
+    return this.#wrapper.closing;
   }
 
   /**
@@ -55,7 +55,7 @@ export class Tag<
    * @angularpackage
    */
   public get name(): Name {
-    return this.#wrap.text;
+    return this.#wrapper.text;
   }
 
   /**
@@ -63,7 +63,15 @@ export class Tag<
    * @angularpackage
    */
   public get opening(): Opening {
-    return this.#wrap.opening;
+    return this.#wrapper.opening;
+  }
+
+  /**
+   * The `get` accessor gets the wrapper of the tag from the private property `#wrapper`.
+   * @angularpackage
+   */
+  public get wrapper(): Wrapper<Opening, Name, Closing> {
+    return this.#wrapper;
   }
 
   /**
@@ -84,7 +92,7 @@ export class Tag<
   /**
    * Private wrap of a specified `Tag` object.
    */
-  #wrap: Wrap<Opening, Name, Closing>;
+  #wrapper: Wrapper<Opening, Name, Closing>;
   //#endregion instance private properties.
 
   //#region static public methods.
@@ -117,7 +125,7 @@ export class Tag<
   }
 
   /**
-   * The static "tag" method builds from the give parameters the tag of a string type on the template. With the added string before the
+   * The static "tag" method builds from the given parameters the tag of a string type on the template. With the added string before the
    * expressions, it returns a tag with a prefix before the name.
    * @param strings -
    * @param values A rest parameter of expressions, where the first element is the name, the second opening, and the third is the closing of
@@ -140,7 +148,7 @@ export class Tag<
       opening: Opening;
     return (
       ([name, opening, closing, attributes] = values),
-      new Wrap(opening, closing, name + new Attributes(...attributes)).valueOf()
+      new Wrapper(opening, closing, name + new Attributes(...attributes)).valueOf()
     );
   }
   //#endregion static public methods.
@@ -163,7 +171,7 @@ export class Tag<
   ) {
     super(Tag.template`${name}${opening}${closing}${attributes}`);
     // Set wrap.
-    this.#wrap = new Wrap(opening, closing, name);
+    this.#wrapper = new Wrapper(opening, closing, name);
     // Set attributes.
     isArray(attributes) &&
       attributes.length > 0 &&
@@ -190,7 +198,7 @@ export class Tag<
    * @angularpackage
    */
   public getClosing(): Closing {
-    return this.#wrap.closing;
+    return this.#wrapper.closing;
   }
 
   /**
@@ -199,7 +207,7 @@ export class Tag<
    * @angularpackage
    */
   public getName(): Name {
-    return this.#wrap.text;
+    return this.#wrapper.text;
   }
 
   /**
@@ -208,7 +216,7 @@ export class Tag<
    * @angularpackage
    */
   public getOpening(): Opening {
-    return this.#wrap.opening;
+    return this.#wrapper.opening;
   }
 
   /**

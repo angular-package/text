@@ -99,7 +99,7 @@ export class Text<Tpl extends string, VariableNames extends string> {
     this.#text =
       this.#template
         .getVariable(variableName)
-        ?.replaceVariable(this.#text, replaceValue) || this.#text;
+        ?.replaceVariableIn(this.#text, replaceValue) || this.#text;
     return this;
   }
 
@@ -155,7 +155,7 @@ export class Text<Tpl extends string, VariableNames extends string> {
   #replaceVariables(): this {
     // Use tags from the template to replace text.
     this.#template.forEachVariable(
-      (variable) => (this.#text = variable.replaceVariable(this.#text))
+      (variable) => (this.#text = variable.replaceVariableIn(this.#text))
     );
     return this;
   }

@@ -4,7 +4,7 @@ import { Testing, TestingToBeMatchers } from '@angular-package/testing';
 import { Wrap } from '../src/wrap.class';
 import { Wrapper } from '../src/wrapper.class';
 
-const testing = new Testing(false, false);
+const testing = new Testing(true, true);
 const toBe = new TestingToBeMatchers();
 
 testing.describe(`Wrapper`, () => {
@@ -19,13 +19,14 @@ testing.describe(`Wrapper`, () => {
       testing
 
         .it(`Wrapper.define()`, () => {
-          const definedWrapper = Wrapper.define(`{{{`, `}}}`);
-          expect(definedWrapper.closing).toEqual(`}}}`);
+          const definedWrapper = Wrapper.define(opening, closing, text);
+
+          expect(definedWrapper.closing).toEqual(closing);
           toBe.string(definedWrapper.closing);
-          expect(definedWrapper.opening).toEqual(`{{{`);
+
+          expect(definedWrapper.opening).toEqual(opening);
           toBe.string(definedWrapper.opening);
         })
-
         .it(`Wrapper.isWrapper()`, () => {
           expect(Wrapper.isWrapper(wrapper)).toBeTrue();
           expect(Wrapper.isWrapper(wrapper, opening)).toBeTrue();
@@ -40,11 +41,19 @@ testing.describe(`Wrapper`, () => {
           expect(Wrapper.isWrapper(wrapper, `(`, `)`)).toBeFalse();
         })
         .it(`Wrapper.replaceClosing()`, () => {
-          console.log(Wrapper.replaceClosing(text, closing, replaceClosing));
-          console.log(Wrapper.replaceOpening(text, opening, replaceOpening));
+          expect(Wrapper.replaceClosing(`${opening}${text}${closing}`, closing, replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
+          expect(Wrapper.replaceClosing(new Wrap(opening, closing, text).valueOf(), closing, replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
+          expect(Wrapper.replaceClosing(new Wrapper(opening, closing, text).valueOf(), closing, replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
         })
-        .it(`Wrapper.replaceOpening()`, () => {})
+        .it(`Wrapper.replaceOpening()`, () => {
+          expect(Wrapper.replaceOpening(`${opening}${text}`, opening, replaceOpening)).toEqual(`${replaceOpening}${text}`);
+          expect(Wrapper.replaceOpening(new Wrap(opening, closing, text).valueOf(), opening, replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
+          expect(Wrapper.replaceOpening(new Wrapper(opening, closing, text).valueOf(), opening, replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
+        })
         .it(`Wrapper.unwrap()`, () => {
+          expect(Wrapper.unwrap(`${opening}${text}${closing}`, opening, closing)).toEqual(text);
+          expect(Wrapper.unwrap(`${opening}${text}${closing}`, undefined, closing)).toEqual(`${opening}${text}${''}`);
+          expect(Wrapper.unwrap(`${opening}${text}${closing}`, opening, undefined)).toEqual(`${''}${text}${closing}`);
         })
 
         ;
@@ -60,12 +69,6 @@ testing.describe(`Wrapper`, () => {
     .describe(`instance methods`, () => {
       testing
 
-      // .it(`Wrapper.prototype.isTextWrapped()`, () => {
-      //   expect(wrapper.isTextWrapped(`${opening}text${closing}`)).toBeTrue();
-      //   expect(wrapper.isTextWrapped(wrap.valueOf())).toBeTrue();
-      //   expect(wrapper.isTextWrapped(wrapper.wrapText(text).valueOf())).toBeTrue();
-      // })
-
       .it(`Wrapper.prototype.isClosingIn()`, () => {
         expect(wrapper.isClosingIn(`${opening}text${closing}`)).toBeTrue();
         expect(wrapper.isClosingIn(`${closing}text${opening}`)).toBeFalse();
@@ -75,32 +78,26 @@ testing.describe(`Wrapper`, () => {
         expect(wrapper.isOpeningIn(`${closing}text${closing}`)).toBeFalse();
       })
       .it(`Wrapper.prototype.replaceClosingIn()`, () => {
-        expect(wrapper.replaceClosingIn(wrapper.value, replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
-        expect(wrapper.replaceClosingIn(wrapper.value, replaceOpening)).not.toEqual(`${opening}${text}${replaceClosing}`);
+        expect(wrapper.replaceClosingIn(wrapper.valueOf(), replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
+        expect(wrapper.replaceClosingIn(wrapper.valueOf(), replaceOpening)).not.toEqual(`${opening}${text}${replaceClosing}`);
       })
       .it(`Wrapper.prototype.replaceOpeningIn()`, () => {
-        expect(wrapper.replaceOpeningIn(wrapper.value, replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
-        expect(wrapper.replaceOpeningIn(wrapper.value, replaceClosing)).not.toEqual(`${replaceOpening}${text}${closing}`);
+        expect(wrapper.replaceOpeningIn(wrapper.valueOf(), replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
+        expect(wrapper.replaceOpeningIn(wrapper.valueOf(), replaceClosing)).not.toEqual(`${replaceOpening}${text}${closing}`);
       })
       .it(`Wrapper.prototype.textWrap()`, () => {
-        expect(wrapper.textWrap(replaceOpening, replaceClosing)).toEqual(`${replaceOpening}${text}${replaceClosing}`);
-        expect(wrapper.textWrap(opening, replaceClosing)).not.toEqual(`${replaceOpening}${text}${replaceClosing}`);
-        expect(wrapper.textWrap(replaceOpening, closing)).not.toEqual(`${replaceOpening}${text}${replaceClosing}`);
+        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textWrap(replaceOpening, replaceClosing)).toEqual(`${replaceOpening}${opening}${text}${closing}${replaceClosing}`);
+        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textWrap(opening, replaceClosing)).toEqual(`${opening}${opening}${text}${closing}${replaceClosing}`);
+        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textWrap(replaceOpening, closing)).toEqual(`${replaceOpening}${opening}${text}${closing}${closing}`);
       })
       .it(`Wrapper.prototype.textReplaceClosing()`, () => {
-        expect(wrapper.textReplaceClosing(replaceOpening)).toEqual(`${opening}${text}${replaceClosing}`);
-        expect(wrapper.textReplaceClosing(opening)).not.toEqual(`${opening}${text}${replaceClosing}`);
-        expect(wrapper.textReplaceClosing(closing)).not.toEqual(`${opening}${text}${replaceClosing}`);
+        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textReplaceClosing(replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
       })
       .it(`Wrapper.prototype.textReplaceOpening()`, () => {
-        expect(wrapper.textReplaceOpening(replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
-        expect(wrapper.textReplaceOpening(opening)).not.toEqual(`${replaceOpening}${text}${closing}`);
-        expect(wrapper.textReplaceOpening(closing)).not.toEqual(`${replaceOpening}${text}${closing}`);
+        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textReplaceOpening(replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
       })
       .it(`Wrapper.prototype.textUnwrap()`, () => {
-        expect(wrapper.textReplaceOpening(replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
-        expect(wrapper.textReplaceOpening(opening)).not.toEqual(`${replaceOpening}${text}${closing}`);
-        expect(wrapper.textReplaceOpening(closing)).not.toEqual(`${replaceOpening}${text}${closing}`);
+        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textUnwrap()).toEqual(text);
       })
       .it(`Wrapper.prototype.toArray()`, () => {
         expect(wrapper.toArray()).toEqual([ opening, text, closing]);
@@ -120,12 +117,12 @@ testing.describe(`Wrapper`, () => {
 
       .it(`Wrapper.prototype.removeWrapIn()`, () => {
         expect(wrapper.removeWrapIn(`${opening}text is ok${closing}`)).toEqual(`text is ok`);
-        expect(wrapper.removeWrapIn(wrapper.value)).toEqual(text);
+        expect(wrapper.removeWrapIn(wrapper.valueOf())).toEqual(text);
       })
 
       .it(`Wrapper.prototype.wrapOn()`, () => {
         expect(wrapper.wrapOn(text)).toEqual(`${opening}${text}${closing}`);
-        expect(wrapper.wrapOn(wrapper.value)).toEqual(`${opening}${opening}${text}${closing}${closing}`);
+        expect(wrapper.wrapOn(wrapper.valueOf())).toEqual(`${opening}${opening}${text}${closing}${closing}`);
       });
     });
 });

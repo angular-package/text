@@ -32,9 +32,9 @@ testing.describe(`Variables`, () => {
           expect(variables.variable.fix.value).toEqual(fixValue);
           expect(variables.variable.problem.value).toEqual(problemValue);
 
-          expect(variables.variable.color.variable).toEqual(`{${color}}`);
-          expect(variables.variable.fix.variable).toEqual(`{${fix}}`);
-          expect(variables.variable.problem.variable).toEqual(`{${problem}}`);
+          expect(variables.variable.color.valueOf()).toEqual(`{${color}}`);
+          expect(variables.variable.fix.valueOf()).toEqual(`{${fix}}`);
+          expect(variables.variable.problem.valueOf()).toEqual(`{${problem}}`);
 
           expect(variablesEmptyValues.variable.color.value).toBeUndefined();
           expect(variablesEmptyValues.variable.fix.value).toBeUndefined();

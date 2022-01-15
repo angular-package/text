@@ -36,7 +36,7 @@ testing.describe(`Wrap`, () => {
         })
 
         .it(`Wrap.prototype.value`, () => {
-          expect(wrap.value).toEqual(`${opening}${text}${closing}`);
+          expect(wrap.valueOf()).toEqual(`${opening}${text}${closing}`);
           toBe.stringIncludes(wrap.valueOf(), [opening, text, closing]);
         })
 
@@ -55,11 +55,6 @@ testing.describe(`Wrap`, () => {
           expect(Wrap.isWrap(wrap, undefined, undefined, undefined)).toEqual(true);
           expect(Wrap.isWrap(wrap, opening, undefined, undefined)).toEqual(true);
           expect(Wrap.isWrap(wrap, opening, closing, undefined)).toEqual(true);
-        })
-
-        .it(`Wrap.prototype.get()`, () => {
-          expect(wrap.get()).toEqual(`${opening}${text}${closing}`);
-          toBe.stringIncludes(wrap.get(), [opening, text, closing]);
         })
 
         .it(`Wrap.prototype.getClosing()`, () => {
@@ -99,6 +94,7 @@ testing.describe(`Wrap`, () => {
           expect(wrap.hasOpening()).toBeTrue();
           expect(wrap.hasOpening(opening)).toBeTrue();
           expect(wrap.hasOpening('')).toBeFalse();
+          expect(wrap.hasOpening(replaceOpening)).toBeFalse();
 
           toBe
             .true(wrap.hasOpening())

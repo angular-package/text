@@ -24,14 +24,6 @@ testing.describe(`Variable`, () => {
 
           expect(variableFix.value).toBeUndefined();
           toBe.undefined(variableFix.value);
-        })
-
-        .it(`Variable.prototype.variable`, () => {
-          expect(variableProblem.variable).toEqual(`{${problem}}`);
-          toBe.stringIncludes(variableProblem.variable, [`{${problem}}`, problem]);
-
-          expect(variableFix.variable).toEqual(`{${fix}}`);
-          toBe.stringIncludes(variableFix.variable, [fix, `{${fix}}`]);
         });
 
     })
@@ -40,10 +32,10 @@ testing.describe(`Variable`, () => {
       testing
 
         .it(`Variable.define()`, () => {
-          expect(Variable.define(problem, value).variable).toEqual(`{${problem}}`);
+          expect(Variable.define(problem, value).valueOf()).toEqual(`{${problem}}`);
           expect(Variable.define(problem, value).value).toEqual(value);
 
-          expect(Variable.define(fix).variable).toEqual(`{${fix}}`);
+          expect(Variable.define(fix).valueOf()).toEqual(`{${fix}}`);
           expect(Variable.define(fix).getValue()).toBeUndefined();
           expect(Variable.define(fix).value).toBeUndefined();
         })
@@ -71,16 +63,16 @@ testing.describe(`Variable`, () => {
         })
 
         .it(`Variable.prototype.replaceVariable()`, () => {
-          expect(variableProblem.replaceVariable(text))
+          expect(variableProblem.replaceVariableIn(text))
             .toEqual('{id} There is a problem with my {fix} and we cannot repair it.');
-          expect(variableProblem.replaceVariable(text, 'Custom text' as any))
+          expect(variableProblem.replaceVariableIn(text, 'Custom text' as any))
             .toEqual('{id} Custom text with my {fix} and we cannot repair it.');
-          expect(new Variable('problem').replaceVariable(text, 'There is not a problem'))
+          expect(new Variable('problem').replaceVariableIn(text, 'There is not a problem'))
             .toEqual('{id} There is not a problem with my {fix} and we cannot repair it.');
 
-          expect(variableFix.replaceVariable(text))
+          expect(variableFix.replaceVariableIn(text))
             .toEqual('{id} {problem} with my  and we cannot repair it.');
-          expect(variableFix.replaceVariable(text, 'fix ooouuch'))
+          expect(variableFix.replaceVariableIn(text, 'fix ooouuch'))
             .toEqual('{id} {problem} with my fix ooouuch and we cannot repair it.');
         })
 
@@ -95,11 +87,11 @@ testing.describe(`Variable`, () => {
         })
 
         .it(`Variable.prototype.toString()`, () => {
-          expect(variableProblem.variable).toEqual(`{${problem}}`);
-          toBe.stringIncludes(variableProblem.variable, [`{${problem}}`, problem]);
+          expect(variableProblem.toString()).toEqual(`{${problem}}`);
+          toBe.stringIncludes(variableProblem.toString(), [`{${problem}}`, problem]);
 
-          expect(variableFix.variable).toEqual(`{${fix}}`);
-          toBe.stringIncludes(variableFix.variable, [`{${fix}}`, fix]);
+          expect(variableFix.toString()).toEqual(`{${fix}}`);
+          toBe.stringIncludes(variableFix.toString(), [`{${fix}}`, fix]);
         })
 
         .it(`Variable.prototype.valueOf()`, () => {

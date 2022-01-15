@@ -4,7 +4,7 @@ import { isInstance } from '@angular-package/type';
 import { Wrap } from './wrap.class';
 /**
  * The `Wrapper` is an extension of the `Wrap` object, which means it represents the immutable wrap of the opening and closing with the
- * additional main ability to use it to wrap text.
+ * additional ability to use it to wrap.
  */
 export class Wrapper<
   Opening extends string = string,
@@ -26,14 +26,16 @@ export class Wrapper<
    * Defines a new `Wrapper` instance consisting of the opening and closing chars.
    * @param opening The opening chars of a generic type variable `Opening`.
    * @param closing The closing chars of a generic type variable `Closing`.
-   * @returns The return value is a new `Wrapper` instance of given opening and closing chars.
+   * @param text Optional text of a generic type variable `Text`.
+   * @returns The return value is a new `Wrapper` instance of given `opening`, `closing` chars, and optional `text`.
    * @angularpackage
    */
-  public static define<Opening extends string, Closing extends string>(
+  public static define<Opening extends string, Closing extends string, Text extends string = ''>(
     opening: Opening,
-    closing: Closing
-  ): Wrapper<Opening, Closing> {
-    return new this(opening, closing);
+    closing: Closing,
+    text?: Text
+  ): Wrapper<Opening, Text, Closing> {
+    return new this(opening, closing, text);
   }
 
   /**
@@ -41,7 +43,7 @@ export class Wrapper<
    * @param value The value of any type to test against the instance of `Wrapper`.
    * @param opening Optional opening chars of a generic type variable `Opening` to check if the given `value` contains.
    * @param closing Optional closing chars of a generic type variable `Closing` to check if the given `value` contains.
-   * @returns The return value is a `boolean` ty pe indicating whether the value is an instance of `Wrapper` of any, or the given opening
+   * @returns The return value is a `boolean` type indicating whether the value is an instance of `Wrapper` of any, or the given opening
    * and closing chars.
    * @angularpackage
    */
@@ -55,10 +57,10 @@ export class Wrapper<
 
   /**
    * Replaces the closing chars in a given text with a given replacement value at the end of the text.
-   * @param text The text of string in which the given `closing` chars are replaced by a given replacement value.
-   * @param closing The value of the string as a replacement for the closing chars.
+   * @param text The text of `string` type in which the given `closing` chars are replaced by a given replacement value.
+   * @param closing The value of the `string` as a replacement for the closing chars searched in the given `text`.
    * @param replaceValue Replacement value for the closing chars in the given text.
-   * @returns The return value is the text of string with a replaced closing chars by a given replacement value.
+   * @returns The return value is the text of `string` type with a replaced closing chars by a given replacement value.
    * @angularpackage
    */
   public static replaceClosing(
@@ -73,10 +75,10 @@ export class Wrapper<
 
   /**
    * Replaces the opening chars in a given text with a given replacement value at the end of the text.
-   * @param text The text of string in which the given `opening` chars are replaced by a given replacement value.
-   * @param opening The value of the string as a replacement for the opening chars.
+   * @param text The text of `string` type in which the given `opening` chars are replaced by a given replacement value.
+   * @param opening The value of the `string` as a replacement for the opening chars searched in the given `text`.
    * @param replaceValue Replacement value for the opening chars in the given text.
-   * @returns The return value is the text of string with a replaced opening chars by a given replacement value.
+   * @returns The return value is the text of `string` type with a replaced opening chars by a given replacement value.
    * @angularpackage
    */
   public static replaceOpening(
@@ -179,14 +181,15 @@ export class Wrapper<
    * The method returns the `Wrap` consisting of the text of the `Wrapper` object and the given opening and closing chars.
    * @param opening The opening chars of a generic type variable `CustomOpening` to wrap the text of the `Wrapper` instance.
    * @param closing The closing chars of a generic type variable `CustomClosing` to wrap the text of the `Wrapper` instance.
-   * @returns The return value is a new instance of `Wrap` consisting the text of the `Wrapper` and given opening and closing chars.
+   * @returns The return value is the wrapped text of generic type variables in order `CustomOpening`, `Text`, `CustomClosing` on the
+   * template `${CustomOpening}${Text}${CustomClosing}`.
    * @angularpackage
    */
   public textWrap<CustomOpening extends string, CustomClosing extends string>(
     opening: CustomOpening,
     closing: CustomClosing
-  ): Wrap<CustomOpening, Text, CustomClosing> {
-    return new Wrap(opening, closing, this.text);
+  ): `${CustomOpening}${Text}${CustomClosing}` {
+    return new Wrap(opening, closing, this.text).valueOf();
   }
 
   /**
@@ -196,7 +199,7 @@ export class Wrapper<
    * @angularpackage
    */
   public textReplaceClosing(closing: string): string {
-    return Wrapper.replaceOpening(this.text, this.closing, closing);
+    return Wrapper.replaceClosing(this.text, this.closing, closing);
   }
 
   /**
@@ -258,7 +261,7 @@ export class Wrapper<
     opening: CustomOpening = this.opening as any,
     closing: CustomClosing = this.closing as any
   ): `${CustomOpening}${Opening}${Text}${Closing}${CustomClosing}` {
-    return new Wrap(opening, closing, this.value).value;
+    return new Wrap(opening, closing, this.valueOf()).valueOf();
   }
 
   /**
@@ -271,7 +274,7 @@ export class Wrapper<
   public wrapOn<Txt extends string = ''>(
     text: Txt
   ): `${Opening}${Txt}${Closing}` {
-    return new Wrap(this.opening, this.closing, text).value;
+    return new Wrap(this.opening, this.closing, text).valueOf();
   }
   //#endregion instance public methods.
 }
