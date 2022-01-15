@@ -71,7 +71,7 @@ export class Wrap<
 
   //#region static public methods.
   /**
-   * Checks whether the text has `closing` chars at the beginning.
+   * The method checks whether the text has given `closing` chars at the end.
    * @param text The text of `string` type, to check whether it contains given `closing` chars.
    * @param closing The closing chars of `string` type to check if a given `text` contains.
    * @returns The return value is a `boolean` indicating whether the `text` contains `closing` chars at the end.
@@ -101,7 +101,7 @@ export class Wrap<
   }
 
   /**
-   * The method checks whether the value of any type is the `Wrap` instance of any or given opening and closing chars.
+   * The method checks whether the `value` of any type is the `Wrap` instance of any or given `opening` and `closing` chars.
    * @param value The value of any type to test against the `Wrap` instance of any or given opening and closing.
    * @param opening Optional opening chars of a generic type variable `Opening` to check if the given `value` contains.
    * @param closing Optional closing chars of a generic type variable `Closing` to check if the given `value` contains.
@@ -262,7 +262,7 @@ export class Wrap<
    * and `Closing` on the template `${Opening}${ReplaceText}${Closing}`.
    * @angularpackage
    */
-  public replaceText<ReplaceText extends string>(
+  public replaceText<ReplaceText extends string = ''>(
     text: ReplaceText
   ): `${Opening}${ReplaceText}${Closing}` {
     return `${this.#opening}${text}${this.#closing}`;
