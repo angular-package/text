@@ -138,8 +138,8 @@ export class Wrapper<
 
   //#region instance public methods.
   /**
-   * Checks if the provided `text` has the closing of specified `Wrapper` object at the end of the text.
-   * @param text The text of `string` to test against the existence of the closing chars.
+   * Determines whether the provided `text` has the closing chars of the specified `Wrapper` object.
+   * @param text The text of `string` to test for the existence of the closing chars at the end in it.
    * @returns The return value is a `boolean` indicating whether the given `text` has the closing of the wrap.
    * @angularpackage
    */
@@ -149,7 +149,7 @@ export class Wrapper<
 
   /**
    * Checks if the provided `text` has the opening of a specified `Wrapper` object at the beginning of the text.
-   * @param text The text of `string` to test against the existence of the opening chars at the beginning.
+   * @param text The text of `string` to test for the existence of the opening chars at the beginning of it.
    * @returns The return value is a `boolean` indicating whether the given `text` has the opening of the wrap.
    * @angularpackage
    */
