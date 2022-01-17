@@ -71,7 +71,7 @@ export class Wrap<
 
   //#region static public methods.
   /**
-   * Checks whether the text has `closing` chars at the beginning.
+   * The method checks whether the text has given `closing` chars at the end.
    * @param text The text of `string` type, to check whether it contains given `closing` chars.
    * @param closing The closing chars of `string` type to check if a given `text` contains.
    * @returns The return value is a `boolean` indicating whether the `text` contains `closing` chars at the end.
@@ -101,7 +101,7 @@ export class Wrap<
   }
 
   /**
-   * The method checks whether the value of any type is the `Wrap` instance of any or given opening and closing chars.
+   * The method checks whether the `value` of any type is the `Wrap` instance of any or given `opening` and `closing` chars.
    * @param value The value of any type to test against the `Wrap` instance of any or given opening and closing.
    * @param opening Optional opening chars of a generic type variable `Opening` to check if the given `value` contains.
    * @param closing Optional closing chars of a generic type variable `Closing` to check if the given `value` contains.
@@ -173,7 +173,7 @@ export class Wrap<
   }
 
   /**
-   * Checks whether the primitive value of a specified object has the closing chars or given closing chars. An empty string indicates
+   * Checks whether the primitive value of a specified object has the closing chars or given closing chars. An empty `string` indicates
    * `undefined`.
    * @param closing Optional closing chars of a `string` type to check whether the primitive value contains them at the end.
    * @returns The return value is a `boolean` indicating whether the primitive value has the closing chars.
@@ -187,7 +187,7 @@ export class Wrap<
   }
 
   /**
-   * Checks whether the primitive value of a specified object has the opening chars or given opening chars. An empty string indicates
+   * Checks whether the primitive value of a specified object has the opening chars or given opening chars. An empty `string` indicates
    * `undefined`.
    * @param opening Optional opening chars of a `string` type to check if the primitive value contains them at the beginning.
    * @returns The return value is a `boolean` indicating whether the primitive value has the opening chars.
@@ -201,7 +201,7 @@ export class Wrap<
   }
 
   /**
-   * The method checks whether the text of a specified `Wrap` object is defined, which means it's a string of at least one char and
+   * The method checks whether the text of a specified `Wrap` object is defined, which means it's a `string` of at least one char and
    * optionally equal to the given `text`.
    * @param text Optional text of `string` type to check whether it's equal to the text of the `Wrap` object.
    * @returns The return value is a `boolean` indicating whether the text is defined and equal to the optionally given text.
@@ -233,39 +233,39 @@ export class Wrap<
    * Returns the primitive value with replaced closing chars.
    * @param closing The closing chars of a generic type variable `ReplaceClosing` to replace the closing chars in the primitive value.
    * @returns The return value is the primitive value with replaced closing chars of a generic type variables in order `Opening`, `Text` and
-   * `ReplaceClosing` on the template `${Opening}${Text}${ReplaceClosing}`;
+   * `ReplaceClosing` on the template `${Opening}${Text}${ReplaceClosing}`.
    * @angularpackage
    */
   public replaceClosing<ReplaceClosing extends string = ''>(
     closing: ReplaceClosing
   ): `${Opening}${Text}${ReplaceClosing}` {
-    return `${this.#opening}${this.#text}${String(closing) as ReplaceClosing}`;
+    return `${this.#opening}${this.#text}${closing}`;
   }
 
   /**
    * Returns the primitive value with replaced opening chars.
    * @param opening The opening chars of a generic type variable `ReplaceOpening` to replace the opening chars in the primitive value.
    * @returns The return value is the primitive value with replaced opening chars of a generic type variables in order `ReplaceOpening`,
-   * `Text` and `Closing` on the template `${ReplaceOpening}${Text}${Closing}`;
+   * `Text` and `Closing` on the template `${ReplaceOpening}${Text}${Closing}`.
    * @angularpackage
    */
   public replaceOpening<ReplaceOpening extends string = ''>(
     opening: ReplaceOpening
   ): `${ReplaceOpening}${Text}${Closing}` {
-    return `${String(opening) as ReplaceOpening}${this.#text}${this.#closing}`;
+    return `${opening}${this.#text}${this.#closing}`;
   }
 
   /**
    * Returns the primitive value with replaced text.
    * @param text The text of a generic type variable `ReplaceText` to replace the text in the primitive value.
    * @returns The return value is the primitive value with replaced text of a generic type variables in order `Opening`, `ReplaceText`
-   * and `Closing` on the template `${Opening}${ReplaceText}${Closing}`;
+   * and `Closing` on the template `${Opening}${ReplaceText}${Closing}`.
    * @angularpackage
    */
-  public replaceText<ReplaceText extends string>(
+  public replaceText<ReplaceText extends string = ''>(
     text: ReplaceText
   ): `${Opening}${ReplaceText}${Closing}` {
-    return `${this.#opening}${String(text) as ReplaceText}${this.#closing}`;
+    return `${this.#opening}${text}${this.#closing}`;
   }
 
   /**

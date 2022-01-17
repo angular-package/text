@@ -26,6 +26,9 @@ testing.describe(`Wrapper`, () => {
 
           expect(definedWrapper.opening).toEqual(opening);
           toBe.string(definedWrapper.opening);
+
+          expect(definedWrapper.text).toEqual(text);
+          toBe.string(definedWrapper.text);
         })
         .it(`Wrapper.isWrapper()`, () => {
           expect(Wrapper.isWrapper(wrapper)).toBeTrue();
@@ -85,10 +88,9 @@ testing.describe(`Wrapper`, () => {
         expect(wrapper.replaceOpeningIn(wrapper.valueOf(), replaceOpening)).toEqual(`${replaceOpening}${text}${closing}`);
         expect(wrapper.replaceOpeningIn(wrapper.valueOf(), replaceClosing)).not.toEqual(`${replaceOpening}${text}${closing}`);
       })
-      .it(`Wrapper.prototype.textWrap()`, () => {
-        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textWrap(replaceOpening, replaceClosing)).toEqual(`${replaceOpening}${opening}${text}${closing}${replaceClosing}`);
-        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textWrap(opening, replaceClosing)).toEqual(`${opening}${opening}${text}${closing}${replaceClosing}`);
-        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textWrap(replaceOpening, closing)).toEqual(`${replaceOpening}${opening}${text}${closing}${closing}`);
+      .it(`Wrapper.prototype.removeWrapIn()`, () => {
+        expect(wrapper.removeWrapIn(`${opening}text is ok${closing}`)).toEqual(`text is ok`);
+        expect(wrapper.removeWrapIn(wrapper.valueOf())).toEqual(text);
       })
       .it(`Wrapper.prototype.textReplaceClosing()`, () => {
         expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textReplaceClosing(replaceClosing)).toEqual(`${opening}${text}${replaceClosing}`);
@@ -98,6 +100,14 @@ testing.describe(`Wrapper`, () => {
       })
       .it(`Wrapper.prototype.textUnwrap()`, () => {
         expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textUnwrap()).toEqual(text);
+        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textUnwrap(opening)).toEqual(text);
+        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textUnwrap(undefined, closing)).toEqual(text);
+        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textUnwrap(replaceOpening, replaceClosing)).not.toEqual(text);
+      })
+      .it(`Wrapper.prototype.textWrap()`, () => {
+        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textWrap(replaceOpening, replaceClosing)).toEqual(`${replaceOpening}${opening}${text}${closing}${replaceClosing}`);
+        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textWrap(opening, replaceClosing)).toEqual(`${opening}${opening}${text}${closing}${replaceClosing}`);
+        expect(new Wrapper(opening, closing, `${opening}${text}${closing}`).textWrap(replaceOpening, closing)).toEqual(`${replaceOpening}${opening}${text}${closing}${closing}`);
       })
       .it(`Wrapper.prototype.toArray()`, () => {
         expect(wrapper.toArray()).toEqual([ opening, text, closing]);
@@ -111,18 +121,24 @@ testing.describe(`Wrapper`, () => {
       .it(`Wrapper.prototype.unwrap()`, () => {
         expect(wrapper.unwrap()).toEqual(text);
       })
+      .it(`Wrapper.prototype.unwrapText()`, () => {
+        expect(wrapper.unwrapText()).toEqual(`${opening}${text}${closing}`);
+        expect(new Wrapper(opening, closing, wrapper.valueOf()).unwrapText()).toEqual(`${opening}${text}${closing}`);
+        expect(new Wrapper(opening, closing, wrapper.valueOf()).unwrapText(opening)).toEqual(`${opening}${text}${closing}`);
+        expect(new Wrapper(opening, closing, wrapper.valueOf()).unwrapText(undefined, closing)).toEqual(`${opening}${text}${closing}`);
+        expect(new Wrapper(opening, closing, wrapper.valueOf()).unwrapText(replaceOpening, replaceClosing)).not.toEqual(`${opening}${text}${closing}`);
+      })
       .it(`Wrapper.prototype.wrap()`, () => {
         expect(wrapper.wrap()).toEqual(`${opening}${opening}${text}${closing}${closing}`);
+        expect(wrapper.wrap(replaceOpening, replaceClosing)).toEqual(`${replaceOpening}${opening}${text}${closing}${replaceClosing}`);
       })
-
-      .it(`Wrapper.prototype.removeWrapIn()`, () => {
-        expect(wrapper.removeWrapIn(`${opening}text is ok${closing}`)).toEqual(`text is ok`);
-        expect(wrapper.removeWrapIn(wrapper.valueOf())).toEqual(text);
-      })
-
       .it(`Wrapper.prototype.wrapOn()`, () => {
         expect(wrapper.wrapOn(text)).toEqual(`${opening}${text}${closing}`);
         expect(wrapper.wrapOn(wrapper.valueOf())).toEqual(`${opening}${opening}${text}${closing}${closing}`);
+      })
+      .it(`Wrapper.prototype.wrapText()`, () => {
+        expect(wrapper.wrapText(opening, closing)).toEqual(`${opening}${opening}${text}${closing}${closing}`);
+        expect(wrapper.wrapText(replaceOpening, replaceClosing)).toEqual(`${opening}${replaceOpening}${text}${replaceClosing}${closing}`);
       });
     });
 });
